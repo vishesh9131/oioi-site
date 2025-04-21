@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>oioi - Free Clipboard Manager for macOS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="description" content="oioi - A free clipboard manager for macOS with no signup required. Keep track of everything you copy with powerful features and keyboard shortcuts.">
+    <meta property="og:title" content="oioi - Free Clipboard Manager for macOS">
+    <meta property="og:description" content="A free clipboard manager for macOS with no signup required. Keep track of everything you copy.">
+    <meta property="og:image" content="assets/social-preview.png">
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="noise-overlay"></div>
+    <div class="cursor-glow"></div>
+    
+    <header>
+        <nav class="glass-nav">
+            <div class="container">
+                <div class="logo">
+                    <img src="assets/logo.png" alt="oioi logo" class="logo-img">
+                    <span>oioi</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#features" class="nav-link">Features</a></li>
+                    <li><a href="#installation" class="nav-link">Installation</a></li>
+                    <li><a href="#usage" class="nav-link">Usage</a></li>
+                    <li><a href="#uninstall" class="nav-link">Uninstall</a></li>
+                    <li><a href="#support" class="nav-link">Support</a></li>
+                </ul>
+                <div class="nav-right">
+                    <div class="theme-switch-wrapper">
+                        <label class="theme-switch" for="checkbox">
+                            <input type="checkbox" id="checkbox" />
+                            <div class="slider round">
+                                <i class="fas fa-sun"></i>
+                                <i class="fas fa-moon"></i>
+                            </div>
+                        </label>
+                    </div>
+                    <a href="https://github.com/vishesh9131/oioi/releases/latest" class="btn btn-primary btn-download">
+                        <span class="btn-content">
+                            <span class="btn-text">Download</span>
+                            <i class="fas fa-download"></i>
+                        </span>
+                    </a>
+                    <div class="mobile-menu-toggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="mobile-menu">
+            <ul class="mobile-nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#installation">Installation</a></li>
+                <li><a href="#usage">Usage</a></li>
+                <li><a href="#uninstall">Uninstall</a></li>
+                <li><a href="#support">Support</a></li>
+            </ul>
+        </div>
+        <div class="hero">
+            <div class="hero-background">
+                <div class="circle circle-1"></div>
+                <div class="circle circle-2"></div>
+                <div class="circle circle-3"></div>
+            </div>
+            <div class="container">
+                <div class="hero-content">
+                    <div class="badge new-badge">
+                        <span>New</span>
+                        <span class="badge-text">Version 1.0 Released</span>
+                    </div>
+                    <h1 class="glitch" data-text="oioi">oioi</h1>
+                    <h2 class="hero-subtitle">A free clipboard manager for macOS</h2>
+                    <p class="hero-description">No signup required - just download and start using! Take control of your clipboard history with powerful features and time travel capability.</p>
+                    
+                    <div class="cta-buttons">
+                        <a href="https://github.com/vishesh9131/oioi/releases/latest" class="btn btn-primary btn-large btn-animated">
+                            <span>Download Now</span>
+                            <i class="fas fa-arrow-down"></i>
+                        </a>
+                        <a href="https://github.com/vishesh9131/oioi" class="btn btn-secondary btn-large">
+                            <i class="fab fa-github"></i>
+                            <span>View on GitHub</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="image-container">
+                        <img src="assets/demo.gif" alt="oioi in action" class="demo-gif hover-float">
+                        <div class="demo-shadow"></div>
+                    </div>
+                    <div class="floating-labels">
+                        <div class="floating-label" style="top: 10%; left: 20%;">
+                            <span class="label-dot"></span>
+                            <span class="label-text">Access history</span>
+                        </div>
+                        <div class="floating-label" style="top: 60%; right: 15%;">
+                            <span class="label-dot"></span>
+                            <span class="label-text">Quick paste</span>
+                        </div>
+                        <div class="floating-label" style="bottom: 20%; left: 15%;">
+                            <span class="label-dot"></span>
+                            <span class="label-text">⌥ + V shortcut</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <span class="mouse">
+                    <span class="mouse-wheel"></span>
+                </span>
+                <span class="scroll-text">Scroll down</span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="stats" class="stats">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" data-count="100">0</div>
+                        <div class="stat-label">Free Forever</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" data-count="1000">0</div>
+                        <div class="stat-label">Clipboard Items</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" data-count="10">0</div>
+                        <div class="stat-label">MB Storage</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="features" class="features">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Features <span class="highlight">✨</span></h2>
+                    <p class="section-description">Everything you need in a clipboard manager, nothing you don't.</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-infinity"></i></div>
+                        <h3>100% Free</h3>
+                        <p>No account or subscription needed. Just download and use!</p>
+                        <div class="feature-hover-content">
+                            <a href="#installation" class="feature-link">Get Started <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-clipboard"></i></div>
+                        <h3>Clipboard History</h3>
+                        <p>Keep track of everything you copy, never lose important information.</p>
+                        <div class="feature-hover-content">
+                            <a href="#usage" class="feature-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-keyboard"></i></div>
+                        <h3>Keyboard Shortcuts</h3>
+                        <p>Access your clipboard history with simple keyboard shortcuts.</p>
+                        <div class="feature-hover-content">
+                            <a href="#usage" class="feature-link">View Shortcuts <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-tag"></i></div>
+                        <h3>Organized Content</h3>
+                        <p>All your copied items organized by date and category.</p>
+                        <div class="feature-hover-content">
+                            <a href="#usage" class="feature-link">See Details <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-history"></i></div>
+                        <h3>Time Machine</h3>
+                        <p>Like a time machine for your clipboard - go back to any copied item.</p>
+                        <div class="feature-hover-content">
+                            <a href="#usage" class="feature-link">Discover How <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-lock"></i></div>
+                        <h3>Privacy First</h3>
+                        <p>Your data stays on your device. No cloud storage or data collection.</p>
+                        <div class="feature-hover-content">
+                            <a href="https://github.com/vishesh9131/oioi" class="feature-link">View Code <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="video-showcase">
+            <div class="container">
+                <div class="video-container">
+                    <div class="video-wrapper">
+                        <div class="video-placeholder">
+                            <img src="assets/56.png" alt="oioi demo screenshot" class="video-thumb">
+                            <div class="play-button">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <!-- Video will be loaded here when play is clicked -->
+                    </div>
+                </div>
+                <div class="video-text">
+                    <h2>See oioi in action</h2>
+                    <p>Watch how easy it is to manage your clipboard history with oioi. No complicated setup, just simple and effective clipboard management for macOS.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="installation" class="installation">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Installation</h2>
+                    <p class="section-description">Up and running in under a minute. No configuration needed.</p>
+                </div>
+                <div class="installation-steps">
+                    <div class="step" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Download oioi</h3>
+                            <p>Download the latest <code>oioi_installer.dmg</code> from the <a href="https://github.com/vishesh9131/oioi/releases/latest">releases page</a>.</p>
+                            <div class="image-reveal">
+                                <img src="assets/1.png" alt="Download oioi" class="step-image">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Mount the Disk Image</h3>
+                            <p>Double-click the DMG file to mount it, or right-click and select "Open with DiskImageMounter".</p>
+                            <div class="image-reveal">
+                                <img src="assets/2.png" alt="Mount DMG" class="step-image">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Install oioi</h3>
+                            <p>Drag the oioi app to your Applications folder.</p>
+                            <div class="image-reveal">
+                                <img src="assets/3.png" alt="Drag to Applications" class="step-image">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step" data-step="4">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>Launch oioi</h3>
+                            <p>Open oioi from your Applications folder or Launchpad.</p>
+                            <div class="image-reveal">
+                                <img src="assets/4.png" alt="Launch oioi" class="step-image">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step" data-step="5">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h3>Grant Permissions</h3>
+                            <p>When prompted, grant accessibility permissions so oioi can access your clipboard.</p>
+                            <div class="image-reveal">
+                                <img src="assets/5.png" alt="Grant Permissions" class="step-image">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="usage" class="usage">
+            <div class="container">
+                <div class="section-header">
+                    <h2>How to Use</h2>
+                    <p class="section-description">Simple and intuitive clipboard management at your fingertips.</p>
+                </div>
+                <div class="usage-content">
+                    <div class="usage-text">
+                        <div class="usage-card">
+                            <h3>Default Shortcuts</h3>
+                            <ul class="shortcuts">
+                                <li>
+                                    <span class="shortcut">⌥ + V</span>
+                                    <span class="shortcut-description">Show clipboard history</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="usage-card">
+                            <h3>Runs in Background</h3>
+                            <p>oioi runs automatically in the background, accessible from your menu bar.</p>
+                            <p>Use the menu bar icon to access settings and time travel with your clipboard history.</p>
+                        </div>
+                        <div class="usage-card">
+                            <h3>Quick Tips</h3>
+                            <ul class="tips-list">
+                                <li><i class="fas fa-check"></i> Press <code>ESC</code> to dismiss the clipboard menu</li>
+                                <li><i class="fas fa-check"></i> Click item once to paste it</li>
+                                <li><i class="fas fa-check"></i> Right-click for more options</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="usage-image">
+                        <div class="macbook-mockup">
+                            <div class="macbook-screen">
+                                <img src="assets/56.png" alt="oioi usage" class="usage-img">
+                            </div>
+                            <div class="macbook-body"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonials">
+            <div class="container">
+                <div class="section-header">
+                    <h2>What Users Say</h2>
+                    <p class="section-description">Join the community of happy oioi users.</p>
+                </div>
+                <div class="testimonials-slider">
+                    <div class="testimonial-card active">
+                        <div class="testimonial-content">
+                            <p>"oioi has changed the way I work. No more losing important copied text, and I can easily access my clipboard history. Highly recommended!"</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <div class="author-info">
+                                <h4>Alex Chen</h4>
+                                <p>Software Developer</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <p>"I've tried many clipboard managers, but oioi is by far the easiest to use. It just works, no complicated setup or learning curve."</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <div class="author-info">
+                                <h4>Samantha Davis</h4>
+                                <p>Content Creator</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <p>"The time machine feature is genius! I can go back and find something I copied days ago without having to search through files."</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <div class="author-info">
+                                <h4>Miguel Hernandez</h4>
+                                <p>Graphic Designer</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-controls">
+                    <button class="testimonial-dot active" data-slide="0"></button>
+                    <button class="testimonial-dot" data-slide="1"></button>
+                    <button class="testimonial-dot" data-slide="2"></button>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container">
+                <div class="cta-content">
+                    <h2>Ready to supercharge your clipboard?</h2>
+                    <p>Download oioi today and never lose important copied content again.</p>
+                    <a href="https://github.com/vishesh9131/oioi/releases/latest" class="btn btn-primary btn-large">
+                        <i class="fas fa-download"></i> Download for macOS
+                    </a>
+                    <div class="compatibility">
+                        <i class="fab fa-apple"></i> Requires macOS 10.14 or later
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="uninstall" class="uninstall">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Uninstall oioi</h2>
+                    <p class="section-description">If you need to remove oioi, follow these simple steps.</p>
+                </div>
+                <div class="uninstall-container">
+                    <div class="uninstall-image">
+                        <img src="assets/logo.png" alt="oioi logo" class="sad-logo">
+                    </div>
+                    <ol class="uninstall-steps">
+                        <li>
+                            <span class="uninstall-step-number">1</span>
+                            <span class="uninstall-step-text">Quit oioi from the menu bar</span>
+                        </li>
+                        <li>
+                            <span class="uninstall-step-number">2</span>
+                            <span class="uninstall-step-text">Drag oioi from Applications folder to Trash</span>
+                        </li>
+                        <li>
+                            <span class="uninstall-step-number">3</span>
+                            <span class="uninstall-step-text">Remove data folders with Terminal:<br>
+                                <code>rm -rf ~/Library/Application\ Support/oioi</code>
+                            </span>
+                        </li>
+                    </ol>
+                    <div class="reinstall-prompt">
+                        <p>Changed your mind? <a href="#installation">Reinstall oioi</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="support" class="support">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Support</h2>
+                    <p class="section-description">Have questions or need help? We're here for you.</p>
+                </div>
+                <div class="support-options">
+                    <div class="support-option">
+                        <div class="support-icon">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <h3>GitHub Issues</h3>
+                        <p>Report bugs or request features on our <a href="https://github.com/vishesh9131/oioi/issues">GitHub repository</a>.</p>
+                        <a href="https://github.com/vishesh9131/oioi/issues" class="btn btn-outline">Open an Issue</a>
+                    </div>
+                    <div class="support-option">
+                        <div class="support-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3>Email</h3>
+                        <p>Contact us at <a href="mailto:sciencely98@gmail.com">sciencely98@gmail.com</a></p>
+                        <a href="mailto:sciencely98@gmail.com" class="btn btn-outline">Send Email</a>
+                    </div>
+                    <div class="support-option">
+                        <div class="support-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h3>Documentation</h3>
+                        <p>Check our documentation for help with common issues and questions.</p>
+                        <a href="https://github.com/vishesh9131/oioi#readme" class="btn btn-outline">Read Docs</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-waves">
+            <div class="wave wave1"></div>
+            <div class="wave wave2"></div>
+            <div class="wave wave3"></div>
+        </div>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="assets/logo.png" alt="oioi logo" class="footer-logo-img">
+                    <span>oioi</span>
+                </div>
+                <div class="footer-text">
+                    <p>Requires macOS 10.14 or later</p>
+                    <p>Made with <span class="heart-beat">❤️</span> by <a href="https://github.com/vishesh9131">@vishesh9131</a></p>
+                </div>
+                <div class="footer-social">
+                    <a href="https://github.com/vishesh9131/oioi" class="social-link" aria-label="GitHub Repository">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-nav">
+                <div class="footer-nav-column">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#installation">Installation</a></li>
+                        <li><a href="#usage">Usage</a></li>
+                    </ul>
+                </div>
+                <div class="footer-nav-column">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#support">Contact</a></li>
+                        <li><a href="https://github.com/vishesh9131/oioi/issues">Report Issues</a></li>
+                        <li><a href="#uninstall">Uninstall</a></li>
+                    </ul>
+                </div>
+                <div class="footer-nav-column">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="https://github.com/vishesh9131/oioi">Source Code</a></li>
+                        <li><a href="https://github.com/vishesh9131/oioi/releases">Releases</a></li>
+                        <li><a href="https://github.com/vishesh9131">Developer</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 oioi. All rights reserved.</p>
+            </div>
+            <div class="back-to-top">
+                <a href="#" id="back-to-top-btn" aria-label="Back to top">
+                    <i class="fas fa-arrow-up"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 

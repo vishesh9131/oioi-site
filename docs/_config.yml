@@ -1,0 +1,10 @@
+theme: jekyll-theme-cayman
+title: oioi - Free Clipboard Manager for macOS
+description: A free, no-signup clipboard manager for macOS that helps you keep track of your clipboard history.
+url: "https://vishesh9131.github.io/oioi"
+baseurl: ""
+github:
+  is_project_page: true
+  repository_url: "https://github.com/vishesh9131/oioi"
+  owner_url: "https://github.com/vishesh9131"
+  owner_name: "vishesh9131" 
