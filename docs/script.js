@@ -160,7 +160,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const iframe = document.createElement('iframe');
             iframe.setAttribute('width', '100%');
             iframe.setAttribute('height', '100%');
-            iframe.setAttribute('src', 'https://www.youtube.com/embed/YOUR_VIDEO_ID?autoplay=1');
+            // https://youtu.be/
+            iframe.setAttribute('src', 'https://www.youtube.com/embed/G-0G0jzxB8Y?autoplay=1');
             iframe.setAttribute('frameborder', '0');
             iframe.setAttribute('allow', 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture');
             iframe.setAttribute('allowfullscreen', '');
@@ -217,7 +218,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Parallax effects
     const parallaxContainers = document.querySelectorAll('.parallax-container');
+    const floatingImages = document.querySelectorAll('.floating-image');
     const slothMascot = document.querySelector('.sloth-mascot');
+    const clipboardIcon = document.querySelector('.clipboard-icon');
+    const macIcon = document.querySelector('.mac-icon');
+    const keyboardIcon = document.querySelector('.keyboard-icon');
     const circles = document.querySelectorAll('.circle');
     const heroContent = document.querySelector('.hero-content');
     
@@ -239,9 +244,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 circle.style.transform = `translate(${moveX}px, ${moveY}px)`;
             });
             
-            // Move sloth mascot based on mouse position (if exists)
+            // Move mascot images based on mouse position with different movement patterns
             if (slothMascot) {
-                slothMascot.style.transform = `translate(${mouseX * -30}px, ${mouseY * -20}px)`;
+                slothMascot.style.transform = `translate(${mouseX * -30}px, ${mouseY * -20}px) rotate(${mouseY * 5}deg)`;
+            }
+            
+            if (clipboardIcon) {
+                clipboardIcon.style.transform = `translate(${mouseX * 25}px, ${mouseY * 15}px) rotate(${mouseX * 10}deg)`;
+            }
+            
+            if (macIcon) {
+                macIcon.style.transform = `translate(${mouseX * -20}px, ${mouseY * 25}px) rotate(${mouseY * -8}deg)`;
+            }
+            
+            if (keyboardIcon) {
+                keyboardIcon.style.transform = `translate(${mouseX * 15}px, ${mouseY * -25}px) rotate(${mouseX * -5}deg)`;
             }
         });
         
