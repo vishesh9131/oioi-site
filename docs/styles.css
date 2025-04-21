@@ -505,6 +505,7 @@ header {
     background-color: transparent;
     position: relative;
     overflow: hidden;
+    perspective: 1000px;
 }
 
 .hero-background {
@@ -994,8 +995,9 @@ header {
 }
 
 [data-theme="dark"] .feature-card {
-    background-color: var(--dark-color-lighter);
-    border-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(30, 30, 35, 0.8);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(60, 60, 70, 0.5);
 }
 
 .feature-card::before {
@@ -1275,7 +1277,7 @@ header {
 }
 
 [data-theme="dark"] .usage-card {
-    background-color: var(--dark-color-lighter);
+    background-color: rgba(30, 30, 35, 0.8);
 }
 
 .usage-card:hover {
@@ -1446,8 +1448,8 @@ header {
 }
 
 [data-theme="dark"] .testimonial-card {
-    background-color: var(--dark-color-lighter);
-    border-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(30, 30, 35, 0.8);
+    border: 1px solid rgba(60, 60, 70, 0.5);
 }
 
 .testimonial-card.active {
@@ -1545,6 +1547,7 @@ header {
     background-color: var(--primary-color);
     position: relative;
     overflow: hidden;
+    perspective: 1000px;
 }
 
 .cta-section::before {
@@ -1554,7 +1557,7 @@ header {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+    background: linear-gradient(135deg, rgba(20, 20, 25, 0.9) 0%, rgba(30, 30, 35, 0.9) 100%);
 }
 
 .cta-content {
@@ -2610,5 +2613,52 @@ footer {
     }
     100% {
         transform: translateY(0px);
+    }
+}
+
+/* Parallax Effects */
+.parallax-container {
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+}
+
+.parallax-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    will-change: transform;
+    transition: transform 0.1s ease-out;
+}
+
+.circle-parallax {
+    transform: translateZ(-1px) scale(1.1);
+}
+
+.hero-parallax {
+    transform: translateZ(-2px) scale(1.2);
+}
+
+.sloth-mascot {
+    position: absolute;
+    z-index: 1;
+    width: 150px;
+    height: auto;
+    bottom: -20px;
+    right: 5%;
+    transform: translateZ(0);
+    will-change: transform;
+    transition: transform 0.2s ease-out;
+}
+
+
+
+@media (max-width: 768px) {
+    .sloth-mascot {
+        width: 100px;
+        bottom: -15px;
+        right: 10px;
     }
 } 

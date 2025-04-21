@@ -215,6 +215,48 @@ document.addEventListener('DOMContentLoaded', function() {
         cursorGlow.style.opacity = '0';
     });
     
+    // Parallax effects
+    const parallaxContainers = document.querySelectorAll('.parallax-container');
+    const slothMascot = document.querySelector('.sloth-mascot');
+    const circles = document.querySelectorAll('.circle');
+    const heroContent = document.querySelector('.hero-content');
+    
+    if (window.innerWidth > 768) {
+        window.addEventListener('mousemove', function(e) {
+            let mouseX = e.clientX / window.innerWidth;
+            let mouseY = e.clientY / window.innerHeight;
+            
+            // Move hero content slightly based on mouse position
+            if (heroContent) {
+                heroContent.style.transform = `translate(${mouseX * -20}px, ${mouseY * -20}px)`;
+            }
+            
+            // Move circles in parallax effect
+            circles.forEach(circle => {
+                let depth = parseFloat(circle.getAttribute('data-depth') || 0.1);
+                let moveX = (mouseX * 50) * depth;
+                let moveY = (mouseY * 50) * depth;
+                circle.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            });
+            
+            // Move sloth mascot based on mouse position (if exists)
+            if (slothMascot) {
+                slothMascot.style.transform = `translate(${mouseX * -30}px, ${mouseY * -20}px)`;
+            }
+        });
+        
+        // Parallax on scroll
+        window.addEventListener('scroll', function() {
+            let scrollPosition = window.pageYOffset;
+            
+            parallaxContainers.forEach(container => {
+                let speed = container.getAttribute('data-speed') || 0.5;
+                let yPos = -(scrollPosition * speed);
+                container.style.transform = `translate3d(0, ${yPos}px, 0)`;
+            });
+        });
+    }
+    
     // Initialize all event listeners
     window.addEventListener('scroll', highlightNavLink);
     highlightNavLink();
