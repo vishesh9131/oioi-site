@@ -16,17 +16,11 @@
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <style>
       :root {
-        --teal: #34ac9c;
-        --teal-hi: #4fd0bd;
-        --tan: #d1976b;
-        --ink: #010101;
-        --dim: #9aa3a0;
+        --accent: #34ac9c;
+        --accent-hi: #4fd0bd;
       }
       *,
       *::before,
@@ -40,8 +34,8 @@
         overflow-x: hidden;
       }
       body {
-        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-        background: var(--ink);
+        font-family: "Inter", sans-serif;
+        background: #010101;
         color: #fff;
         -webkit-font-smoothing: antialiased;
       }
@@ -50,24 +44,29 @@
         color: inherit;
       }
 
-      /* ── animated "liquid glass" background ── */
-      #bg-container {
+      /* Scroll Video */
+      #scroll-video-container {
         position: fixed;
         inset: 0;
         z-index: -10;
-        background: var(--ink);
+        background: #0a0a0a;
+        top: -20%;
       }
-      #bg-canvas {
+      #scroll-video-container canvas,
+      #scroll-video-container video {
         position: absolute;
         inset: 0;
         width: 100%;
         height: 100%;
+        object-fit: cover;
       }
-      #bg-container .vignette {
+      #scroll-video-container .overlay {
         position: absolute;
         inset: 0;
-        background: radial-gradient(120% 90% at 50% 35%, transparent 40%, rgba(0, 0, 0, 0.55) 100%);
+        background: radial-gradient(120% 90% at 50% 30%, rgba(1, 1, 1, 0.25), rgba(1, 1, 1, 0.6));
       }
+
+      /* Particles */
       #particles-canvas {
         position: fixed;
         inset: 0;
@@ -77,7 +76,7 @@
         z-index: 3;
       }
 
-      /* ── nav ── */
+      /* Nav */
       nav {
         position: fixed;
         top: 0;
@@ -87,7 +86,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 1.15rem 2.5rem;
+        padding: 1.2rem 2.5rem;
       }
       nav .left {
         display: flex;
@@ -100,7 +99,8 @@
         gap: 0.55rem;
         font-weight: 700;
         font-size: 1.2rem;
-        letter-spacing: -0.02em;
+        letter-spacing: -0.025em;
+        color: #fff;
       }
       nav .logo img {
         width: 28px;
@@ -120,55 +120,52 @@
       nav .nav-links a:hover {
         color: #fff;
       }
-      nav .right {
+      nav .social {
         display: flex;
         align-items: center;
-        gap: 1.25rem;
+        gap: 1.1rem;
       }
-      nav .right .icn {
+      nav .social a {
         color: #d1d5db;
         transition: color 0.2s;
+        display: flex;
       }
-      nav .right .icn:hover {
+      nav .social a:hover {
         color: #fff;
       }
-      nav .right svg {
+      nav .social svg {
         width: 1.2rem;
         height: 1.2rem;
-        display: block;
       }
       .pill-btn {
         display: inline-flex;
         align-items: center;
         gap: 0.4rem;
-        background: var(--teal);
+        background: var(--accent);
         color: #04211d;
         font-weight: 600;
         font-size: 0.85rem;
-        padding: 0.55rem 1.1rem;
-        border-radius: 0.55rem;
+        padding: 0.5rem 1.05rem;
+        border-radius: 0.5rem;
         transition: background 0.2s, transform 0.15s;
       }
       .pill-btn:hover {
-        background: var(--teal-hi);
+        background: var(--accent-hi);
         transform: translateY(-1px);
       }
 
-      /* ── hero ── */
-      #content {
-        position: relative;
-        z-index: 2;
-      }
+      /* Hero */
       #hero {
         position: relative;
         height: 100vh;
+        width: 100%;
         display: flex;
         flex-direction: column;
       }
       #hero .gradient-overlay {
         position: absolute;
         inset: 0;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.65), transparent 55%);
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent 55%);
       }
       #hero .content {
         position: relative;
@@ -183,16 +180,16 @@
       }
       #hero .subtitle {
         font-size: 0.8rem;
-        color: var(--dim);
-        margin-bottom: 1.4rem;
+        color: #9ca3af;
+        margin-bottom: 1.2rem;
         letter-spacing: 0.18em;
         text-transform: uppercase;
       }
       #hero h1 {
-        font-size: clamp(2rem, 6vw, 4.6rem);
+        font-size: clamp(1.9rem, 5.5vw, 4.2rem);
         font-weight: 600;
-        line-height: 1.08;
-        letter-spacing: -0.025em;
+        line-height: 1.12;
+        letter-spacing: -0.02em;
         max-width: 50rem;
       }
       #hero h1 .underlined {
@@ -202,10 +199,10 @@
       #hero h1 .underlined .line {
         position: absolute;
         bottom: 0.12em;
-        left: -0.04em;
-        right: -0.04em;
+        left: -0.03em;
+        right: -0.03em;
         height: 0.16em;
-        background: var(--teal);
+        background: var(--accent);
         border-radius: 3px;
         transform: scaleX(0);
         transform-origin: left;
@@ -223,45 +220,47 @@
         display: flex;
         align-items: center;
         gap: 1rem;
-        margin-top: 2.6rem;
+        margin-top: 2.5rem;
         flex-wrap: wrap;
         justify-content: center;
-      }
-      #hero .cta-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        background: var(--teal);
-        color: #04211d;
-        font-weight: 600;
-        border-radius: 0.6rem;
-        padding: 0.95rem 2rem;
-        font-size: 0.9rem;
-        transition: background 0.2s, transform 0.15s;
-      }
-      #hero .cta-btn:hover {
-        background: var(--teal-hi);
-        transform: translateY(-1px);
       }
       #hero .code-box {
         display: flex;
         align-items: center;
         gap: 0.55rem;
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(20, 20, 20, 0.55);
         border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 0.6rem;
-        padding: 0.85rem 1.4rem;
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
+        border-radius: 0.5rem;
+        padding: 0.875rem 1.6rem;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
       }
       #hero .code-box .prompt {
-        color: var(--teal);
+        color: var(--accent);
+        font-family: monospace;
         font-weight: 700;
+        font-size: 0.875rem;
       }
       #hero .code-box code {
-        font-size: 0.85rem;
+        font-size: 0.875rem;
         color: #e5e7eb;
-        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-family: monospace;
+      }
+      #hero .cta-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--accent);
+        color: #04211d;
+        font-weight: 600;
+        border-radius: 0.5rem;
+        padding: 0.875rem 2rem;
+        font-size: 0.875rem;
+        transition: background 0.2s, transform 0.15s;
+      }
+      #hero .cta-btn:hover {
+        background: var(--accent-hi);
+        transform: translateY(-1px);
       }
       #hero .bounce-arrow {
         position: relative;
@@ -274,7 +273,7 @@
         width: 1.5rem;
         height: 1.5rem;
         color: #6b7280;
-        animation: bounce 1.4s infinite;
+        animation: bounce 1.3s infinite;
       }
       @keyframes bounce {
         0%,
@@ -282,18 +281,18 @@
           transform: translateY(0);
         }
         50% {
-          transform: translateY(-30%);
+          transform: translateY(-25%);
         }
       }
 
-      /* ── scroll-pinned cards ── */
+      /* Cards */
       #fixed-cards {
         position: fixed;
         bottom: 0;
         left: 0;
         right: 0;
         z-index: 4;
-        padding: 2.5rem;
+        padding: 2rem 2.5rem;
         opacity: 0;
         pointer-events: none;
       }
@@ -305,25 +304,25 @@
         gap: 2.5rem;
       }
       #fixed-cards .card .num {
-        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-family: monospace;
         font-size: 0.8rem;
-        color: var(--teal);
+        color: var(--accent);
         letter-spacing: 0.1em;
-        margin-bottom: 0.9rem;
+        margin-bottom: 0.85rem;
       }
       #fixed-cards .card h3 {
         font-size: 1.45rem;
         font-weight: 700;
+        color: #fff;
         margin-bottom: 0.8rem;
-        letter-spacing: -0.01em;
       }
       #fixed-cards .card p {
-        color: #cdd3d1;
-        font-size: 0.9rem;
-        line-height: 1.65;
+        color: #d1d5db;
+        font-size: 0.875rem;
+        line-height: 1.6;
       }
 
-      /* ── final reveal / download ── */
+      /* Section 3 */
       #section-three {
         position: relative;
         min-height: 100vh;
@@ -349,23 +348,23 @@
         transform: translateY(0);
         filter: blur(0);
       }
-      #section-three .eyebrow {
-        color: var(--teal);
+      #section-three .inner .eyebrow {
+        color: var(--accent);
         font-size: 0.8rem;
         letter-spacing: 0.18em;
         text-transform: uppercase;
         margin-bottom: 1rem;
       }
-      #section-three h2 {
+      #section-three .inner h2 {
         font-size: clamp(2.4rem, 7vw, 5rem);
         font-weight: 700;
         letter-spacing: -0.03em;
         line-height: 1.02;
       }
-      #section-three .sub {
-        color: var(--dim);
-        margin-top: 1rem;
+      #section-three .inner .sub {
+        color: #d1d5db;
         font-size: 1rem;
+        margin-top: 1rem;
       }
       .dl-row {
         display: flex;
@@ -378,47 +377,55 @@
         display: inline-flex;
         align-items: center;
         gap: 0.55rem;
-        padding: 0.95rem 1.7rem;
-        border-radius: 0.6rem;
+        padding: 0.9rem 1.7rem;
+        border-radius: 0.55rem;
         font-weight: 600;
         font-size: 0.9rem;
         border: 1px solid rgba(255, 255, 255, 0.14);
-        background: rgba(255, 255, 255, 0.04);
+        background: rgba(255, 255, 255, 0.05);
         color: #fff;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
         transition: border-color 0.2s, background 0.2s, transform 0.15s;
       }
       .dl-btn:hover {
         transform: translateY(-2px);
         border-color: rgba(52, 172, 156, 0.6);
-        background: rgba(52, 172, 156, 0.1);
+        background: rgba(52, 172, 156, 0.12);
       }
       .dl-btn.primary {
-        background: var(--teal);
-        border-color: var(--teal);
+        background: var(--accent);
+        border-color: var(--accent);
         color: #04211d;
       }
       .dl-btn.primary:hover {
-        background: var(--teal-hi);
-        border-color: var(--teal-hi);
+        background: var(--accent-hi);
+        border-color: var(--accent-hi);
       }
       .dl-btn svg {
         width: 1.05rem;
         height: 1.05rem;
       }
       .dl-note {
-        color: #7e8784;
+        color: #8b9491;
         font-size: 0.8rem;
-        margin-top: 1.4rem;
+        margin-top: 1.5rem;
         max-width: 30rem;
         line-height: 1.6;
       }
       .dl-note a {
-        color: var(--teal);
+        color: var(--accent);
+      }
+
+      /* Content wrapper */
+      #content {
+        position: relative;
+        z-index: 2;
       }
 
       @media (max-width: 768px) {
         nav {
-          padding: 1rem 1.25rem;
+          padding: 1rem 1.5rem;
         }
         nav .nav-links {
           display: none;
@@ -431,31 +438,44 @@
         }
         #fixed-cards .grid {
           grid-template-columns: 1fr;
-          gap: 1.4rem;
+          gap: 1.5rem;
         }
         #fixed-cards {
           padding: 1.5rem 1.25rem 2rem;
+        }
+        #section-three {
+          padding: 5rem 1.5rem;
         }
       }
     </style>
   </head>
   <body>
-    <!-- animated background -->
-    <div id="bg-container">
-      <canvas id="bg-canvas"></canvas>
-      <div class="vignette"></div>
+    <!-- Scroll Video Background -->
+    <div id="scroll-video-container">
+      <canvas id="video-canvas"></canvas>
+      <!-- no crossorigin: server lacks CORS, and plain display/seek doesn't need it -->
+      <video
+        id="video-fallback"
+        muted
+        playsinline
+        preload="auto"
+        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260616_212935_bbf608da-62d1-4f25-9be4-c346e4d09cc8.mp4"
+      ></video>
+      <div class="overlay"></div>
     </div>
+
+    <!-- Particles -->
     <canvas id="particles-canvas"></canvas>
 
-    <!-- scroll-pinned cards -->
+    <!-- Fixed Cards -->
     <div id="fixed-cards">
       <div class="grid">
         <div class="card">
           <div class="num">01 — GLASS</div>
           <h3>Real liquid glass</h3>
           <p>
-            oioi screenshots the desktop behind the panel and blurs <em>that</em> — genuine glass,
-            not a flat gray overlay faking it. Or pick a clean, zero-permission Soft panel.
+            oioi screenshots the desktop behind the panel and blurs that — genuine glass, not a flat
+            gray overlay faking it. Or pick a clean, zero-permission Soft panel.
           </p>
         </div>
         <div class="card">
@@ -470,14 +490,14 @@
           <div class="num">03 — EVERYTHING</div>
           <h3>Text, images &amp; files</h3>
           <p>
-            Everything you copy is captured, thumbnailed and instantly searchable. Filter to exactly
-            the type you need — today or all-time — and one click pastes it back.
+            Everything you copy is captured, thumbnailed and instantly searchable. Filter by type,
+            today or all-time, and one click pastes it back.
           </p>
         </div>
       </div>
     </div>
 
-    <!-- nav -->
+    <!-- Navigation -->
     <nav>
       <div class="left">
         <a class="logo" href="/"><img src="assets/icon.png" alt="" /> oioi</a>
@@ -486,16 +506,17 @@
           <a href="#download">Download</a>
         </div>
       </div>
-      <div class="right">
-        <a class="icn" href="https://github.com/vishesh9131/oioi" aria-label="GitHub">
+      <div class="social">
+        <a href="https://github.com/vishesh9131/oioi" aria-label="GitHub">
           <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
         </a>
         <a class="pill-btn" href="#download">Download</a>
       </div>
     </nav>
 
-    <!-- main -->
+    <!-- Main Content -->
     <div id="content">
+      <!-- Section 1: Hero -->
       <section id="hero">
         <div class="gradient-overlay"></div>
         <div class="content">
@@ -519,14 +540,17 @@
         </div>
       </section>
 
-      <div style="height: 120vh"></div>
+      <!-- Spacer -->
+      <div style="height: 150vh"></div>
 
-      <!-- cards reveal zone -->
+      <!-- Cards Trigger Zone -->
       <div id="features"></div>
       <div id="cards-trigger" style="height: 200vh"></div>
 
-      <div style="height: 70vh"></div>
+      <!-- Spacer -->
+      <div style="height: 100vh"></div>
 
+      <!-- Section 3 -->
       <section id="section-three">
         <div class="inner" id="section-three-inner">
           <p class="eyebrow">Free · Open source · No tracking</p>
@@ -548,7 +572,7 @@
           </div>
           <p class="dl-note">
             macOS is a Universal build (Apple Silicon + Intel). First launch needs a one-time approve
-            (right-click → Open on macOS, "Run anyway" on Windows). Full notes on the
+            (right-click → Open on macOS, "Run anyway" on Windows). Notes on the
             <a href="https://github.com/vishesh9131/oioi">GitHub repo</a>.
           </p>
         </div>
@@ -557,161 +581,247 @@
 
     <script>
       (function () {
-        var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-        var dpr = Math.min(devicePixelRatio || 1, 2);
+        // ===================== SCROLL VIDEO =====================
+        const VIDEO_URL =
+          "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260616_212935_bbf608da-62d1-4f25-9be4-c346e4d09cc8.mp4";
+        const canvas = document.getElementById("video-canvas");
+        const videoEl = document.getElementById("video-fallback");
+        const ctx = canvas.getContext("2d");
+        let frames = [];
+        let framesReady = false;
+        let lastFrameIndex = -1;
+        let videoSeeking = false;
 
-        // ── scroll progress (0..1 over the whole page) ──
-        var scrollP = 0;
-        function updateScroll() {
-          var max = document.documentElement.scrollHeight - window.innerHeight;
-          scrollP = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
-        }
-        updateScroll();
-        addEventListener("scroll", updateScroll, { passive: true });
-
-        // ── animated "liquid glass" background ──
-        var bg = document.getElementById("bg-canvas");
-        var bx = bg.getContext("2d");
-        var W, H;
-        var blobs = [
-          { c: [52, 172, 156], px: 0.32, py: 0.34, ax: 0.16, ay: 0.1, sx: 0.00021, sy: 0.00017, r: 0.62, dx: 0.05, dy: -0.18 },
-          { c: [21, 100, 91], px: 0.7, py: 0.62, ax: 0.13, ay: 0.14, sx: 0.00015, sy: 0.00023, r: 0.7, dx: -0.08, dy: -0.12 },
-          { c: [209, 151, 107], px: 0.6, py: 0.28, ax: 0.18, ay: 0.12, sx: 0.00019, sy: 0.00013, r: 0.42, dx: 0.1, dy: -0.22 },
-          { c: [46, 152, 144], px: 0.28, py: 0.72, ax: 0.12, ay: 0.16, sx: 0.00013, sy: 0.0002, r: 0.5, dx: 0.04, dy: -0.15 },
-        ];
-        function resizeBg() {
-          W = bg.width = Math.round(innerWidth * dpr);
-          H = bg.height = Math.round(innerHeight * dpr);
-        }
-        resizeBg();
-        addEventListener("resize", resizeBg);
-
-        function drawBg(t) {
-          bx.globalCompositeOperation = "source-over";
-          bx.fillStyle = "#010101";
-          bx.fillRect(0, 0, W, H);
-          bx.globalCompositeOperation = "lighter";
-          var minD = Math.min(W, H);
-          for (var i = 0; i < blobs.length; i++) {
-            var b = blobs[i];
-            var cx = (b.px + Math.sin(t * b.sx) * b.ax + scrollP * b.dx) * W;
-            var cy = (b.py + Math.cos(t * b.sy) * b.ay + scrollP * b.dy) * H;
-            var rad = b.r * minD * (0.85 + scrollP * 0.5);
-            var g = bx.createRadialGradient(cx, cy, 0, cx, cy, rad);
-            g.addColorStop(0, "rgba(" + b.c[0] + "," + b.c[1] + "," + b.c[2] + ",0.42)");
-            g.addColorStop(1, "rgba(" + b.c[0] + "," + b.c[1] + "," + b.c[2] + ",0)");
-            bx.fillStyle = g;
-            bx.beginPath();
-            bx.arc(cx, cy, rad, 0, Math.PI * 2);
-            bx.fill();
+        function resizeCanvas() {
+          const dpr = Math.min(devicePixelRatio, 2);
+          const rect = canvas.getBoundingClientRect();
+          const w = Math.round(rect.width * dpr);
+          const h = Math.round(rect.height * dpr);
+          if (canvas.width !== w || canvas.height !== h) {
+            canvas.width = w;
+            canvas.height = h;
           }
-          bx.globalCompositeOperation = "source-over";
+          lastFrameIndex = -1;
         }
 
-        // ── particles ──
-        var pc = document.getElementById("particles-canvas");
-        var pctx = pc.getContext("2d");
-        var particles = [];
+        async function extractFrames() {
+          try {
+            const response = await fetch(VIDEO_URL, { mode: "cors" });
+            const blob = await response.blob();
+            const objectUrl = URL.createObjectURL(blob);
+
+            const video = document.createElement("video");
+            video.muted = true;
+            video.playsInline = true;
+            video.crossOrigin = "anonymous";
+            video.preload = "auto";
+            video.src = objectUrl;
+
+            await new Promise((resolve, reject) => {
+              video.onloadedmetadata = () => resolve();
+              video.onerror = () => reject();
+              setTimeout(() => reject(), 15000);
+            });
+
+            const scale = Math.min(1, 1280 / video.videoWidth);
+            const scaledWidth = Math.round(video.videoWidth * scale);
+            const scaledHeight = Math.round(video.videoHeight * scale);
+            const frameCount = Math.max(30, Math.min(120, Math.round(video.duration * 24)));
+
+            for (let i = 0; i < frameCount; i++) {
+              const time = (i / (frameCount - 1)) * (video.duration - 0.05);
+              video.currentTime = time;
+              await new Promise((resolve, reject) => {
+                const onSeeked = () => {
+                  video.removeEventListener("seeked", onSeeked);
+                  resolve();
+                };
+                video.addEventListener("seeked", onSeeked);
+                setTimeout(() => {
+                  video.removeEventListener("seeked", onSeeked);
+                  reject();
+                }, 3000);
+              });
+              const bitmap = await createImageBitmap(video, {
+                resizeWidth: scaledWidth,
+                resizeHeight: scaledHeight,
+              });
+              frames.push(bitmap);
+            }
+
+            if (frames.length > 0) {
+              framesReady = true;
+              canvas.style.visibility = "visible";
+              videoEl.style.display = "none";
+            }
+            URL.revokeObjectURL(objectUrl);
+          } catch (e) {
+            /* fallback to video seeking */
+          }
+        }
+
+        function getScrollBounds() {
+          const vh = window.innerHeight;
+          return { start: vh * 0.5, end: document.documentElement.scrollHeight - vh };
+        }
+
+        function getProgress() {
+          const { start, end } = getScrollBounds();
+          const range = end - start;
+          if (range <= 0) return 0;
+          return Math.max(0, Math.min(1, (window.scrollY - start) / range));
+        }
+
+        function drawFrame(frame) {
+          const cw = canvas.width,
+            ch = canvas.height;
+          const s = Math.max(cw / frame.width, ch / frame.height);
+          const dw = frame.width * s,
+            dh = frame.height * s;
+          ctx.drawImage(frame, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
+        }
+
+        function videoTick() {
+          const progress = getProgress();
+          if (framesReady && frames.length > 0) {
+            const idx = Math.round(progress * (frames.length - 1));
+            if (idx !== lastFrameIndex) {
+              lastFrameIndex = idx;
+              if (frames[idx]) drawFrame(frames[idx]);
+            }
+          } else if (videoEl.duration && isFinite(videoEl.duration) && videoEl.readyState >= 1) {
+            const target = progress * videoEl.duration;
+            if (!videoSeeking && Math.abs(videoEl.currentTime - target) > 0.001) {
+              videoSeeking = true;
+              videoEl.currentTime = target;
+            }
+          }
+          requestAnimationFrame(videoTick);
+        }
+
+        videoEl.addEventListener("seeked", () => {
+          videoSeeking = false;
+        });
+        videoEl.addEventListener("stalled", () => {
+          videoSeeking = false;
+        });
+        videoEl.addEventListener("loadeddata", () => {
+          videoEl.currentTime = 0;
+        });
+        canvas.style.visibility = "hidden";
+
+        resizeCanvas();
+        window.addEventListener("resize", resizeCanvas);
+        requestAnimationFrame(videoTick);
+        extractFrames();
+
+        // ===================== PARTICLES =====================
+        const pCanvas = document.getElementById("particles-canvas");
+        const pCtx = pCanvas.getContext("2d");
+        let particles = [];
+
         function resizeParticles() {
-          pc.width = innerWidth;
-          pc.height = innerHeight;
+          pCanvas.width = window.innerWidth;
+          pCanvas.height = window.innerHeight;
+          createParticles();
+        }
+
+        function createParticles() {
           particles = [];
-          if (reduced) return;
-          var count = Math.floor((pc.width * pc.height) / 16000);
-          for (var i = 0; i < count; i++) {
+          const count = Math.floor((pCanvas.width * pCanvas.height) / 14000);
+          for (let i = 0; i < count; i++) {
             particles.push({
-              x: Math.random() * pc.width,
-              y: Math.random() * pc.height,
-              vx: (Math.random() - 0.5) * 0.25,
-              vy: (Math.random() - 0.5) * 0.25,
-              s: Math.random() * 1.4 + 0.4,
-              o: Math.random() * 0.5 + 0.15,
+              x: Math.random() * pCanvas.width,
+              y: Math.random() * pCanvas.height,
+              vx: (Math.random() - 0.5) * 0.3,
+              vy: (Math.random() - 0.5) * 0.3,
+              size: Math.random() * 1.4 + 0.4,
+              opacity: Math.random() * 0.5 + 0.15,
             });
           }
         }
-        resizeParticles();
-        addEventListener("resize", resizeParticles);
-        function drawParticles() {
-          pctx.clearRect(0, 0, pc.width, pc.height);
-          for (var i = 0; i < particles.length; i++) {
-            var p = particles[i];
+
+        function animateParticles() {
+          pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
+          for (const p of particles) {
             p.x += p.vx;
             p.y += p.vy;
-            if (p.x < 0) p.x = pc.width;
-            else if (p.x > pc.width) p.x = 0;
-            if (p.y < 0) p.y = pc.height;
-            else if (p.y > pc.height) p.y = 0;
-            pctx.beginPath();
-            pctx.arc(p.x, p.y, p.s, 0, Math.PI * 2);
-            pctx.fillStyle = "rgba(255,255,255," + p.o + ")";
-            pctx.fill();
+            if (p.x < 0) p.x = pCanvas.width;
+            if (p.x > pCanvas.width) p.x = 0;
+            if (p.y < 0) p.y = pCanvas.height;
+            if (p.y > pCanvas.height) p.y = 0;
+            pCtx.beginPath();
+            pCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            pCtx.fillStyle = `rgba(255,255,255,${p.opacity})`;
+            pCtx.fill();
           }
+          requestAnimationFrame(animateParticles);
         }
 
-        // ── single rAF loop ──
-        function frame(t) {
-          drawBg(t || 0);
-          if (!reduced) drawParticles();
-          requestAnimationFrame(frame);
-        }
-        if (reduced) {
-          drawBg(8000); // one static painterly frame
-        } else {
-          requestAnimationFrame(frame);
-        }
+        resizeParticles();
+        window.addEventListener("resize", resizeParticles);
+        animateParticles();
 
-        // ── hero fade on scroll ──
-        var hero = document.getElementById("hero");
-        addEventListener(
-          "scroll",
-          function () {
-            hero.style.opacity = Math.max(0, 1 - window.scrollY / (innerHeight * 0.35));
-          },
-          { passive: true }
-        );
+        // ===================== HERO FADE =====================
+        function updateHeroOpacity() {
+          const fade = Math.max(0, 1 - window.scrollY / (window.innerHeight * 0.35));
+          document.getElementById("hero").style.opacity = fade;
+        }
+        window.addEventListener("scroll", updateHeroOpacity, { passive: true });
 
-        // ── scroll-pinned cards with wipe reveal ──
-        var fixedCards = document.getElementById("fixed-cards");
-        var cardsGrid = fixedCards.querySelector(".grid");
-        var trigger = document.getElementById("cards-trigger");
+        // ===================== FIXED CARDS =====================
+        const fixedCards = document.getElementById("fixed-cards");
+        const cardsGrid = fixedCards.querySelector(".grid");
+
         function tickCards() {
-          var rect = trigger.getBoundingClientRect();
-          var top = rect.top + window.scrollY;
-          var h = rect.height;
-          var y = window.scrollY;
-          var vh = innerHeight;
-          var start = top - vh * 0.5;
-          var end = top + h - vh * 0.3;
-          var range = end - start;
-          var progress = range > 0 ? (y - start) / range : 0;
+          const trigger = document.getElementById("cards-trigger");
+          const rect = trigger.getBoundingClientRect();
+          const triggerTop = rect.top + window.scrollY;
+          const triggerHeight = rect.height;
+          const scrollY = window.scrollY;
+          const vh = window.innerHeight;
+
+          const start = triggerTop - vh * 0.5;
+          const end = triggerTop + triggerHeight - vh * 0.3;
+          const range = end - start;
+
+          let progress = range > 0 ? (scrollY - start) / range : 0;
           progress = Math.max(0, Math.min(1, progress));
 
-          var active = y >= start - vh * 0.2 && y <= end + vh * 0.3;
-          var fadeIn = Math.min(1, Math.max(0, (y - (start - vh * 0.2)) / (vh * 0.2)));
-          var fadeOut = Math.min(1, Math.max(0, (end + vh * 0.3 - y) / (vh * 0.3)));
-          var op = active ? Math.min(fadeIn, fadeOut) : 0;
-          fixedCards.style.opacity = op;
-          fixedCards.style.pointerEvents = op > 0.1 ? "auto" : "none";
+          const isActive = scrollY >= start - vh * 0.2 && scrollY <= end + vh * 0.3;
+          const fadeIn = Math.min(1, Math.max(0, (scrollY - (start - vh * 0.2)) / (vh * 0.2)));
+          const fadeOut = Math.min(1, Math.max(0, (end + vh * 0.3 - scrollY) / (vh * 0.3)));
+          const containerOpacity = isActive ? Math.min(fadeIn, fadeOut) : 0;
 
-          var mobile = innerWidth < 768;
-          var pct = progress * 130;
-          var dir = mobile ? "to bottom" : "to right";
-          var soft = mobile ? 20 : 15;
-          var mask = "linear-gradient(" + dir + ", black " + pct + "%, transparent " + (pct + soft) + "%)";
-          cardsGrid.style.maskImage = mask;
-          cardsGrid.style.webkitMaskImage = mask;
+          fixedCards.style.opacity = containerOpacity;
+          fixedCards.style.pointerEvents = containerOpacity > 0.1 ? "auto" : "none";
+
+          const isMobile = window.innerWidth < 768;
+          const revealPct = progress * 130;
+          if (isMobile) {
+            cardsGrid.style.maskImage = `linear-gradient(to bottom, black ${revealPct}%, transparent ${revealPct + 20}%)`;
+            cardsGrid.style.webkitMaskImage = `linear-gradient(to bottom, black ${revealPct}%, transparent ${revealPct + 20}%)`;
+          } else {
+            cardsGrid.style.maskImage = `linear-gradient(to right, black ${revealPct}%, transparent ${revealPct + 15}%)`;
+            cardsGrid.style.webkitMaskImage = `linear-gradient(to right, black ${revealPct}%, transparent ${revealPct + 15}%)`;
+          }
+
           requestAnimationFrame(tickCards);
         }
         requestAnimationFrame(tickCards);
 
-        // ── final reveal ──
-        var inner = document.getElementById("section-three-inner");
-        new IntersectionObserver(
-          function (e) {
-            if (e[0].isIntersecting) inner.classList.add("visible");
+        // ===================== SECTION 3 INTERSECTION =====================
+        const sectionThreeInner = document.getElementById("section-three-inner");
+        const observer = new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting) {
+              sectionThreeInner.classList.add("visible");
+              observer.unobserve(sectionThreeInner);
+            }
           },
-          { threshold: 0.2 }
-        ).observe(inner);
+          { threshold: 0.15 }
+        );
+        observer.observe(sectionThreeInner);
       })();
     </script>
   </body>
