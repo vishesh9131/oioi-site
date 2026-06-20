@@ -1,232 +1,718 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>oioi — a fast, glassy clipboard manager for macOS, Windows & Linux</title>
     <meta
       name="description"
-      content="oioi is a fast, beautiful clipboard manager for macOS. Press ⌥V to see your history with real liquid-glass blur. Free, open source, no Xcode needed."
+      content="Press ⌥V and your clipboard history floats up in real liquid glass. Text, images and files, searchable. Free & open source for macOS, Windows and Linux."
     />
     <link rel="icon" href="assets/favicon.png" />
-    <meta property="og:title" content="oioi — a fast, glassy clipboard manager for macOS, Windows & Linux" />
-    <meta
-      property="og:description"
-      content="Press ⌥V to see your clipboard history with real liquid-glass blur. Free & open source."
-    />
+    <meta property="og:title" content="oioi — a fast, glassy clipboard manager" />
+    <meta property="og:description" content="Press ⌥V — your clipboard, in real liquid glass. Free & open source." />
     <meta property="og:image" content="assets/og.png" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --teal: #34ac9c;
+        --teal-hi: #4fd0bd;
+        --tan: #d1976b;
+        --ink: #010101;
+        --dim: #9aa3a0;
+      }
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        overflow-x: hidden;
+      }
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        background: var(--ink);
+        color: #fff;
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      /* ── animated "liquid glass" background ── */
+      #bg-container {
+        position: fixed;
+        inset: 0;
+        z-index: -10;
+        background: var(--ink);
+      }
+      #bg-canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      #bg-container .vignette {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(120% 90% at 50% 35%, transparent 40%, rgba(0, 0, 0, 0.55) 100%);
+      }
+      #particles-canvas {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 3;
+      }
+
+      /* ── nav ── */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.15rem 2.5rem;
+      }
+      nav .left {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+      }
+      nav .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        font-weight: 700;
+        font-size: 1.2rem;
+        letter-spacing: -0.02em;
+      }
+      nav .logo img {
+        width: 28px;
+        height: 28px;
+        border-radius: 7px;
+      }
+      nav .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+      }
+      nav .nav-links a {
+        font-size: 0.875rem;
+        color: #d1d5db;
+        transition: color 0.2s;
+      }
+      nav .nav-links a:hover {
+        color: #fff;
+      }
+      nav .right {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+      }
+      nav .right .icn {
+        color: #d1d5db;
+        transition: color 0.2s;
+      }
+      nav .right .icn:hover {
+        color: #fff;
+      }
+      nav .right svg {
+        width: 1.2rem;
+        height: 1.2rem;
+        display: block;
+      }
+      .pill-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: var(--teal);
+        color: #04211d;
+        font-weight: 600;
+        font-size: 0.85rem;
+        padding: 0.55rem 1.1rem;
+        border-radius: 0.55rem;
+        transition: background 0.2s, transform 0.15s;
+      }
+      .pill-btn:hover {
+        background: var(--teal-hi);
+        transform: translateY(-1px);
+      }
+
+      /* ── hero ── */
+      #content {
+        position: relative;
+        z-index: 2;
+      }
+      #hero {
+        position: relative;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      #hero .gradient-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.65), transparent 55%);
+      }
+      #hero .content {
+        position: relative;
+        z-index: 10;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        text-align: center;
+        padding: 0 1.5rem 6rem;
+      }
+      #hero .subtitle {
+        font-size: 0.8rem;
+        color: var(--dim);
+        margin-bottom: 1.4rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+      #hero h1 {
+        font-size: clamp(2rem, 6vw, 4.6rem);
+        font-weight: 600;
+        line-height: 1.08;
+        letter-spacing: -0.025em;
+        max-width: 50rem;
+      }
+      #hero h1 .underlined {
+        position: relative;
+        display: inline-block;
+      }
+      #hero h1 .underlined .line {
+        position: absolute;
+        bottom: 0.12em;
+        left: -0.04em;
+        right: -0.04em;
+        height: 0.16em;
+        background: var(--teal);
+        border-radius: 3px;
+        transform: scaleX(0);
+        transform-origin: left;
+        animation: drawline 0.9s 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+      }
+      #hero h1 .underlined span:not(.line) {
+        position: relative;
+      }
+      @keyframes drawline {
+        to {
+          transform: scaleX(1);
+        }
+      }
+      #hero .ctas {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 2.6rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      #hero .cta-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--teal);
+        color: #04211d;
+        font-weight: 600;
+        border-radius: 0.6rem;
+        padding: 0.95rem 2rem;
+        font-size: 0.9rem;
+        transition: background 0.2s, transform 0.15s;
+      }
+      #hero .cta-btn:hover {
+        background: var(--teal-hi);
+        transform: translateY(-1px);
+      }
+      #hero .code-box {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 0.6rem;
+        padding: 0.85rem 1.4rem;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+      #hero .code-box .prompt {
+        color: var(--teal);
+        font-weight: 700;
+      }
+      #hero .code-box code {
+        font-size: 0.85rem;
+        color: #e5e7eb;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+      #hero .bounce-arrow {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        justify-content: center;
+        padding-bottom: 2rem;
+      }
+      #hero .bounce-arrow svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        color: #6b7280;
+        animation: bounce 1.4s infinite;
+      }
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-30%);
+        }
+      }
+
+      /* ── scroll-pinned cards ── */
+      #fixed-cards {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 4;
+        padding: 2.5rem;
+        opacity: 0;
+        pointer-events: none;
+      }
+      #fixed-cards .grid {
+        max-width: 72rem;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2.5rem;
+      }
+      #fixed-cards .card .num {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.8rem;
+        color: var(--teal);
+        letter-spacing: 0.1em;
+        margin-bottom: 0.9rem;
+      }
+      #fixed-cards .card h3 {
+        font-size: 1.45rem;
+        font-weight: 700;
+        margin-bottom: 0.8rem;
+        letter-spacing: -0.01em;
+      }
+      #fixed-cards .card p {
+        color: #cdd3d1;
+        font-size: 0.9rem;
+        line-height: 1.65;
+      }
+
+      /* ── final reveal / download ── */
+      #section-three {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6rem 2.5rem;
+      }
+      #section-three .inner {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        opacity: 0;
+        transform: translateY(32px);
+        filter: blur(8px);
+        transition: opacity 1s ease-out, transform 1s ease-out, filter 1s ease-out;
+      }
+      #section-three .inner.visible {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+      #section-three .eyebrow {
+        color: var(--teal);
+        font-size: 0.8rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+      }
+      #section-three h2 {
+        font-size: clamp(2.4rem, 7vw, 5rem);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1.02;
+      }
+      #section-three .sub {
+        color: var(--dim);
+        margin-top: 1rem;
+        font-size: 1rem;
+      }
+      .dl-row {
+        display: flex;
+        gap: 0.85rem;
+        margin-top: 2.4rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .dl-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        padding: 0.95rem 1.7rem;
+        border-radius: 0.6rem;
+        font-weight: 600;
+        font-size: 0.9rem;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.04);
+        color: #fff;
+        transition: border-color 0.2s, background 0.2s, transform 0.15s;
+      }
+      .dl-btn:hover {
+        transform: translateY(-2px);
+        border-color: rgba(52, 172, 156, 0.6);
+        background: rgba(52, 172, 156, 0.1);
+      }
+      .dl-btn.primary {
+        background: var(--teal);
+        border-color: var(--teal);
+        color: #04211d;
+      }
+      .dl-btn.primary:hover {
+        background: var(--teal-hi);
+        border-color: var(--teal-hi);
+      }
+      .dl-btn svg {
+        width: 1.05rem;
+        height: 1.05rem;
+      }
+      .dl-note {
+        color: #7e8784;
+        font-size: 0.8rem;
+        margin-top: 1.4rem;
+        max-width: 30rem;
+        line-height: 1.6;
+      }
+      .dl-note a {
+        color: var(--teal);
+      }
+
+      @media (max-width: 768px) {
+        nav {
+          padding: 1rem 1.25rem;
+        }
+        nav .nav-links {
+          display: none;
+        }
+        #hero .content {
+          padding-bottom: 5rem;
+        }
+        #hero .ctas {
+          flex-direction: column;
+        }
+        #fixed-cards .grid {
+          grid-template-columns: 1fr;
+          gap: 1.4rem;
+        }
+        #fixed-cards {
+          padding: 1.5rem 1.25rem 2rem;
+        }
+      }
+    </style>
   </head>
   <body>
-    <header class="nav">
-      <a class="brand" href="/">
-        <img src="assets/icon.png" alt="" /> <span>oioi</span>
-      </a>
-      <nav class="nav-links">
-        <a href="#features">Features</a>
-        <a href="#how">How it works</a>
-        <a href="https://github.com/vishesh9131/oioi">GitHub</a>
-        <a class="btn btn-sm" href="#download">Download</a>
-      </nav>
-    </header>
+    <!-- animated background -->
+    <div id="bg-container">
+      <canvas id="bg-canvas"></canvas>
+      <div class="vignette"></div>
+    </div>
+    <canvas id="particles-canvas"></canvas>
 
-    <main>
-      <!-- HERO -->
-      <section class="hero" id="hero">
-        <div class="hero-bg" aria-hidden="true">
-          <div class="hero-fx grid-bg"></div>
-          <div class="hero-fx spotlight"></div>
-        </div>
-        <div class="hero-copy">
-          <div class="pill">Free · Open source · macOS · Windows · Linux</div>
-          <h1>Your clipboard,<br />finally beautiful.</h1>
-          <p class="lede">
-            A fast, glassy clipboard manager for macOS, Windows &amp; Linux. Press
-            <kbd>⌥V</kbd> anywhere and your history floats up in real <b>liquid glass</b>
-            — text, images, and files, searchable and one click away.
+    <!-- scroll-pinned cards -->
+    <div id="fixed-cards">
+      <div class="grid">
+        <div class="card">
+          <div class="num">01 — GLASS</div>
+          <h3>Real liquid glass</h3>
+          <p>
+            oioi screenshots the desktop behind the panel and blurs <em>that</em> — genuine glass,
+            not a flat gray overlay faking it. Or pick a clean, zero-permission Soft panel.
           </p>
-          <div class="cta-row">
-            <a class="btn btn-lg" href="#download">↓ Download</a>
-            <a class="btn btn-ghost btn-lg" href="https://github.com/vishesh9131/oioi">View source</a>
+        </div>
+        <div class="card">
+          <div class="num">02 — SPEED</div>
+          <h3>Opens before you blink</h3>
+          <p>
+            The panel is pre-warmed off-screen and painted low-res first. Press ⌥V and your whole
+            history is already floating in front of you.
+          </p>
+        </div>
+        <div class="card">
+          <div class="num">03 — EVERYTHING</div>
+          <h3>Text, images &amp; files</h3>
+          <p>
+            Everything you copy is captured, thumbnailed and instantly searchable. Filter to exactly
+            the type you need — today or all-time — and one click pastes it back.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- nav -->
+    <nav>
+      <div class="left">
+        <a class="logo" href="/"><img src="assets/icon.png" alt="" /> oioi</a>
+        <div class="nav-links">
+          <a href="#features">Features</a>
+          <a href="#download">Download</a>
+        </div>
+      </div>
+      <div class="right">
+        <a class="icn" href="https://github.com/vishesh9131/oioi" aria-label="GitHub">
+          <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        </a>
+        <a class="pill-btn" href="#download">Download</a>
+      </div>
+    </nav>
+
+    <!-- main -->
+    <div id="content">
+      <section id="hero">
+        <div class="gradient-overlay"></div>
+        <div class="content">
+          <p class="subtitle">Clipboard manager · macOS · Windows · Linux</p>
+          <h1>
+            Press ⌥V. Your clipboard floats up in real
+            <span class="underlined"><span class="line"></span><span>liquid glass</span></span>.
+          </h1>
+          <div class="ctas">
+            <a href="#download" class="cta-btn">Download <span>↓</span></a>
+            <div class="code-box">
+              <span class="prompt">⌥</span>
+              <code>V — open anywhere, paste anything</code>
+            </div>
           </div>
-          <div class="micro">No Xcode · no $99 Apple fee · no tracking</div>
         </div>
-
-        <!-- CSS panel mock -->
-        <div class="stage">
-          <div class="mock">
-            <div class="mock-head">
-              <span class="dot"></span>
-              <div class="mock-search">⌕ Search clipboard…</div>
-            </div>
-            <div class="mock-chips">
-              <span class="chip on">All</span><span class="chip">Text</span>
-              <span class="chip">Image</span><span class="chip">Files</span>
-              <span class="chip on blue">All&nbsp;Time</span><span class="chip">Today</span>
-            </div>
-            <div class="mock-rows">
-              <div class="mrow"><span class="mi">¶</span><span class="mt">npm run dist &amp;&amp; netlify deploy --prod</span></div>
-              <div class="mrow"><span class="mi">🖼</span><span class="mt thumb">screenshot — design-v3.png</span></div>
-              <div class="mrow"><span class="mi">📄</span><span class="mt">Priyanka_Resume.pdf</span></div>
-              <div class="mrow"><span class="mi">¶</span><span class="mt">https://oioi.app</span></div>
-            </div>
-            <div class="mock-foot"><span class="logo-pill">oioi</span></div>
-          </div>
+        <div class="bounce-arrow">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+          </svg>
         </div>
       </section>
 
-      <!-- FEATURES -->
-      <section id="features" class="section">
-        <div class="sec-head">
-          <span class="kicker">Features</span>
-          <h2>Everything your clipboard should have been.</h2>
-          <p class="sec-sub">You copy a hundred things an hour. oioi keeps them, makes them searchable, and gives them back the moment you ask — without ever stealing focus from your work.</p>
-        </div>
+      <div style="height: 120vh"></div>
 
-        <div class="bento">
-          <!-- big glass tile with a live demo -->
-          <article class="tile tile-glass">
-            <div class="glass-demo">
-              <div class="glass-strip"></div>
-              <div class="glass-pane">
-                <span></span><span></span><span></span>
-              </div>
-            </div>
-            <div class="tile-body">
-              <h3>Real liquid glass</h3>
-              <p>oioi captures the desktop behind the panel and blurs <em>that</em> — so it's genuine macOS-style glass, not a flat gray overlay faking it. Dial in blur, frost and corner radius until it's yours.</p>
-            </div>
-          </article>
+      <!-- cards reveal zone -->
+      <div id="features"></div>
+      <div id="cards-trigger" style="height: 200vh"></div>
 
-          <article class="tile">
-            <span class="badge">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
-            </span>
-            <h3>Opens before you blink</h3>
-            <p>The panel is pre-warmed off-screen and painted low-res first. Press ⌥V and it's already there.</p>
-          </article>
+      <div style="height: 70vh"></div>
 
-          <article class="tile">
-            <span class="badge">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="M3 13l9 5 9-5"/></svg>
-            </span>
-            <h3>Soft or Glass</h3>
-            <p>Heavy liquid glass, or a clean flat-white panel that needs zero screen permission. Switch anytime.</p>
-          </article>
-
-          <article class="tile tile-wide">
-            <div class="tile-body">
-              <h3>Text, images &amp; files — all of it</h3>
-              <p>Everything you copy is captured, thumbnailed and instantly searchable. Filter down to exactly the type you need, today or all-time.</p>
-            </div>
-            <div class="type-chips">
-              <span class="tc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Text</span>
-              <span class="tc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 16-5-5L5 20"/></svg>Images</span>
-              <span class="tc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M13 2v7h7"/></svg>Files</span>
-            </div>
-          </article>
-
-          <article class="tile tile-tall">
-            <div class="menubar-mock">
-              <span class="mb-spacer"></span>
-              <img src="assets/icon.png" alt="" />
-              <span class="mb-dot"></span>
-            </div>
-            <div class="tile-body">
-              <h3>Out of your way</h3>
-              <p>No Dock icon, no window clutter. oioi lives quietly in the menu bar — or the system tray on Windows and Linux — one global shortcut away.</p>
-            </div>
-          </article>
-
-          <article class="tile tile-wide">
-            <span class="badge">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18-6-6 6-6"/><path d="m15 6 6 6-6 6"/></svg>
-            </span>
-            <div class="tile-body">
-              <h3>Free &amp; open source — really</h3>
-              <p>No account, no telemetry, no subscription, no $99 Apple tax. MIT-licensed and every line is on GitHub.</p>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <!-- HOW -->
-      <section id="how" class="section">
-        <div class="sec-head">
-          <span class="kicker">How it works</span>
-          <h2>Three keystrokes. That's the whole thing.</h2>
-        </div>
-        <ol class="flow">
-          <li>
-            <span class="flow-n">01</span>
-            <div class="keys"><kbd>⌥</kbd><kbd>V</kbd></div>
-            <h3>Summon it</h3>
-            <p>Hit the global shortcut from any app, or click the menu-bar icon. The panel floats in over whatever you're doing.</p>
-          </li>
-          <li>
-            <span class="flow-n">02</span>
-            <div class="keys"><kbd>↑</kbd><kbd>↓</kbd><span class="kdash">or type</span></div>
-            <h3>Find it</h3>
-            <p>Scroll your history or just start typing to search. Filter by Text, Images or Files — today or all-time.</p>
-          </li>
-          <li>
-            <span class="flow-n">03</span>
-            <div class="keys"><kbd>⏎</kbd></div>
-            <h3>Paste it</h3>
-            <p>Enter drops it straight back onto your clipboard, ready to paste wherever you were. Under a second, start to finish.</p>
-          </li>
-        </ol>
-      </section>
-
-      <!-- DOWNLOAD -->
-      <section id="download" class="section">
-        <div class="download-card">
-          <span class="kicker">Download</span>
-          <h2>Get oioi — free, on every desktop.</h2>
-          <p class="sec-sub center">macOS 12+ · Windows 10+ · modern Linux. No account. No fee. No catch.</p>
-          <div class="dl-row">
-            <a class="btn btn-lg dl-btn" href="oioi-0.4.0-universal.dmg" download>
+      <section id="section-three">
+        <div class="inner" id="section-three-inner">
+          <p class="eyebrow">Free · Open source · No tracking</p>
+          <h2>Get oioi.</h2>
+          <p class="sub">macOS 12+ · Windows 10+ · modern Linux. No account. No $99 Apple fee.</p>
+          <div class="dl-row" id="download">
+            <a class="dl-btn primary" href="oioi-0.4.0-universal.dmg" download>
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2 1.6-3 1.7-3-.9-1.4-2.4-1.5-2.9-1.6-1.2-.1-2.4.7-3 .7-.6 0-1.6-.7-2.6-.7-1.3 0-2.6.8-3.2 2-1.4 2.4-.4 6 1 7.9.6.9 1.4 2 2.4 1.9 1-.04 1.3-.6 2.5-.6s1.5.6 2.5.6 1.7-.9 2.3-1.8c.7-1 1-2 1-2.1-.02-.01-1.9-.74-1.9-2.9ZM14.7 6c.5-.7.9-1.6.8-2.5-.8.03-1.7.5-2.3 1.2-.5.6-1 1.5-.8 2.4.9.07 1.7-.4 2.3-1.1Z"/></svg>
               macOS
             </a>
-            <a class="btn btn-ghost btn-lg dl-btn" href="https://github.com/vishesh9131/oioi/releases/latest">
+            <a class="dl-btn" href="https://github.com/vishesh9131/oioi/releases/latest">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 4.6 10.5 3.6v7.4H3V4.6Zm0 14.8L10.5 20.4V13H3v6.4ZM11.5 3.4 21 2v9h-9.5V3.4Zm0 17.2L21 22v-9h-9.5v7.6Z"/></svg>
               Windows
             </a>
-            <a class="btn btn-ghost btn-lg dl-btn" href="https://github.com/vishesh9131/oioi/releases/latest">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-1.9 0-3 1.7-3 3.6 0 1.3.1 2.2-.6 3.3-.8 1.2-2.5 2.9-2.5 5.4 0 .8.2 1.4.5 1.9-.5.4-1 1-1.2 1.7-.2.6 0 1.1.3 1.5-1 .9-.6 2 .6 2.4 1 .3 2.3.4 3.2 1 .4.3.9.4 1.3.4s.9-.1 1.3-.4c.9-.6 2.2-.7 3.2-1 1.2-.4 1.6-1.5.6-2.4.3-.4.5-.9.3-1.5-.2-.7-.7-1.3-1.2-1.7.3-.5.5-1.1.5-1.9 0-2.5-1.7-4.2-2.5-5.4-.7-1.1-.6-2-.6-3.3C15 3.7 13.9 2 12 2Zm-1.6 5.2c.4 0 .7.4.7.9s-.3.9-.7.9-.7-.4-.7-.9.3-.9.7-.9Zm3.2 0c.4 0 .7.4.7.9s-.3.9-.7.9-.7-.4-.7-.9.3-.9.7-.9Z"/></svg>
+            <a class="dl-btn" href="https://github.com/vishesh9131/oioi/releases/latest">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-1.9 0-3 1.7-3 3.6 0 1.3.1 2.2-.6 3.3-.8 1.2-2.5 2.9-2.5 5.4 0 .8.2 1.4.5 1.9-.5.4-1 1-1.2 1.7-.2.6 0 1.1.3 1.5-1 .9-.6 2 .6 2.4 1 .3 2.3.4 3.2 1 .4.3.9.4 1.3.4s.9-.1 1.3-.4c.9-.6 2.2-.7 3.2-1 1.2-.4 1.6-1.5.6-2.4.3-.4.5-.9.3-1.5-.2-.7-.7-1.3-1.2-1.7.3-.5.5-1.1.5-1.9 0-2.5-1.7-4.2-2.5-5.4-.7-1.1-.6-2-.6-3.3C15 3.7 13.9 2 12 2Z"/></svg>
               Linux
             </a>
           </div>
           <p class="dl-note">
-            macOS is a Universal build (Apple Silicon + Intel). Windows (.exe) and Linux (.AppImage / .deb)
-            live on the <a href="https://github.com/vishesh9131/oioi/releases/latest">releases page</a>.
+            macOS is a Universal build (Apple Silicon + Intel). First launch needs a one-time approve
+            (right-click → Open on macOS, "Run anyway" on Windows). Full notes on the
+            <a href="https://github.com/vishesh9131/oioi">GitHub repo</a>.
           </p>
-          <details class="install">
-            <summary>First launch on a fresh machine →</summary>
-            <p>oioi is free, so it isn't paid OS-vendor-signed — every OS shows a one-time "are you sure" the first time:</p>
-            <ul>
-              <li><b>macOS</b> — right-click the app → <b>Open</b> → <b>Open</b>, or run <code>xattr -dr com.apple.quarantine /Applications/oioi.app</code></li>
-              <li><b>Windows</b> — SmartScreen → <b>More info</b> → <b>Run anyway</b></li>
-              <li><b>Linux</b> — <code>chmod +x oioi-*.AppImage</code>, then double-click or run it</li>
-            </ul>
-          </details>
         </div>
       </section>
-    </main>
+    </div>
 
-    <footer class="foot">
-      <div>
-        <img src="assets/favicon.png" alt="" class="foot-ico" />
-        <span>oioi — made by <a href="https://github.com/vishesh9131">Vishesh</a></span>
-      </div>
-      <div class="foot-links">
-        <a href="https://github.com/vishesh9131/oioi">GitHub</a>
-        <a href="https://www.producthunt.com/products/oioi">Product Hunt</a>
-      </div>
-    </footer>
-    <script src="effects.js" defer></script>
+    <script>
+      (function () {
+        var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var dpr = Math.min(devicePixelRatio || 1, 2);
+
+        // ── scroll progress (0..1 over the whole page) ──
+        var scrollP = 0;
+        function updateScroll() {
+          var max = document.documentElement.scrollHeight - window.innerHeight;
+          scrollP = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+        }
+        updateScroll();
+        addEventListener("scroll", updateScroll, { passive: true });
+
+        // ── animated "liquid glass" background ──
+        var bg = document.getElementById("bg-canvas");
+        var bx = bg.getContext("2d");
+        var W, H;
+        var blobs = [
+          { c: [52, 172, 156], px: 0.32, py: 0.34, ax: 0.16, ay: 0.1, sx: 0.00021, sy: 0.00017, r: 0.62, dx: 0.05, dy: -0.18 },
+          { c: [21, 100, 91], px: 0.7, py: 0.62, ax: 0.13, ay: 0.14, sx: 0.00015, sy: 0.00023, r: 0.7, dx: -0.08, dy: -0.12 },
+          { c: [209, 151, 107], px: 0.6, py: 0.28, ax: 0.18, ay: 0.12, sx: 0.00019, sy: 0.00013, r: 0.42, dx: 0.1, dy: -0.22 },
+          { c: [46, 152, 144], px: 0.28, py: 0.72, ax: 0.12, ay: 0.16, sx: 0.00013, sy: 0.0002, r: 0.5, dx: 0.04, dy: -0.15 },
+        ];
+        function resizeBg() {
+          W = bg.width = Math.round(innerWidth * dpr);
+          H = bg.height = Math.round(innerHeight * dpr);
+        }
+        resizeBg();
+        addEventListener("resize", resizeBg);
+
+        function drawBg(t) {
+          bx.globalCompositeOperation = "source-over";
+          bx.fillStyle = "#010101";
+          bx.fillRect(0, 0, W, H);
+          bx.globalCompositeOperation = "lighter";
+          var minD = Math.min(W, H);
+          for (var i = 0; i < blobs.length; i++) {
+            var b = blobs[i];
+            var cx = (b.px + Math.sin(t * b.sx) * b.ax + scrollP * b.dx) * W;
+            var cy = (b.py + Math.cos(t * b.sy) * b.ay + scrollP * b.dy) * H;
+            var rad = b.r * minD * (0.85 + scrollP * 0.5);
+            var g = bx.createRadialGradient(cx, cy, 0, cx, cy, rad);
+            g.addColorStop(0, "rgba(" + b.c[0] + "," + b.c[1] + "," + b.c[2] + ",0.42)");
+            g.addColorStop(1, "rgba(" + b.c[0] + "," + b.c[1] + "," + b.c[2] + ",0)");
+            bx.fillStyle = g;
+            bx.beginPath();
+            bx.arc(cx, cy, rad, 0, Math.PI * 2);
+            bx.fill();
+          }
+          bx.globalCompositeOperation = "source-over";
+        }
+
+        // ── particles ──
+        var pc = document.getElementById("particles-canvas");
+        var pctx = pc.getContext("2d");
+        var particles = [];
+        function resizeParticles() {
+          pc.width = innerWidth;
+          pc.height = innerHeight;
+          particles = [];
+          if (reduced) return;
+          var count = Math.floor((pc.width * pc.height) / 16000);
+          for (var i = 0; i < count; i++) {
+            particles.push({
+              x: Math.random() * pc.width,
+              y: Math.random() * pc.height,
+              vx: (Math.random() - 0.5) * 0.25,
+              vy: (Math.random() - 0.5) * 0.25,
+              s: Math.random() * 1.4 + 0.4,
+              o: Math.random() * 0.5 + 0.15,
+            });
+          }
+        }
+        resizeParticles();
+        addEventListener("resize", resizeParticles);
+        function drawParticles() {
+          pctx.clearRect(0, 0, pc.width, pc.height);
+          for (var i = 0; i < particles.length; i++) {
+            var p = particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.x < 0) p.x = pc.width;
+            else if (p.x > pc.width) p.x = 0;
+            if (p.y < 0) p.y = pc.height;
+            else if (p.y > pc.height) p.y = 0;
+            pctx.beginPath();
+            pctx.arc(p.x, p.y, p.s, 0, Math.PI * 2);
+            pctx.fillStyle = "rgba(255,255,255," + p.o + ")";
+            pctx.fill();
+          }
+        }
+
+        // ── single rAF loop ──
+        function frame(t) {
+          drawBg(t || 0);
+          if (!reduced) drawParticles();
+          requestAnimationFrame(frame);
+        }
+        if (reduced) {
+          drawBg(8000); // one static painterly frame
+        } else {
+          requestAnimationFrame(frame);
+        }
+
+        // ── hero fade on scroll ──
+        var hero = document.getElementById("hero");
+        addEventListener(
+          "scroll",
+          function () {
+            hero.style.opacity = Math.max(0, 1 - window.scrollY / (innerHeight * 0.35));
+          },
+          { passive: true }
+        );
+
+        // ── scroll-pinned cards with wipe reveal ──
+        var fixedCards = document.getElementById("fixed-cards");
+        var cardsGrid = fixedCards.querySelector(".grid");
+        var trigger = document.getElementById("cards-trigger");
+        function tickCards() {
+          var rect = trigger.getBoundingClientRect();
+          var top = rect.top + window.scrollY;
+          var h = rect.height;
+          var y = window.scrollY;
+          var vh = innerHeight;
+          var start = top - vh * 0.5;
+          var end = top + h - vh * 0.3;
+          var range = end - start;
+          var progress = range > 0 ? (y - start) / range : 0;
+          progress = Math.max(0, Math.min(1, progress));
+
+          var active = y >= start - vh * 0.2 && y <= end + vh * 0.3;
+          var fadeIn = Math.min(1, Math.max(0, (y - (start - vh * 0.2)) / (vh * 0.2)));
+          var fadeOut = Math.min(1, Math.max(0, (end + vh * 0.3 - y) / (vh * 0.3)));
+          var op = active ? Math.min(fadeIn, fadeOut) : 0;
+          fixedCards.style.opacity = op;
+          fixedCards.style.pointerEvents = op > 0.1 ? "auto" : "none";
+
+          var mobile = innerWidth < 768;
+          var pct = progress * 130;
+          var dir = mobile ? "to bottom" : "to right";
+          var soft = mobile ? 20 : 15;
+          var mask = "linear-gradient(" + dir + ", black " + pct + "%, transparent " + (pct + soft) + "%)";
+          cardsGrid.style.maskImage = mask;
+          cardsGrid.style.webkitMaskImage = mask;
+          requestAnimationFrame(tickCards);
+        }
+        requestAnimationFrame(tickCards);
+
+        // ── final reveal ──
+        var inner = document.getElementById("section-three-inner");
+        new IntersectionObserver(
+          function (e) {
+            if (e[0].isIntersecting) inner.classList.add("visible");
+          },
+          { threshold: 0.2 }
+        ).observe(inner);
+      })();
+    </script>
   </body>
 </html>
