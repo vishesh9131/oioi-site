@@ -622,6 +622,116 @@
         border-radius: 12px;
       }
 
+      /* info sections */
+      .info {
+        position: relative;
+        z-index: 2;
+        max-width: 60rem;
+        margin: 0 auto;
+        padding: 7rem 2rem;
+      }
+      .info::before {
+        content: "";
+        position: absolute;
+        inset: -2rem 0;
+        z-index: -1;
+        pointer-events: none;
+        background: radial-gradient(70% 60% at 50% 50%, rgba(1, 1, 1, 0.82), transparent 80%);
+      }
+      .info .kick {
+        color: var(--accent);
+        font-size: 0.75rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+      .info h2 {
+        font-size: clamp(1.8rem, 4.5vw, 3rem);
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.5rem;
+      }
+      .step {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 1.6rem;
+      }
+      .step .n {
+        font-family: monospace;
+        color: var(--accent);
+        font-size: 0.85rem;
+        margin-bottom: 0.7rem;
+      }
+      .step h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+      }
+      .step p {
+        color: #b9c2bf;
+        font-size: 0.9rem;
+        line-height: 1.55;
+      }
+      .step kbd {
+        font: inherit;
+        font-weight: 700;
+        background: rgba(255, 255, 255, 0.14);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 6px;
+        padding: 1px 7px;
+      }
+      .faq {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+      .faq details {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 1rem 1.3rem;
+      }
+      .faq summary {
+        cursor: pointer;
+        font-weight: 600;
+        list-style: none;
+      }
+      .faq summary::-webkit-details-marker {
+        display: none;
+      }
+      .faq summary::after {
+        content: "+";
+        float: right;
+        color: var(--accent);
+      }
+      .faq details[open] summary::after {
+        content: "–";
+      }
+      .faq p {
+        color: #b9c2bf;
+        font-size: 0.92rem;
+        line-height: 1.6;
+        margin-top: 0.7rem;
+      }
+      .faq a {
+        color: var(--accent);
+      }
+      @media (max-width: 768px) {
+        .steps {
+          grid-template-columns: 1fr;
+        }
+        .info {
+          padding: 4.5rem 1.25rem;
+        }
+      }
+
       @media (max-width: 768px) {
         nav {
           padding: 1rem 1.25rem;
@@ -833,7 +943,84 @@
       <div id="cards-trigger" style="height: 200vh"></div>
 
       <!-- Spacer -->
-      <div style="height: 100vh"></div>
+      <div style="height: 40vh"></div>
+
+      <!-- How it works -->
+      <section class="info reveal-up">
+        <p class="kick">How it works</p>
+        <h2>Three keys, then it's gone.</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="n">01</div>
+            <h3><kbd>⌥</kbd><kbd>V</kbd> &nbsp;Summon</h3>
+            <p>Hit the shortcut from any app. The glass panel floats up over whatever you're doing — instantly.</p>
+          </div>
+          <div class="step">
+            <div class="n">02</div>
+            <h3>Search &amp; filter</h3>
+            <p>Type to find anything you've copied, or filter by text, images, files — today or all-time.</p>
+          </div>
+          <div class="step">
+            <div class="n">03</div>
+            <h3><kbd>↵</kbd> &nbsp;Paste</h3>
+            <p>Hit enter and it's back on your clipboard, ready to paste. The panel vanishes. Zero friction.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- What it captures -->
+      <section class="info reveal-up">
+        <p class="kick">Privacy first</p>
+        <h2>Your clipboard never leaves your machine.</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="n">◆</div>
+            <h3>100% local</h3>
+            <p>History lives on your device only. No cloud, no account, no sync server — nothing to leak.</p>
+          </div>
+          <div class="step">
+            <div class="n">◆</div>
+            <h3>No telemetry</h3>
+            <p>Zero tracking, zero analytics, zero phone-home. We literally can't see what you copy.</p>
+          </div>
+          <div class="step">
+            <div class="n">◆</div>
+            <h3>Open source</h3>
+            <p>Every line is on <a href="https://github.com/vishesh9131/oioi" style="color:var(--accent)">GitHub</a>, MIT-licensed. Read it, build it, fork it.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="info reveal-up">
+        <p class="kick">FAQ</p>
+        <h2>Good questions.</h2>
+        <div class="faq">
+          <details>
+            <summary>Is it really free?</summary>
+            <p>Yes — free and open source, forever. No trial, no subscription, no "pro" upsell.</p>
+          </details>
+          <details>
+            <summary>Why does my Mac/Windows warn me on first launch?</summary>
+            <p>oioi isn't paid OS-vendor-signed (that costs $99/yr just to remove a warning). It's safe — right-click → Open on macOS, or "More info → Run anyway" on Windows. Once only.</p>
+          </details>
+          <details>
+            <summary>Does it work on Windows and Linux?</summary>
+            <p>Yes. Universal macOS build, plus Windows (.exe) and Linux (.AppImage / .deb) on the <a href="https://github.com/vishesh9131/oioi/releases/latest">releases page</a>.</p>
+          </details>
+          <details>
+            <summary>Does it slow my computer down?</summary>
+            <p>No — it sits quietly in the menu bar, pre-warmed so it opens instantly. Light on memory, no background CPU.</p>
+          </details>
+          <details>
+            <summary>Can I change the shortcut?</summary>
+            <p>Yes. ⌥V by default, fully remappable in settings, along with history size and the glass/soft panel style.</p>
+          </details>
+        </div>
+      </section>
+
+      <!-- Spacer -->
+      <div style="height: 30vh"></div>
 
       <!-- Section 3 -->
       <section id="section-three">
