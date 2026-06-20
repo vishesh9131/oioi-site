@@ -423,6 +423,164 @@
         z-index: 2;
       }
 
+      /* Brand mark, bottom-left */
+      .brand-corner {
+        position: fixed;
+        left: 2rem;
+        bottom: 1.5rem;
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        font-weight: 700;
+        font-size: 1.1rem;
+        letter-spacing: -0.02em;
+        color: #fff;
+        text-shadow: 0 1px 10px rgba(0, 0, 0, 0.6);
+      }
+      .brand-corner img {
+        width: 28px;
+        height: 28px;
+        border-radius: 7px;
+      }
+
+      /* reveal-on-scroll */
+      .reveal-up {
+        opacity: 0;
+        transform: translateY(42px) scale(0.96);
+        filter: blur(10px);
+        transition: opacity 1s cubic-bezier(0.2, 0.7, 0.2, 1),
+          transform 1s cubic-bezier(0.2, 0.7, 0.2, 1), filter 1s cubic-bezier(0.2, 0.7, 0.2, 1);
+      }
+      .reveal-up.visible {
+        opacity: 1;
+        transform: none;
+        filter: blur(0);
+      }
+
+      /* visual demo */
+      #demo {
+        position: relative;
+        z-index: 2;
+        min-height: 120vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4rem 1.5rem;
+      }
+      .demo-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .demo-cap {
+        color: #c9d1ce;
+        font-size: 0.85rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        margin-bottom: 1.6rem;
+        text-align: center;
+        text-shadow: 0 1px 12px rgba(0, 0, 0, 0.7);
+      }
+
+      /* oioi glass panel (frosts the bloom behind it) */
+      .oioi-panel {
+        width: min(440px, 92vw);
+        border-radius: 22px;
+        padding: 14px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(34px) saturate(160%);
+        -webkit-backdrop-filter: blur(34px) saturate(160%);
+        box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+      }
+      .op-search {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+      .op-search .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #ff5f57;
+        flex: none;
+      }
+      .op-search .field {
+        flex: 1;
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.65);
+        background: rgba(0, 0, 0, 0.22);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 9px;
+        padding: 8px 12px;
+      }
+      .op-chips {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+      }
+      .op-chips .chip {
+        font-size: 11px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.8);
+      }
+      .op-chips .chip.on {
+        background: var(--accent);
+        color: #04211d;
+        font-weight: 600;
+      }
+      .op-rows {
+        display: flex;
+        flex-direction: column;
+      }
+      .op-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 11px 8px;
+        border-radius: 12px;
+        font-size: 14px;
+        color: #eef2f1;
+      }
+      .op-row:hover {
+        background: rgba(255, 255, 255, 0.08);
+      }
+      .op-ic {
+        width: 26px;
+        height: 26px;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 7px;
+        flex: none;
+        font-size: 13px;
+        color: #fff;
+      }
+      .op-ic.img {
+        background: linear-gradient(135deg, var(--accent), #15645b);
+      }
+      .op-tx {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .op-foot {
+        margin-top: 8px;
+      }
+      .op-pill {
+        display: inline-block;
+        font-weight: 700;
+        font-size: 13px;
+        background: rgba(255, 255, 255, 0.14);
+        padding: 5px 12px;
+        border-radius: 12px;
+      }
+
       @media (max-width: 768px) {
         nav {
           padding: 1rem 1.5rem;
@@ -497,10 +655,12 @@
       </div>
     </div>
 
+    <!-- Brand mark, anchored bottom-left -->
+    <a class="brand-corner" href="/"><img src="assets/icon.png" alt="" /> <span>oioi</span></a>
+
     <!-- Navigation -->
     <nav>
       <div class="left">
-        <a class="logo" href="/"><img src="assets/icon.png" alt="" /> oioi</a>
         <div class="nav-links">
           <a href="#features">Features</a>
           <a href="#download">Download</a>
@@ -541,7 +701,34 @@
       </section>
 
       <!-- Spacer -->
-      <div style="height: 150vh"></div>
+      <div style="height: 85vh"></div>
+
+      <!-- Visual demo: the actual oioi panel, frosted over the bloom -->
+      <section id="demo">
+        <div class="demo-wrap reveal-up">
+          <p class="demo-cap">One shortcut. Everything you copied.</p>
+          <div class="oioi-panel">
+            <div class="op-search">
+              <span class="dot"></span>
+              <div class="field">⌕&nbsp; Search clipboard…</div>
+            </div>
+            <div class="op-chips">
+              <span class="chip on">All</span><span class="chip">Text</span><span class="chip">Image</span><span class="chip">Files</span>
+              <span class="chip on">All&nbsp;Time</span><span class="chip">Today</span>
+            </div>
+            <div class="op-rows">
+              <div class="op-row"><span class="op-ic">¶</span><span class="op-tx">npm run dist &amp;&amp; netlify deploy --prod</span></div>
+              <div class="op-row"><span class="op-ic img">▦</span><span class="op-tx">screenshot — hero-final.png</span></div>
+              <div class="op-row"><span class="op-ic">⤓</span><span class="op-tx">Invoice_oioi.pdf</span></div>
+              <div class="op-row"><span class="op-ic">¶</span><span class="op-tx">https://oioi-app.netlify.app</span></div>
+            </div>
+            <div class="op-foot"><span class="op-pill">oioi</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Spacer -->
+      <div style="height: 55vh"></div>
 
       <!-- Cards Trigger Zone -->
       <div id="features"></div>
@@ -822,6 +1009,20 @@
           { threshold: 0.15 }
         );
         observer.observe(sectionThreeInner);
+
+        // ===================== REVEAL-UP (demo panel etc.) =====================
+        const upObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add("visible");
+                upObserver.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.2 }
+        );
+        document.querySelectorAll(".reveal-up").forEach((el) => upObserver.observe(el));
       })();
     </script>
   </body>
