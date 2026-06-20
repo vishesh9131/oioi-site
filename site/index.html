@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>oioi — a fast, glassy clipboard manager for macOS</title>
+    <meta
+      name="description"
+      content="oioi is a fast, beautiful clipboard manager for macOS. Press ⌥V to see your history with real liquid-glass blur. Free, open source, no Xcode needed."
+    />
+    <link rel="icon" href="assets/favicon.png" />
+    <meta property="og:title" content="oioi — a fast, glassy clipboard manager for macOS" />
+    <meta
+      property="og:description"
+      content="Press ⌥V to see your clipboard history with real liquid-glass blur. Free & open source."
+    />
+    <meta property="og:image" content="assets/og.png" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="nav">
+      <a class="brand" href="/">
+        <img src="assets/icon.png" alt="" /> <span>oioi</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="https://github.com/vishesh9131/oioi">GitHub</a>
+        <a class="btn btn-sm" href="#download">Download</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="pill">Free · Open source · Universal (Apple Silicon + Intel)</div>
+          <h1>Your clipboard,<br />finally beautiful.</h1>
+          <p class="lede">
+            A fast, glassy clipboard manager for macOS. Press <kbd>⌥V</kbd> anywhere
+            and your history floats up in real <b>liquid glass</b> — text, images,
+            and files, searchable and one click away.
+          </p>
+          <div class="cta-row">
+            <a class="btn btn-lg" href="#download">↓ Download for macOS</a>
+            <a class="btn btn-ghost btn-lg" href="https://github.com/vishesh9131/oioi">View source</a>
+          </div>
+          <div class="micro">No Xcode · no $99 Apple fee · no tracking</div>
+        </div>
+
+        <!-- CSS panel mock -->
+        <div class="stage">
+          <div class="mock">
+            <div class="mock-head">
+              <span class="dot"></span>
+              <div class="mock-search">⌕ Search clipboard…</div>
+            </div>
+            <div class="mock-chips">
+              <span class="chip on">All</span><span class="chip">Text</span>
+              <span class="chip">Image</span><span class="chip">Files</span>
+              <span class="chip on blue">All&nbsp;Time</span><span class="chip">Today</span>
+            </div>
+            <div class="mock-rows">
+              <div class="mrow"><span class="mi">¶</span><span class="mt">npm run dist &amp;&amp; netlify deploy --prod</span></div>
+              <div class="mrow"><span class="mi">🖼</span><span class="mt thumb">screenshot — design-v3.png</span></div>
+              <div class="mrow"><span class="mi">📄</span><span class="mt">Priyanka_Resume.pdf</span></div>
+              <div class="mrow"><span class="mi">¶</span><span class="mt">https://oioi.app</span></div>
+            </div>
+            <div class="mock-foot"><span class="logo-pill">oioi</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURES -->
+      <section id="features" class="section">
+        <h2>Small app. Big clipboard energy.</h2>
+        <div class="grid">
+          <div class="card">
+            <div class="ico">🪟</div>
+            <h3>Real liquid glass</h3>
+            <p>Genuine macOS desktop blur behind the panel — not a flat overlay. Tune blur, corners and frost to taste.</p>
+          </div>
+          <div class="card">
+            <div class="ico">⚡️</div>
+            <h3>Instant</h3>
+            <p>Pre-warmed and snappy. Hit ⌥V and it's already there — Soft mode opens with zero capture lag.</p>
+          </div>
+          <div class="card">
+            <div class="ico">🎛</div>
+            <h3>Soft or Glass</h3>
+            <p>Pick a lightweight flat-white panel, or the full liquid-glass blur. Your call, in Settings.</p>
+          </div>
+          <div class="card">
+            <div class="ico">🔎</div>
+            <h3>Text · Images · Files</h3>
+            <p>Everything you copy, captured. Search instantly and filter by type or date.</p>
+          </div>
+          <div class="card">
+            <div class="ico">🦥</div>
+            <h3>Lives in your menu bar</h3>
+            <p>No Dock clutter. A friendly sloth sits up top — click it or use the global shortcut.</p>
+          </div>
+          <div class="card">
+            <div class="ico">❤️</div>
+            <h3>Free &amp; open source</h3>
+            <p>No subscription, no account, no telemetry. Built with Electron, all on GitHub.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- HOW -->
+      <section id="how" class="section">
+        <h2>Three keys to clipboard zen</h2>
+        <div class="steps">
+          <div class="step"><div class="k"><kbd>⌥V</kbd></div><p>Open oioi from anywhere — or click the menu-bar sloth.</p></div>
+          <div class="step"><div class="k"><kbd>↑ ↓ ⏎</kbd></div><p>Navigate and paste a past copy straight back to the clipboard.</p></div>
+          <div class="step"><div class="k"><kbd>⌕</kbd></div><p>Search, or filter by Text / Image / Files and date.</p></div>
+        </div>
+      </section>
+
+      <!-- DOWNLOAD -->
+      <section id="download" class="section download">
+        <h2>Get oioi</h2>
+        <p class="lede center">Universal build — runs on Apple Silicon and Intel. macOS 12+.</p>
+        <a class="btn btn-lg" href="oioi-0.4.0-universal.dmg" download>↓ Download oioi 0.4.0 (.dmg)</a>
+        <div class="install">
+          <b>First launch:</b> because oioi is free and not paid-Apple-notarized, macOS shows a
+          one-time prompt. <b>Right-click the app → Open → Open</b> (or run
+          <code>xattr -dr com.apple.quarantine /Applications/oioi.app</code>). Once only.
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <div>
+        <img src="assets/favicon.png" alt="" class="foot-ico" />
+        <span>oioi — made by <a href="https://github.com/vishesh9131">Vishesh</a></span>
+      </div>
+      <div class="foot-links">
+        <a href="https://github.com/vishesh9131/oioi">GitHub</a>
+        <a href="https://www.producthunt.com/products/oioi">Product Hunt</a>
+      </div>
+    </footer>
+  </body>
+</html>

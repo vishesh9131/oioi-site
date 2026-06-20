@@ -1,0 +1,8 @@
+# oioi launch site → Netlify
+[build]
+  publish = "site"
+
+[[headers]]
+  for = "/*.dmg"
+  [headers.values]
+    Content-Type = "application/octet-stream"

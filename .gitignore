@@ -1,0 +1,7 @@
+site/*.dmg
+site/.DS_Store
+.DS_Store
+node_modules/
+
+# Local Netlify folder
+.netlify
