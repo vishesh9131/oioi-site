@@ -1,12 +1,16 @@
 :root {
-  --bg: #0b0b0f;
-  --bg2: #121219;
-  --text: #f2f2f5;
-  --dim: #a0a0ad;
-  --line: rgba(255, 255, 255, 0.1);
-  --card: rgba(255, 255, 255, 0.04);
-  --blue: #3b82f6;
-  --accent: #7c5cff;
+  --bg: #1b1e1e; /* palette near-black */
+  --bg2: #23302d;
+  --text: #f7ecdb; /* cream */
+  --dim: #a8b3ad;
+  --line: rgba(247, 236, 219, 0.12);
+  --card: rgba(247, 236, 219, 0.045);
+  --teal: #34ac9c;
+  --teal-deep: #15645b;
+  --tan: #d1976b;
+  --brown: #764933;
+  --blue: #34ac9c; /* repurposed: brand accent so existing refs stay teal */
+  --accent: #d1976b;
   --radius: 18px;
 }
 
@@ -53,7 +57,7 @@ code {
   align-items: center;
   justify-content: space-between;
   padding: 14px 28px;
-  background: rgba(11, 11, 15, 0.7);
+  background: rgba(27, 30, 30, 0.72);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--line);
@@ -84,8 +88,8 @@ code {
 /* buttons */
 .btn {
   display: inline-block;
-  background: var(--text);
-  color: #000;
+  background: var(--teal);
+  color: #0c1614;
   font-weight: 600;
   padding: 11px 20px;
   border-radius: 12px;
@@ -132,14 +136,14 @@ code {
 .hero::before {
   width: 460px;
   height: 460px;
-  background: #4f46e5;
+  background: #2e9890; /* teal glow */
   top: -80px;
   right: -60px;
 }
 .hero::after {
   width: 380px;
   height: 380px;
-  background: #0ea5e9;
+  background: #d1976b; /* tan glow */
   bottom: -120px;
   left: -80px;
 }
@@ -354,7 +358,7 @@ h1 {
 /* download */
 .download {
   text-align: center;
-  background: linear-gradient(180deg, transparent, rgba(124, 92, 255, 0.08));
+  background: linear-gradient(180deg, transparent, rgba(52, 172, 156, 0.1));
   border-radius: 28px;
   margin: 40px auto 0;
 }
