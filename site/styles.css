@@ -709,13 +709,17 @@ h1 {
 
 /* ─── motion / 3D scroll effects ─────────────────────────────────── */
 
-.hero {
-  overflow: hidden; /* contain the fx layers */
+/* clip only the background layers (so the panel's soft shadow isn't cut) */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
 }
 .hero-fx {
   position: absolute;
   inset: 0;
-  z-index: 0;
   pointer-events: none;
 }
 /* Aceternity-style faint grid, masked to a soft vignette, parallaxed on scroll */
