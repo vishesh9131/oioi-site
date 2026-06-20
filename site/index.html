@@ -75,69 +75,140 @@
 
       <!-- FEATURES -->
       <section id="features" class="section">
-        <h2>Small app. Big clipboard energy.</h2>
-        <div class="grid">
-          <div class="card">
-            <div class="ico">🪟</div>
-            <h3>Real liquid glass</h3>
-            <p>Genuine desktop blur behind the panel — not a flat overlay. Tune blur, corners and frost to taste.</p>
-          </div>
-          <div class="card">
-            <div class="ico">⚡️</div>
-            <h3>Instant</h3>
-            <p>Pre-warmed and snappy. Hit ⌥V and it's already there — Soft mode opens with zero capture lag.</p>
-          </div>
-          <div class="card">
-            <div class="ico">🎛</div>
+        <div class="sec-head">
+          <span class="kicker">Features</span>
+          <h2>Everything your clipboard should have been.</h2>
+          <p class="sec-sub">You copy a hundred things an hour. oioi keeps them, makes them searchable, and gives them back the moment you ask — without ever stealing focus from your work.</p>
+        </div>
+
+        <div class="bento">
+          <!-- big glass tile with a live demo -->
+          <article class="tile tile-glass">
+            <div class="glass-demo">
+              <div class="glass-strip"></div>
+              <div class="glass-pane">
+                <span></span><span></span><span></span>
+              </div>
+            </div>
+            <div class="tile-body">
+              <h3>Real liquid glass</h3>
+              <p>oioi captures the desktop behind the panel and blurs <em>that</em> — so it's genuine macOS-style glass, not a flat gray overlay faking it. Dial in blur, frost and corner radius until it's yours.</p>
+            </div>
+          </article>
+
+          <article class="tile">
+            <span class="badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
+            </span>
+            <h3>Opens before you blink</h3>
+            <p>The panel is pre-warmed off-screen and painted low-res first. Press ⌥V and it's already there.</p>
+          </article>
+
+          <article class="tile">
+            <span class="badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="M3 13l9 5 9-5"/></svg>
+            </span>
             <h3>Soft or Glass</h3>
-            <p>Pick a lightweight flat-white panel, or the full liquid-glass blur. Your call, in Settings.</p>
-          </div>
-          <div class="card">
-            <div class="ico">🔎</div>
-            <h3>Text · Images · Files</h3>
-            <p>Everything you copy, captured. Search instantly and filter by type or date.</p>
-          </div>
-          <div class="card">
-            <div class="ico">🦥</div>
-            <h3>Menu bar & system tray</h3>
-            <p>No Dock clutter. A friendly sloth sits in your menu bar (or system tray) — click it or use the global shortcut.</p>
-          </div>
-          <div class="card">
-            <div class="ico">❤️</div>
-            <h3>Free &amp; open source</h3>
-            <p>No subscription, no account, no telemetry. Built with Electron, all on GitHub.</p>
-          </div>
+            <p>Heavy liquid glass, or a clean flat-white panel that needs zero screen permission. Switch anytime.</p>
+          </article>
+
+          <article class="tile tile-wide">
+            <div class="tile-body">
+              <h3>Text, images &amp; files — all of it</h3>
+              <p>Everything you copy is captured, thumbnailed and instantly searchable. Filter down to exactly the type you need, today or all-time.</p>
+            </div>
+            <div class="type-chips">
+              <span class="tc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Text</span>
+              <span class="tc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 16-5-5L5 20"/></svg>Images</span>
+              <span class="tc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M13 2v7h7"/></svg>Files</span>
+            </div>
+          </article>
+
+          <article class="tile tile-tall">
+            <div class="menubar-mock">
+              <span class="mb-spacer"></span>
+              <img src="assets/icon.png" alt="" />
+              <span class="mb-dot"></span>
+            </div>
+            <div class="tile-body">
+              <h3>Out of your way</h3>
+              <p>No Dock icon, no window clutter. oioi lives quietly in the menu bar — or the system tray on Windows and Linux — one global shortcut away.</p>
+            </div>
+          </article>
+
+          <article class="tile tile-wide">
+            <span class="badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18-6-6 6-6"/><path d="m15 6 6 6-6 6"/></svg>
+            </span>
+            <div class="tile-body">
+              <h3>Free &amp; open source — really</h3>
+              <p>No account, no telemetry, no subscription, no $99 Apple tax. MIT-licensed and every line is on GitHub.</p>
+            </div>
+          </article>
         </div>
       </section>
 
       <!-- HOW -->
       <section id="how" class="section">
-        <h2>Three keys to clipboard zen</h2>
-        <div class="steps">
-          <div class="step"><div class="k"><kbd>⌥V</kbd></div><p>Open oioi from anywhere — or click the menu-bar sloth.</p></div>
-          <div class="step"><div class="k"><kbd>↑ ↓ ⏎</kbd></div><p>Navigate and paste a past copy straight back to the clipboard.</p></div>
-          <div class="step"><div class="k"><kbd>⌕</kbd></div><p>Search, or filter by Text / Image / Files and date.</p></div>
+        <div class="sec-head">
+          <span class="kicker">How it works</span>
+          <h2>Three keystrokes. That's the whole thing.</h2>
         </div>
+        <ol class="flow">
+          <li>
+            <span class="flow-n">01</span>
+            <div class="keys"><kbd>⌥</kbd><kbd>V</kbd></div>
+            <h3>Summon it</h3>
+            <p>Hit the global shortcut from any app, or click the menu-bar icon. The panel floats in over whatever you're doing.</p>
+          </li>
+          <li>
+            <span class="flow-n">02</span>
+            <div class="keys"><kbd>↑</kbd><kbd>↓</kbd><span class="kdash">or type</span></div>
+            <h3>Find it</h3>
+            <p>Scroll your history or just start typing to search. Filter by Text, Images or Files — today or all-time.</p>
+          </li>
+          <li>
+            <span class="flow-n">03</span>
+            <div class="keys"><kbd>⏎</kbd></div>
+            <h3>Paste it</h3>
+            <p>Enter drops it straight back onto your clipboard, ready to paste wherever you were. Under a second, start to finish.</p>
+          </li>
+        </ol>
       </section>
 
       <!-- DOWNLOAD -->
-      <section id="download" class="section download">
-        <h2>Get oioi</h2>
-        <p class="lede center">Free on every desktop. macOS 12+, Windows 10+, modern Linux.</p>
-        <div class="cta-row" style="justify-content: center">
-          <a class="btn btn-lg" href="oioi-0.4.0-universal.dmg" download> macOS (.dmg)</a>
-          <a class="btn btn-ghost btn-lg" href="https://github.com/vishesh9131/oioi/releases/latest"> Windows (.exe)</a>
-          <a class="btn btn-ghost btn-lg" href="https://github.com/vishesh9131/oioi/releases/latest">🐧 Linux (.AppImage)</a>
-        </div>
-        <div class="micro" style="text-align: center; margin-top: 10px">
-          macOS is a Universal build (Apple Silicon + Intel). Windows &amp; Linux are on the
-          <a href="https://github.com/vishesh9131/oioi/releases/latest" style="color: var(--teal)">releases page</a>.
-        </div>
-        <div class="install">
-          <b>First launch:</b> oioi is free and not OS-vendor-signed, so you'll see a one-time prompt.
-          <b>macOS:</b> right-click the app → Open → Open (or <code>xattr -dr com.apple.quarantine /Applications/oioi.app</code>).
-          <b>Windows:</b> SmartScreen → More info → Run anyway.
-          <b>Linux:</b> <code>chmod +x oioi-*.AppImage</code> then run it.
+      <section id="download" class="section">
+        <div class="download-card">
+          <span class="kicker">Download</span>
+          <h2>Get oioi — free, on every desktop.</h2>
+          <p class="sec-sub center">macOS 12+ · Windows 10+ · modern Linux. No account. No fee. No catch.</p>
+          <div class="dl-row">
+            <a class="btn btn-lg dl-btn" href="oioi-0.4.0-universal.dmg" download>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2 1.6-3 1.7-3-.9-1.4-2.4-1.5-2.9-1.6-1.2-.1-2.4.7-3 .7-.6 0-1.6-.7-2.6-.7-1.3 0-2.6.8-3.2 2-1.4 2.4-.4 6 1 7.9.6.9 1.4 2 2.4 1.9 1-.04 1.3-.6 2.5-.6s1.5.6 2.5.6 1.7-.9 2.3-1.8c.7-1 1-2 1-2.1-.02-.01-1.9-.74-1.9-2.9ZM14.7 6c.5-.7.9-1.6.8-2.5-.8.03-1.7.5-2.3 1.2-.5.6-1 1.5-.8 2.4.9.07 1.7-.4 2.3-1.1Z"/></svg>
+              macOS
+            </a>
+            <a class="btn btn-ghost btn-lg dl-btn" href="https://github.com/vishesh9131/oioi/releases/latest">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 4.6 10.5 3.6v7.4H3V4.6Zm0 14.8L10.5 20.4V13H3v6.4ZM11.5 3.4 21 2v9h-9.5V3.4Zm0 17.2L21 22v-9h-9.5v7.6Z"/></svg>
+              Windows
+            </a>
+            <a class="btn btn-ghost btn-lg dl-btn" href="https://github.com/vishesh9131/oioi/releases/latest">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-1.9 0-3 1.7-3 3.6 0 1.3.1 2.2-.6 3.3-.8 1.2-2.5 2.9-2.5 5.4 0 .8.2 1.4.5 1.9-.5.4-1 1-1.2 1.7-.2.6 0 1.1.3 1.5-1 .9-.6 2 .6 2.4 1 .3 2.3.4 3.2 1 .4.3.9.4 1.3.4s.9-.1 1.3-.4c.9-.6 2.2-.7 3.2-1 1.2-.4 1.6-1.5.6-2.4.3-.4.5-.9.3-1.5-.2-.7-.7-1.3-1.2-1.7.3-.5.5-1.1.5-1.9 0-2.5-1.7-4.2-2.5-5.4-.7-1.1-.6-2-.6-3.3C15 3.7 13.9 2 12 2Zm-1.6 5.2c.4 0 .7.4.7.9s-.3.9-.7.9-.7-.4-.7-.9.3-.9.7-.9Zm3.2 0c.4 0 .7.4.7.9s-.3.9-.7.9-.7-.4-.7-.9.3-.9.7-.9Z"/></svg>
+              Linux
+            </a>
+          </div>
+          <p class="dl-note">
+            macOS is a Universal build (Apple Silicon + Intel). Windows (.exe) and Linux (.AppImage / .deb)
+            live on the <a href="https://github.com/vishesh9131/oioi/releases/latest">releases page</a>.
+          </p>
+          <details class="install">
+            <summary>First launch on a fresh machine →</summary>
+            <p>oioi is free, so it isn't paid OS-vendor-signed — every OS shows a one-time "are you sure" the first time:</p>
+            <ul>
+              <li><b>macOS</b> — right-click the app → <b>Open</b> → <b>Open</b>, or run <code>xattr -dr com.apple.quarantine /Applications/oioi.app</code></li>
+              <li><b>Windows</b> — SmartScreen → <b>More info</b> → <b>Run anyway</b></li>
+              <li><b>Linux</b> — <code>chmod +x oioi-*.AppImage</code>, then double-click or run it</li>
+            </ul>
+          </details>
         </div>
       </section>
     </main>
