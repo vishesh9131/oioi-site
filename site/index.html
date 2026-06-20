@@ -989,8 +989,21 @@
         // ===================== FIXED CARDS =====================
         const fixedCards = document.getElementById("fixed-cards");
         const cardsGrid = fixedCards.querySelector(".grid");
+        const demoSection = document.getElementById("demo");
+        const videoContainer = document.getElementById("scroll-video-container");
 
         function tickCards() {
+          // Real frost: backdrop-filter can't blur the composited video, so blur the
+          // bloom itself as the glass panel reaches center (and dim it for focus).
+          {
+            const dr = demoSection.getBoundingClientRect();
+            const vh0 = window.innerHeight;
+            const center = dr.top + dr.height / 2;
+            const t = Math.max(0, 1 - Math.abs(center - vh0 / 2) / (vh0 * 0.7));
+            videoContainer.style.filter =
+              "blur(" + (t * 20).toFixed(1) + "px) brightness(" + (1 - 0.3 * t).toFixed(3) + ")";
+          }
+
           const trigger = document.getElementById("cards-trigger");
           const rect = trigger.getBoundingClientRect();
           const triggerTop = rect.top + window.scrollY;
