@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>oioi — a fast, glassy clipboard manager for macOS</title>
+    <title>oioi — a fast, glassy clipboard manager for macOS, Windows & Linux</title>
     <meta
       name="description"
       content="oioi is a fast, beautiful clipboard manager for macOS. Press ⌥V to see your history with real liquid-glass blur. Free, open source, no Xcode needed."
     />
     <link rel="icon" href="assets/favicon.png" />
-    <meta property="og:title" content="oioi — a fast, glassy clipboard manager for macOS" />
+    <meta property="og:title" content="oioi — a fast, glassy clipboard manager for macOS, Windows & Linux" />
     <meta
       property="og:description"
       content="Press ⌥V to see your clipboard history with real liquid-glass blur. Free & open source."
@@ -36,15 +36,15 @@
       <!-- HERO -->
       <section class="hero">
         <div class="hero-copy">
-          <div class="pill">Free · Open source · Universal (Apple Silicon + Intel)</div>
+          <div class="pill">Free · Open source · macOS · Windows · Linux</div>
           <h1>Your clipboard,<br />finally beautiful.</h1>
           <p class="lede">
-            A fast, glassy clipboard manager for macOS. Press <kbd>⌥V</kbd> anywhere
-            and your history floats up in real <b>liquid glass</b> — text, images,
-            and files, searchable and one click away.
+            A fast, glassy clipboard manager for macOS, Windows &amp; Linux. Press
+            <kbd>⌥V</kbd> anywhere and your history floats up in real <b>liquid glass</b>
+            — text, images, and files, searchable and one click away.
           </p>
           <div class="cta-row">
-            <a class="btn btn-lg" href="#download">↓ Download for macOS</a>
+            <a class="btn btn-lg" href="#download">↓ Download</a>
             <a class="btn btn-ghost btn-lg" href="https://github.com/vishesh9131/oioi">View source</a>
           </div>
           <div class="micro">No Xcode · no $99 Apple fee · no tracking</div>
@@ -80,7 +80,7 @@
           <div class="card">
             <div class="ico">🪟</div>
             <h3>Real liquid glass</h3>
-            <p>Genuine macOS desktop blur behind the panel — not a flat overlay. Tune blur, corners and frost to taste.</p>
+            <p>Genuine desktop blur behind the panel — not a flat overlay. Tune blur, corners and frost to taste.</p>
           </div>
           <div class="card">
             <div class="ico">⚡️</div>
@@ -99,8 +99,8 @@
           </div>
           <div class="card">
             <div class="ico">🦥</div>
-            <h3>Lives in your menu bar</h3>
-            <p>No Dock clutter. A friendly sloth sits up top — click it or use the global shortcut.</p>
+            <h3>Menu bar & system tray</h3>
+            <p>No Dock clutter. A friendly sloth sits in your menu bar (or system tray) — click it or use the global shortcut.</p>
           </div>
           <div class="card">
             <div class="ico">❤️</div>
@@ -123,12 +123,21 @@
       <!-- DOWNLOAD -->
       <section id="download" class="section download">
         <h2>Get oioi</h2>
-        <p class="lede center">Universal build — runs on Apple Silicon and Intel. macOS 12+.</p>
-        <a class="btn btn-lg" href="oioi-0.4.0-universal.dmg" download>↓ Download oioi 0.4.0 (.dmg)</a>
+        <p class="lede center">Free on every desktop. macOS 12+, Windows 10+, modern Linux.</p>
+        <div class="cta-row" style="justify-content: center">
+          <a class="btn btn-lg" href="oioi-0.4.0-universal.dmg" download> macOS (.dmg)</a>
+          <a class="btn btn-ghost btn-lg" href="https://github.com/vishesh9131/oioi/releases/latest"> Windows (.exe)</a>
+          <a class="btn btn-ghost btn-lg" href="https://github.com/vishesh9131/oioi/releases/latest">🐧 Linux (.AppImage)</a>
+        </div>
+        <div class="micro" style="text-align: center; margin-top: 10px">
+          macOS is a Universal build (Apple Silicon + Intel). Windows &amp; Linux are on the
+          <a href="https://github.com/vishesh9131/oioi/releases/latest" style="color: var(--teal)">releases page</a>.
+        </div>
         <div class="install">
-          <b>First launch:</b> because oioi is free and not paid-Apple-notarized, macOS shows a
-          one-time prompt. <b>Right-click the app → Open → Open</b> (or run
-          <code>xattr -dr com.apple.quarantine /Applications/oioi.app</code>). Once only.
+          <b>First launch:</b> oioi is free and not OS-vendor-signed, so you'll see a one-time prompt.
+          <b>macOS:</b> right-click the app → Open → Open (or <code>xattr -dr com.apple.quarantine /Applications/oioi.app</code>).
+          <b>Windows:</b> SmartScreen → More info → Run anyway.
+          <b>Linux:</b> <code>chmod +x oioi-*.AppImage</code> then run it.
         </div>
       </section>
     </main>
