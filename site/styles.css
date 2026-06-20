@@ -184,6 +184,8 @@ h1 {
   border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.25);
   transform: rotateY(-12deg) rotateX(5deg);
+  transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: transform;
 }
 .mock-head {
   display: flex;
@@ -701,6 +703,76 @@ h1 {
     display: none;
   }
   .nav-links a:not(.btn) {
+    display: none;
+  }
+}
+
+/* ─── motion / 3D scroll effects ─────────────────────────────────── */
+
+.hero {
+  overflow: hidden; /* contain the fx layers */
+}
+.hero-fx {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+/* Aceternity-style faint grid, masked to a soft vignette, parallaxed on scroll */
+.grid-bg {
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 46px 46px;
+  -webkit-mask-image: radial-gradient(120% 90% at 50% 18%, #000 0%, transparent 70%);
+  mask-image: radial-gradient(120% 90% at 50% 18%, #000 0%, transparent 70%);
+  opacity: 0.6;
+  will-change: transform;
+}
+/* spotlight glow that tracks the cursor */
+.spotlight {
+  background: radial-gradient(
+    520px circle at var(--mx, 70%) var(--my, 0%),
+    rgba(52, 172, 156, 0.16),
+    rgba(209, 151, 107, 0.07) 35%,
+    transparent 62%
+  );
+  transition: background 0.15s ease-out;
+}
+
+/* give the mock real depth for the tilt */
+.stage {
+  perspective: 1100px;
+}
+.mock {
+  transform-style: preserve-3d;
+}
+
+/* scroll reveal — set by IntersectionObserver */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0s);
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .mock,
+  .grid-bg {
+    transition: none;
+    will-change: auto;
+  }
+  .spotlight {
     display: none;
   }
 }
