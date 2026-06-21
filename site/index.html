@@ -48,8 +48,8 @@
       .brand { display: flex; align-items: center; gap: 11px; font-weight: 650; font-size: 19px; letter-spacing: -0.02em; }
       .brand img { width: 27px; height: 27px; border-radius: 7px; }
       .nav-links { display: flex; align-items: center; gap: 30px; font-size: 14.5px; }
-      .nav-links a { color: var(--gray); transition: color 0.15s; }
-      .nav-links a:hover { color: var(--ink); }
+      .nav-links a:not(.btn) { color: var(--gray); transition: color 0.15s; }
+      .nav-links a:not(.btn):hover { color: var(--ink); }
 
       /* buttons */
       .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: var(--teal); color: #fff; font-weight: 550; font-size: 15px; padding: 12px 26px; border-radius: 980px; border: 1px solid transparent; cursor: pointer; transition: background 0.18s, transform 0.12s, box-shadow 0.18s; }
