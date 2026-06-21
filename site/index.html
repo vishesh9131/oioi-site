@@ -6,1330 +6,365 @@
     <title>oioi — a fast, glassy clipboard manager for macOS, Windows & Linux</title>
     <meta
       name="description"
-      content="Press ⌥V and your clipboard history floats up in real liquid glass. Text, images and files, searchable. Free & open source for macOS, Windows and Linux."
+      content="Press ⌥V and your clipboard history floats up. Text, images and files, searchable, one click to paste. Free & open source for macOS, Windows and Linux."
     />
     <link rel="icon" href="assets/favicon.png" />
     <meta property="og:title" content="oioi — a fast, glassy clipboard manager" />
-    <meta property="og:description" content="Press ⌥V — your clipboard, in real liquid glass. Free & open source." />
+    <meta property="og:description" content="Press ⌥V — your clipboard, finally beautiful. Free & open source." />
     <meta property="og:image" content="assets/og.png" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <style>
       :root {
-        --accent: #34ac9c;
-        --accent-hi: #4fd0bd;
+        --tan: #d1976b;
+        --teal: #2e9890;
+        --cream: #f7ecdb;
+        --teal2: #34ac9c;
+        --ink: #1b1e1e;
+        --mint: #63bdb4;
+        --brown: #764933;
+        --brown2: #482a1f;
+        --deep: #15645b;
+        --clay: #9c5c3e;
+        --line: #e3d6c2;
       }
-      *,
-      *::before,
-      *::after {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      html,
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
       body {
-        overflow-x: hidden;
-      }
-      body {
-        font-family: "Inter", sans-serif;
-        background: #010101;
-        color: #fff;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Inter, system-ui, sans-serif;
+        background: var(--cream);
+        color: var(--ink);
         -webkit-font-smoothing: antialiased;
+        line-height: 1.5;
       }
-      a {
-        text-decoration: none;
-        color: inherit;
-      }
+      a { color: inherit; text-decoration: none; }
+      .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+      section { padding: 100px 0; }
 
-      /* Scroll Video */
-      #scroll-video-container {
-        position: fixed;
-        inset: 0;
-        z-index: -10;
-        background: #0a0a0a;
-        top: -20%;
+      /* nav */
+      .nav {
+        position: sticky; top: 0; z-index: 50;
+        background: rgba(247, 236, 219, 0.85);
+        backdrop-filter: saturate(180%) blur(12px);
+        -webkit-backdrop-filter: saturate(180%) blur(12px);
+        border-bottom: 1px solid var(--line);
       }
-      #scroll-video-container canvas,
-      #scroll-video-container video {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-      #scroll-video-container .overlay {
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(120% 90% at 50% 30%, rgba(1, 1, 1, 0.25), rgba(1, 1, 1, 0.6));
-      }
+      .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; padding: 0 24px; }
+      .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 19px; letter-spacing: -0.02em; }
+      .brand img { width: 28px; height: 28px; border-radius: 7px; }
+      .nav-links { display: flex; align-items: center; gap: 26px; font-size: 14px; }
+      .nav-links a { color: #5a5048; }
+      .nav-links a:hover { color: var(--ink); }
 
-      /* Particles */
-      #particles-canvas {
-        position: fixed;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 3;
+      /* buttons */
+      .btn {
+        display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+        background: var(--deep); color: var(--cream);
+        font-weight: 600; font-size: 15px; padding: 12px 24px; border-radius: 980px;
+        border: 1px solid var(--deep); cursor: pointer; transition: background 0.15s, transform 0.1s;
       }
+      .btn:hover { background: var(--teal); border-color: var(--teal); }
+      .btn:active { transform: scale(0.98); }
+      .btn.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+      .btn.ghost:hover { background: #fff; border-color: var(--ink); }
+      .btn.sm { padding: 7px 16px; font-size: 14px; }
+      .btn svg { width: 16px; height: 16px; }
 
-      /* Nav */
-      nav {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 50;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 1.2rem 2.5rem;
+      /* hero */
+      .hero { text-align: center; padding: 92px 0 70px; }
+      .eyebrow { color: var(--teal); font-weight: 600; font-size: 15px; letter-spacing: 0.01em; margin-bottom: 14px; }
+      h1 { font-size: clamp(40px, 7vw, 76px); line-height: 1.04; letter-spacing: -0.035em; font-weight: 700; }
+      .hero p.lede { font-size: clamp(18px, 2.4vw, 22px); color: #564c43; max-width: 600px; margin: 22px auto 0; }
+      .hero kbd {
+        font: inherit; font-weight: 700; background: #fff; border: 1px solid var(--line);
+        border-bottom-width: 2px; border-radius: 7px; padding: 1px 9px;
       }
-      nav .left {
-        display: flex;
-        align-items: center;
-        gap: 2rem;
-      }
-      nav .logo {
-        display: flex;
-        align-items: center;
-        gap: 0.55rem;
-        font-weight: 700;
-        font-size: 1.2rem;
-        letter-spacing: -0.025em;
-        color: #fff;
-      }
-      nav .logo img {
-        width: 28px;
-        height: 28px;
-        border-radius: 7px;
-      }
-      nav .nav-links {
-        display: flex;
-        align-items: center;
-        gap: 1.5rem;
-      }
-      nav .nav-links a {
-        font-size: 0.875rem;
-        color: #d1d5db;
-        transition: color 0.2s;
-      }
-      nav .nav-links a:hover {
-        color: #fff;
-      }
-      nav .social {
-        display: flex;
-        align-items: center;
-        gap: 1.1rem;
-      }
-      nav .social a {
-        color: #d1d5db;
-        transition: color 0.2s;
-        display: flex;
-      }
-      nav .social a:hover {
-        color: #fff;
-      }
-      nav .social svg {
-        width: 1.2rem;
-        height: 1.2rem;
-      }
-      .pill-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        background: var(--accent);
-        color: #04211d;
-        font-weight: 600;
-        font-size: 0.85rem;
-        padding: 0.5rem 1.05rem;
-        border-radius: 0.5rem;
-        transition: background 0.2s, transform 0.15s;
-      }
-      .pill-btn:hover {
-        background: var(--accent-hi);
-        transform: translateY(-1px);
-      }
+      .cta { display: flex; gap: 12px; justify-content: center; align-items: center; margin-top: 34px; flex-wrap: wrap; }
+      .cta .alt { font-size: 14px; color: #6b6157; }
+      .cta .alt a { color: var(--teal); font-weight: 600; }
 
-      /* Hero */
-      #hero {
-        position: relative;
-        height: 100vh;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
+      /* product panel mock — flat, palette only */
+      .shot { margin: 60px auto 0; max-width: 520px; }
+      .panel {
+        background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 16px;
+        box-shadow: 0 24px 60px rgba(72, 42, 31, 0.14); text-align: left;
       }
-      #hero .gradient-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent 55%);
-      }
-      #hero .content {
-        position: relative;
-        z-index: 10;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-end;
-        text-align: center;
-        padding: 0 1.5rem 6rem;
-      }
-      #hero .subtitle {
-        font-size: 0.8rem;
-        color: #9ca3af;
-        margin-bottom: 1.2rem;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-      }
-      #hero h1 {
-        font-size: clamp(1.9rem, 5.5vw, 4.2rem);
-        font-weight: 600;
-        line-height: 1.12;
-        letter-spacing: -0.02em;
-        max-width: 50rem;
-      }
-      #hero h1 .underlined {
-        position: relative;
-        display: inline-block;
-      }
-      #hero h1 .underlined .line {
-        position: absolute;
-        bottom: 0.12em;
-        left: -0.03em;
-        right: -0.03em;
-        height: 0.16em;
-        background: var(--accent);
-        border-radius: 3px;
-        transform: scaleX(0);
-        transform-origin: left;
-        animation: drawline 0.9s 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
-      }
-      #hero h1 .underlined span:not(.line) {
-        position: relative;
-      }
-      @keyframes drawline {
-        to {
-          transform: scaleX(1);
-        }
-      }
-      #hero .ctas {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        margin-top: 2.5rem;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-      #hero .code-box {
-        display: flex;
-        align-items: center;
-        gap: 0.55rem;
-        max-width: 100%;
-        background: rgba(20, 20, 20, 0.55);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 0.5rem;
-        padding: 0.875rem 1.6rem;
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-      }
-      #hero .code-box .prompt {
-        color: var(--accent);
-        font-family: monospace;
-        font-weight: 700;
-        font-size: 0.875rem;
-      }
-      #hero .code-box code {
-        font-size: 0.875rem;
-        color: #e5e7eb;
-        font-family: monospace;
-      }
-      #hero .cta-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        background: var(--accent);
-        color: #04211d;
-        font-weight: 600;
-        border-radius: 0.5rem;
-        padding: 0.875rem 2rem;
-        font-size: 0.875rem;
-        transition: background 0.2s, transform 0.15s;
-      }
-      #hero .cta-btn:hover {
-        background: var(--accent-hi);
-        transform: translateY(-1px);
-      }
-      #hero .bounce-arrow {
-        position: relative;
-        z-index: 10;
-        display: flex;
-        justify-content: center;
-        padding-bottom: 2rem;
-      }
-      #hero .bounce-arrow svg {
-        width: 1.5rem;
-        height: 1.5rem;
-        color: #6b7280;
-        animation: bounce 1.3s infinite;
-      }
-      @keyframes bounce {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-25%);
-        }
-      }
+      .p-bar { display: flex; align-items: center; gap: 9px; margin-bottom: 14px; }
+      .p-bar .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--tan); }
+      .p-search { flex: 1; font-size: 14px; color: #8a8078; background: var(--cream); border-radius: 9px; padding: 8px 13px; }
+      .p-chips { display: flex; gap: 7px; margin-bottom: 12px; flex-wrap: wrap; }
+      .chip { font-size: 12px; padding: 5px 12px; border-radius: 980px; background: var(--cream); color: #6b6157; }
+      .chip.on { background: var(--teal); color: #fff; font-weight: 600; }
+      .p-row { display: flex; align-items: center; gap: 12px; padding: 11px 6px; font-size: 14.5px; border-radius: 10px; }
+      .p-row + .p-row { border-top: 1px solid var(--line); }
+      .p-ic { width: 28px; height: 28px; flex: none; display: grid; place-items: center; border-radius: 8px; background: var(--cream); font-size: 14px; }
+      .p-ic.t { background: var(--mint); color: #0c2e2a; }
+      .p-ic.i { background: var(--tan); color: #fff; }
+      .p-ic.f { background: var(--clay); color: #fff; }
+      .p-tx { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-      /* Cards */
-      #fixed-cards {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 4;
-        padding: 2rem 2.5rem;
-        opacity: 0;
-        pointer-events: none;
-        overflow: hidden; /* fixed el: contain its own width so it can't widen the page */
-      }
-      #fixed-cards .grid {
-        max-width: 72rem;
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr)); /* let tracks shrink, no min-content overflow */
-        gap: 2.5rem;
-      }
-      #fixed-cards .card .num {
-        font-family: monospace;
-        font-size: 0.8rem;
-        color: var(--accent);
-        letter-spacing: 0.1em;
-        margin-bottom: 0.85rem;
-      }
-      #fixed-cards .card h3 {
-        font-size: 1.45rem;
-        font-weight: 700;
-        color: #fff;
-        margin-bottom: 0.8rem;
-      }
-      #fixed-cards .card p {
-        color: #d1d5db;
-        font-size: 0.875rem;
-        line-height: 1.6;
-      }
+      /* generic section heads */
+      .head { text-align: center; max-width: 640px; margin: 0 auto 56px; }
+      .head h2 { font-size: clamp(30px, 4.5vw, 46px); letter-spacing: -0.03em; line-height: 1.08; }
+      .head p { color: #564c43; font-size: 18px; margin-top: 14px; }
 
-      /* Section 3 */
-      #section-three {
-        position: relative;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 6rem 2.5rem;
-      }
-      /* dark scrim so the download copy reads cleanly over the bright bloom */
-      #section-three::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        z-index: 1;
-        pointer-events: none;
-        background: radial-gradient(58% 52% at 50% 50%, rgba(1, 1, 1, 0.78), transparent 78%);
-      }
-      #section-three .inner {
-        position: relative;
-        z-index: 10;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        opacity: 0;
-        transform: translateY(32px);
-        filter: blur(8px);
-        transition: opacity 1s ease-out, transform 1s ease-out, filter 1s ease-out;
-      }
-      #section-three .inner.visible {
-        opacity: 1;
-        transform: translateY(0);
-        filter: blur(0);
-      }
-      #section-three .inner .eyebrow {
-        color: var(--accent);
-        font-size: 0.8rem;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        margin-bottom: 1rem;
-      }
-      #section-three .inner h2 {
-        font-size: clamp(2.4rem, 7vw, 5rem);
-        font-weight: 700;
-        letter-spacing: -0.03em;
-        line-height: 1.02;
-      }
-      #section-three .inner .sub {
-        color: #d1d5db;
-        font-size: 1rem;
-        margin-top: 1rem;
-      }
-      .dl-row {
-        display: flex;
-        gap: 0.85rem;
-        margin-top: 2.4rem;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-      .dl-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.55rem;
-        padding: 0.9rem 1.7rem;
-        border-radius: 0.55rem;
-        font-weight: 600;
-        font-size: 0.9rem;
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        background: rgba(255, 255, 255, 0.05);
-        color: #fff;
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        transition: border-color 0.2s, background 0.2s, transform 0.15s;
-      }
-      .dl-btn:hover {
-        transform: translateY(-2px);
-        border-color: rgba(52, 172, 156, 0.6);
-        background: rgba(52, 172, 156, 0.12);
-      }
-      .dl-btn.primary {
-        background: var(--accent);
-        border-color: var(--accent);
-        color: #04211d;
-      }
-      .dl-btn.primary:hover {
-        background: var(--accent-hi);
-        border-color: var(--accent-hi);
-      }
-      .dl-btn svg {
-        width: 1.05rem;
-        height: 1.05rem;
-      }
-      .dl-note {
-        color: #8b9491;
-        font-size: 0.8rem;
-        margin-top: 1.5rem;
-        max-width: 30rem;
-        line-height: 1.6;
-      }
-      .dl-note a {
-        color: var(--accent);
-      }
+      /* dark band */
+      .band { background: var(--ink); color: var(--cream); }
+      .band .head p { color: #b9b0a4; }
+      .band .step p { color: #b9b0a4; }
+      .band .num { color: var(--mint); }
 
-      /* Content wrapper */
-      #content {
-        position: relative;
-        z-index: 2;
-      }
+      /* steps */
+      .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+      .step .num { font-size: 14px; font-weight: 700; letter-spacing: 0.1em; color: var(--teal); margin-bottom: 14px; }
+      .step h3 { font-size: 21px; letter-spacing: -0.01em; margin-bottom: 8px; }
+      .step h3 kbd { font: inherit; font-weight: 700; background: #2a2e2e; border: 1px solid #3a3f3f; border-radius: 6px; padding: 1px 8px; font-size: 0.85em; }
+      .step p { color: #564c43; font-size: 15px; }
 
-      /* Brand mark, bottom-left */
-      .brand-corner {
-        position: fixed;
-        left: 2.2rem;
-        bottom: 1.8rem;
-        z-index: 50;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        font-weight: 700;
-        font-size: 1.9rem;
-        letter-spacing: -0.03em;
-        color: #fff;
-        text-shadow: 0 2px 16px rgba(0, 0, 0, 0.7);
-        transition: transform 0.2s ease;
-      }
-      .brand-corner:hover {
-        transform: translateY(-2px);
-      }
-      .brand-corner img {
-        width: 54px;
-        height: 54px;
-        border-radius: 14px;
-        box-shadow: 0 6px 22px rgba(0, 0, 0, 0.5);
-      }
+      /* features grid */
+      .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+      .card { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 28px; }
+      .card .ic { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; margin-bottom: 16px; }
+      .card h3 { font-size: 18px; letter-spacing: -0.01em; margin-bottom: 8px; }
+      .card p { color: #564c43; font-size: 14.5px; }
 
-      /* reveal-on-scroll */
-      .reveal-up {
-        opacity: 0;
-        transform: translateY(42px) scale(0.96);
-        filter: blur(10px);
-        transition: opacity 1s cubic-bezier(0.2, 0.7, 0.2, 1),
-          transform 1s cubic-bezier(0.2, 0.7, 0.2, 1), filter 1s cubic-bezier(0.2, 0.7, 0.2, 1);
+      /* product hunt */
+      .ph-sec { text-align: center; }
+      .ph-card {
+        background: var(--cream); border: 1px solid var(--line); border-radius: 22px;
+        max-width: 560px; margin: 0 auto; padding: 40px 32px;
       }
-      .reveal-up.visible {
-        opacity: 1;
-        transform: none;
-        filter: blur(0);
+      .ph-up {
+        display: inline-flex; flex-direction: column; align-items: center; gap: 2px;
+        background: var(--tan); color: #fff; border-radius: 14px; padding: 10px 20px; font-weight: 700; line-height: 1;
       }
+      .ph-up .tri { font-size: 16px; }
+      .ph-up .n { font-size: 22px; }
+      .ph-card .btn { margin-top: 26px; }
 
-      /* visual demo */
-      #demo {
-        position: relative;
-        z-index: 2;
-        min-height: 120vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 4rem 1.5rem;
+      /* download */
+      .dl { text-align: center; }
+      .dl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 720px; margin: 0 auto; }
+      .dl-card {
+        background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 30px 22px;
+        display: flex; flex-direction: column; align-items: center; gap: 14px; cursor: pointer;
+        transition: border-color 0.15s, transform 0.1s;
       }
-      .demo-wrap {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      .demo-cap {
-        color: #dfe6e3;
-        font-size: 1rem;
-        letter-spacing: 0.01em;
-        margin-bottom: 1.9rem;
-        text-align: center;
-        text-shadow: 0 1px 14px rgba(0, 0, 0, 0.8);
-      }
-      .demo-cap kbd {
-        font: inherit;
-        font-weight: 700;
-        background: rgba(255, 255, 255, 0.16);
-        border: 1px solid rgba(255, 255, 255, 0.28);
-        border-radius: 6px;
-        padding: 1px 8px;
-        margin: 0 2px;
-      }
+      .dl-card:hover { border-color: var(--teal); transform: translateY(-3px); }
+      .dl-card svg { width: 34px; height: 34px; color: var(--ink); }
+      .dl-card .os { font-weight: 600; font-size: 17px; }
+      .dl-card .fmt { font-size: 13px; color: #8a8078; }
+      .note { max-width: 600px; margin: 34px auto 0; font-size: 13.5px; color: #6b6157; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 16px 20px; text-align: left; line-height: 1.6; }
+      .note b { color: var(--ink); }
+      .note code { background: var(--cream); border-radius: 5px; padding: 2px 6px; font-size: 0.9em; }
 
-      /* oioi glass panel — true glassmorphism, frosts & lets the bloom glow through */
-      .oioi-panel {
-        position: relative;
-        overflow: hidden;
-        width: min(440px, 92vw);
-        border-radius: 26px;
-        padding: 16px;
-        background: linear-gradient(140deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.05));
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        backdrop-filter: blur(48px) saturate(185%) brightness(1.12);
-        -webkit-backdrop-filter: blur(48px) saturate(185%) brightness(1.12);
-        box-shadow: 0 50px 120px rgba(0, 0, 0, 0.5), 0 0 90px rgba(52, 172, 156, 0.2),
-          inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 -1px 0 rgba(255, 255, 255, 0.07);
-      }
-      /* diagonal sheen highlight across the glass */
-      .oioi-panel::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        z-index: 0;
-        border-radius: inherit;
-        pointer-events: none;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.24), transparent 42%);
-      }
-      .oioi-panel > * {
-        position: relative;
-        z-index: 1;
-      }
-      .op-search {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 12px;
-      }
-      .op-search .dot {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background: #ff5f57;
-        flex: none;
-      }
-      .op-search .field {
-        flex: 1;
-        font-size: 14px;
-        color: rgba(255, 255, 255, 0.7);
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        border-radius: 9px;
-        padding: 8px 12px;
-      }
-      .op-chips {
-        display: flex;
-        gap: 6px;
-        margin-bottom: 12px;
-        flex-wrap: wrap;
-      }
-      .op-chips .chip {
-        font-size: 11px;
-        padding: 4px 10px;
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.1);
-        color: rgba(255, 255, 255, 0.8);
-      }
-      .op-chips .chip.on {
-        background: var(--accent);
-        color: #04211d;
-        font-weight: 600;
-      }
-      .op-rows {
-        display: flex;
-        flex-direction: column;
-      }
-      .op-row {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 11px 8px;
-        border-radius: 12px;
-        font-size: 14px;
-        color: #eef2f1;
-      }
-      .op-row:hover {
-        background: rgba(255, 255, 255, 0.08);
-      }
-      .op-ic {
-        width: 26px;
-        height: 26px;
-        display: grid;
-        place-items: center;
-        background: rgba(255, 255, 255, 0.12);
-        border-radius: 7px;
-        flex: none;
-        font-size: 13px;
-        color: #fff;
-      }
-      .op-ic.img {
-        background: linear-gradient(135deg, var(--accent), #15645b);
-      }
-      .op-tx {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .op-foot {
-        margin-top: 8px;
-      }
-      .op-pill {
-        display: inline-block;
-        font-weight: 700;
-        font-size: 13px;
-        background: rgba(255, 255, 255, 0.14);
-        padding: 5px 12px;
-        border-radius: 12px;
-      }
+      /* footer */
+      footer { border-top: 1px solid var(--line); padding: 40px 0; }
+      footer .wrap { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; font-size: 14px; color: #6b6157; }
+      footer a:hover { color: var(--ink); }
+      footer .fl { display: flex; gap: 22px; }
 
-      /* info sections */
-      .info {
-        position: relative;
-        z-index: 2;
-        max-width: 60rem;
-        margin: 0 auto;
-        padding: 7rem 2rem;
-      }
-      .info::before {
-        content: "";
-        position: absolute;
-        inset: -2rem 0;
-        z-index: -1;
-        pointer-events: none;
-        background: radial-gradient(70% 60% at 50% 50%, rgba(1, 1, 1, 0.82), transparent 80%);
-      }
-      .info .kick {
-        color: var(--accent);
-        font-size: 0.75rem;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        margin-bottom: 1rem;
-        text-align: center;
-      }
-      .info h2 {
-        font-size: clamp(1.8rem, 4.5vw, 3rem);
-        font-weight: 700;
-        letter-spacing: -0.025em;
-        text-align: center;
-        margin-bottom: 3rem;
-      }
-      .steps {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 1.5rem;
-      }
-      .step {
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.16);
-        border-radius: 16px;
-        padding: 1.6rem;
-        backdrop-filter: blur(18px) saturate(150%);
-        -webkit-backdrop-filter: blur(18px) saturate(150%);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
-      }
-      .step .n {
-        font-family: monospace;
-        color: var(--accent);
-        font-size: 0.85rem;
-        margin-bottom: 0.7rem;
-      }
-      .step h3 {
-        font-size: 1.1rem;
-        margin-bottom: 0.5rem;
-      }
-      .step p {
-        color: #b9c2bf;
-        font-size: 0.9rem;
-        line-height: 1.55;
-      }
-      .step kbd {
-        font: inherit;
-        font-weight: 700;
-        background: rgba(255, 255, 255, 0.14);
-        border: 1px solid rgba(255, 255, 255, 0.25);
-        border-radius: 6px;
-        padding: 1px 7px;
-      }
-      .faq {
-        display: flex;
-        flex-direction: column;
-        gap: 0.6rem;
-      }
-      .faq details {
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.16);
-        border-radius: 12px;
-        padding: 1rem 1.3rem;
-        backdrop-filter: blur(18px) saturate(150%);
-        -webkit-backdrop-filter: blur(18px) saturate(150%);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
-      }
-      .faq summary {
-        cursor: pointer;
-        font-weight: 600;
-        list-style: none;
-      }
-      .faq summary::-webkit-details-marker {
-        display: none;
-      }
-      .faq summary::after {
-        content: "+";
-        float: right;
-        color: var(--accent);
-      }
-      .faq details[open] summary::after {
-        content: "–";
-      }
-      .faq p {
-        color: #b9c2bf;
-        font-size: 0.92rem;
-        line-height: 1.6;
-        margin-top: 0.7rem;
-      }
-      .faq a {
-        color: var(--accent);
-      }
-      @media (max-width: 768px) {
-        .steps {
-          grid-template-columns: 1fr;
-        }
-        .info {
-          padding: 4.5rem 1.25rem;
-        }
-      }
-
-      @media (max-width: 768px) {
-        nav {
-          padding: 1rem 1.25rem;
-        }
-        nav .nav-links {
-          display: none;
-        }
-        #hero .content {
-          width: 100%;
-          padding: 0 1.25rem 4.5rem;
-        }
-        #hero .content > * {
-          max-width: 100%;
-        }
-        #hero h1 {
-          font-size: 1.65rem;
-          width: 100%;
-          overflow-wrap: break-word;
-        }
-        #hero .subtitle {
-          font-size: 0.68rem;
-          letter-spacing: 0.1em;
-          width: 100%;
-          overflow-wrap: break-word;
-        }
-        #hero .ctas {
-          flex-direction: column;
-          width: 100%;
-          max-width: 340px;
-        }
-        #hero .cta-btn,
-        #hero .code-box {
-          width: 100%;
-          justify-content: center;
-        }
-        #hero .code-box {
-          padding: 0.8rem 1rem;
-        }
-        #hero .code-box code {
-          font-size: 0.72rem;
-          white-space: normal;
-          text-align: center;
-        }
-        /* smaller, out of the way, on phones */
-        .brand-corner {
-          left: 1.25rem;
-          bottom: 1.1rem;
-          font-size: 1.3rem;
-          gap: 0.5rem;
-        }
-        .brand-corner img {
-          width: 38px;
-          height: 38px;
-          border-radius: 10px;
-        }
-        #demo {
-          padding: 3rem 1.25rem;
-        }
-        .demo-cap {
-          font-size: 0.9rem;
-        }
-        #fixed-cards .grid {
-          grid-template-columns: 1fr;
-          gap: 1.5rem;
-        }
-        #fixed-cards {
-          padding: 1.5rem 1.25rem 2rem;
-        }
-        #section-three {
-          padding: 5rem 1.5rem;
-        }
-        .dl-row {
-          flex-direction: column;
-          width: 100%;
-          max-width: 320px;
-        }
-        .dl-btn {
-          width: 100%;
-          justify-content: center;
-        }
+      @media (max-width: 760px) {
+        section { padding: 70px 0; }
+        .steps, .grid, .dl-grid { grid-template-columns: 1fr; }
+        .nav-links a:not(.btn) { display: none; }
       }
     </style>
   </head>
   <body>
-    <!-- Scroll Video Background -->
-    <div id="scroll-video-container">
-      <canvas id="video-canvas"></canvas>
-      <!-- no crossorigin: server lacks CORS, and plain display/seek doesn't need it -->
-      <video
-        id="video-fallback"
-        muted
-        playsinline
-        preload="auto"
-        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260616_212935_bbf608da-62d1-4f25-9be4-c346e4d09cc8.mp4"
-      ></video>
-      <div class="overlay"></div>
-    </div>
-
-    <!-- Particles -->
-    <canvas id="particles-canvas"></canvas>
-
-    <!-- Fixed Cards -->
-    <div id="fixed-cards">
-      <div class="grid">
-        <div class="card">
-          <div class="num">01 — GLASS</div>
-          <h3>Real liquid glass</h3>
-          <p>
-            oioi screenshots the desktop behind the panel and blurs that — genuine glass, not a flat
-            gray overlay faking it. Or pick a clean, zero-permission Soft panel.
-          </p>
-        </div>
-        <div class="card">
-          <div class="num">02 — SPEED</div>
-          <h3>Opens before you blink</h3>
-          <p>
-            The panel is pre-warmed off-screen and painted low-res first. Press ⌥V and your whole
-            history is already floating in front of you.
-          </p>
-        </div>
-        <div class="card">
-          <div class="num">03 — EVERYTHING</div>
-          <h3>Text, images &amp; files</h3>
-          <p>
-            Everything you copy is captured, thumbnailed and instantly searchable. Filter by type,
-            today or all-time, and one click pastes it back.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Brand mark, anchored bottom-left -->
-    <a class="brand-corner" href="/"><img src="assets/icon.png" alt="" /> <span>oioi</span></a>
-
-    <!-- Navigation -->
-    <nav>
-      <div class="left">
-        <div class="nav-links">
+    <header class="nav">
+      <div class="wrap">
+        <a class="brand" href="/"><img src="assets/icon.png" alt="" /> oioi</a>
+        <nav class="nav-links">
           <a href="#features">Features</a>
+          <a href="#how">How it works</a>
           <a href="#download">Download</a>
-        </div>
+          <a class="btn sm" href="#download">Download</a>
+        </nav>
       </div>
-      <div class="social">
-        <a href="https://github.com/vishesh9131/oioi" aria-label="GitHub">
-          <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-        </a>
-        <a class="pill-btn" href="#download">Download</a>
-      </div>
-    </nav>
+    </header>
 
-    <!-- Main Content -->
-    <div id="content">
-      <!-- Section 1: Hero -->
-      <section id="hero">
-        <div class="gradient-overlay"></div>
-        <div class="content">
-          <p class="subtitle">Clipboard manager · macOS · Windows · Linux</p>
-          <h1>
-            Press ⌥V. Your clipboard floats up in real
-            <span class="underlined"><span class="line"></span><span>liquid glass</span></span>.
-          </h1>
-          <div class="ctas">
-            <a href="#download" class="cta-btn">Download <span>↓</span></a>
-            <div class="code-box">
-              <span class="prompt">⌥</span>
-              <code>V — open anywhere, paste anything</code>
-            </div>
-          </div>
+    <main>
+      <!-- HERO -->
+      <section class="hero wrap">
+        <div class="eyebrow">Clipboard manager · macOS · Windows · Linux</div>
+        <h1>Your clipboard,<br />finally beautiful.</h1>
+        <p class="lede">Press <kbd>⌥V</kbd> anywhere and your whole history floats up — text, images and files, searchable, one click to paste back.</p>
+        <div class="cta">
+          <button class="btn" id="heroDl">Download</button>
+          <span class="alt">Free &amp; open source · <a href="#download">all platforms ↓</a></span>
         </div>
-        <div class="bounce-arrow">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-          </svg>
-        </div>
-      </section>
 
-      <!-- Spacer -->
-      <div style="height: 85vh"></div>
-
-      <!-- Visual demo: the actual oioi panel, frosted over the bloom -->
-      <section id="demo">
-        <div class="demo-wrap reveal-up">
-          <p class="demo-cap">Press <kbd>⌥</kbd><kbd>V</kbd> — everything you copied, in glass.</p>
-          <div class="oioi-panel">
-            <div class="op-search">
-              <span class="dot"></span>
-              <div class="field">⌕&nbsp; Search clipboard…</div>
-            </div>
-            <div class="op-chips">
+        <div class="shot">
+          <div class="panel">
+            <div class="p-bar"><span class="dot"></span><div class="p-search">⌕&nbsp; Search clipboard…</div></div>
+            <div class="p-chips">
               <span class="chip on">All</span><span class="chip">Text</span><span class="chip">Image</span><span class="chip">Files</span>
               <span class="chip on">All&nbsp;Time</span><span class="chip">Today</span>
             </div>
-            <div class="op-rows">
-              <div class="op-row"><span class="op-ic">¶</span><span class="op-tx">npm run dist &amp;&amp; netlify deploy --prod</span></div>
-              <div class="op-row"><span class="op-ic img">▦</span><span class="op-tx">screenshot — hero-final.png</span></div>
-              <div class="op-row"><span class="op-ic">⤓</span><span class="op-tx">Invoice_oioi.pdf</span></div>
-              <div class="op-row"><span class="op-ic">¶</span><span class="op-tx">https://oioi-app.netlify.app</span></div>
+            <div class="p-row"><span class="p-ic t">¶</span><span class="p-tx">npm run dist &amp;&amp; netlify deploy --prod</span></div>
+            <div class="p-row"><span class="p-ic i">▦</span><span class="p-tx">screenshot — hero-final.png</span></div>
+            <div class="p-row"><span class="p-ic f">⤓</span><span class="p-tx">Invoice_oioi.pdf</span></div>
+            <div class="p-row"><span class="p-ic t">¶</span><span class="p-tx">https://oioi-app.netlify.app</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- WHAT -->
+      <section id="features">
+        <div class="head">
+          <h2>Everything you copy, kept.</h2>
+          <p>oioi remembers your clipboard so you don't have to. Quiet in the menu bar, instant when you need it.</p>
+        </div>
+        <div class="wrap">
+          <div class="grid">
+            <div class="card">
+              <div class="ic" style="background: var(--mint)">📋</div>
+              <h3>Text, images &amp; files</h3>
+              <p>Everything you copy is captured, thumbnailed and searchable. Filter by type, today or all-time.</p>
             </div>
-            <div class="op-foot"><span class="op-pill">oioi</span></div>
+            <div class="card">
+              <div class="ic" style="background: var(--teal)">⚡️</div>
+              <h3>Instant</h3>
+              <p>Pre-warmed and snappy. Hit ⌥V and your history is already there — no waiting, no lag.</p>
+            </div>
+            <div class="card">
+              <div class="ic" style="background: var(--tan)">🔒</div>
+              <h3>100% private</h3>
+              <p>Lives entirely on your machine. No cloud, no account, no telemetry. We can't see what you copy.</p>
+            </div>
+            <div class="card">
+              <div class="ic" style="background: var(--clay)">🎛️</div>
+              <h3>Glass or Soft</h3>
+              <p>Pick a frosted liquid-glass panel or a clean flat one. Tune the look, set your own shortcut.</p>
+            </div>
+            <div class="card">
+              <div class="ic" style="background: var(--deep)">🖥️</div>
+              <h3>Every desktop</h3>
+              <p>Native builds for macOS (Apple Silicon + Intel), Windows and Linux. One app, everywhere.</p>
+            </div>
+            <div class="card">
+              <div class="ic" style="background: var(--brown)">❤️</div>
+              <h3>Free &amp; open source</h3>
+              <p>No subscription, no upsell. MIT-licensed — every line is on GitHub to read and fork.</p>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- Spacer -->
-      <div style="height: 55vh"></div>
-
-      <!-- Cards Trigger Zone -->
-      <div id="features"></div>
-      <div id="cards-trigger" style="height: 200vh"></div>
-
-      <!-- Spacer -->
-      <div style="height: 40vh"></div>
-
-      <!-- How it works -->
-      <section class="info reveal-up">
-        <p class="kick">How it works</p>
-        <h2>Three keys, then it's gone.</h2>
-        <div class="steps">
-          <div class="step">
-            <div class="n">01</div>
-            <h3><kbd>⌥</kbd><kbd>V</kbd> &nbsp;Summon</h3>
-            <p>Hit the shortcut from any app. The glass panel floats up over whatever you're doing — instantly.</p>
-          </div>
-          <div class="step">
-            <div class="n">02</div>
-            <h3>Search &amp; filter</h3>
-            <p>Type to find anything you've copied, or filter by text, images, files — today or all-time.</p>
-          </div>
-          <div class="step">
-            <div class="n">03</div>
-            <h3><kbd>↵</kbd> &nbsp;Paste</h3>
-            <p>Hit enter and it's back on your clipboard, ready to paste. The panel vanishes. Zero friction.</p>
+      <!-- HOW -->
+      <section id="how" class="band">
+        <div class="head">
+          <h2>Three keys, then it's gone.</h2>
+          <p>No windows to manage. Summon it, grab what you need, and it disappears.</p>
+        </div>
+        <div class="wrap">
+          <div class="steps">
+            <div class="step">
+              <div class="num">01</div>
+              <h3><kbd>⌥</kbd><kbd>V</kbd> &nbsp;Summon</h3>
+              <p>Hit the shortcut from any app. The panel floats up over whatever you're doing.</p>
+            </div>
+            <div class="step">
+              <div class="num">02</div>
+              <h3>Search &amp; filter</h3>
+              <p>Type to find anything you've copied, or filter by text, images or files.</p>
+            </div>
+            <div class="step">
+              <div class="num">03</div>
+              <h3><kbd>↵</kbd> &nbsp;Paste</h3>
+              <p>Enter drops it back on your clipboard, ready to paste. The panel vanishes.</p>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- What it captures -->
-      <section class="info reveal-up">
-        <p class="kick">Privacy first</p>
-        <h2>Your clipboard never leaves your machine.</h2>
-        <div class="steps">
-          <div class="step">
-            <div class="n">◆</div>
-            <h3>100% local</h3>
-            <p>History lives on your device only. No cloud, no account, no sync server — nothing to leak.</p>
-          </div>
-          <div class="step">
-            <div class="n">◆</div>
-            <h3>No telemetry</h3>
-            <p>Zero tracking, zero analytics, zero phone-home. We literally can't see what you copy.</p>
-          </div>
-          <div class="step">
-            <div class="n">◆</div>
-            <h3>Open source</h3>
-            <p>Every line is on <a href="https://github.com/vishesh9131/oioi" style="color:var(--accent)">GitHub</a>, MIT-licensed. Read it, build it, fork it.</p>
-          </div>
+      <!-- PRODUCT HUNT -->
+      <section class="ph-sec wrap">
+        <div class="head">
+          <h2>Loved on Product Hunt.</h2>
+        </div>
+        <div class="ph-card">
+          <a href="https://www.producthunt.com/products/oioi" target="_blank" rel="noopener">
+            <!-- Live badge appears once you set your post_id; falls back to the upvote button. -->
+            <img
+              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=POST_ID&theme=light"
+              onerror="this.remove()"
+              width="250" height="54" alt="oioi on Product Hunt" style="max-width:100%" />
+          </a>
+          <p style="color:#564c43; margin-top:10px">If oioi saved you a few clicks today, an upvote means the world.</p>
+          <a class="btn" href="https://www.producthunt.com/products/oioi" target="_blank" rel="noopener">▲ &nbsp;Upvote on Product Hunt</a>
         </div>
       </section>
 
-      <!-- FAQ -->
-      <section class="info reveal-up">
-        <p class="kick">FAQ</p>
-        <h2>Good questions.</h2>
-        <div class="faq">
-          <details>
-            <summary>Is it really free?</summary>
-            <p>Yes — free and open source, forever. No trial, no subscription, no "pro" upsell.</p>
-          </details>
-          <details>
-            <summary>Why does my Mac/Windows warn me on first launch?</summary>
-            <p>oioi isn't paid OS-vendor-signed (that costs $99/yr just to remove a warning). It's safe — right-click → Open on macOS, or "More info → Run anyway" on Windows. Once only.</p>
-          </details>
-          <details>
-            <summary>Does it work on Windows and Linux?</summary>
-            <p>Yes. Universal macOS build, plus Windows (.exe) and Linux (.AppImage / .deb) on the <a href="https://github.com/vishesh9131/oioi/releases/latest">releases page</a>.</p>
-          </details>
-          <details>
-            <summary>Does it slow my computer down?</summary>
-            <p>No — it sits quietly in the menu bar, pre-warmed so it opens instantly. Light on memory, no background CPU.</p>
-          </details>
-          <details>
-            <summary>Can I change the shortcut?</summary>
-            <p>Yes. ⌥V by default, fully remappable in settings, along with history size and the glass/soft panel style.</p>
-          </details>
-        </div>
-      </section>
-
-      <!-- Spacer -->
-      <div style="height: 30vh"></div>
-
-      <!-- Section 3 -->
-      <section id="section-three">
-        <div class="inner" id="section-three-inner">
-          <p class="eyebrow">Free · Open source · No tracking</p>
+      <!-- DOWNLOAD -->
+      <section id="download" class="dl wrap">
+        <div class="head">
           <h2>Get oioi.</h2>
-          <p class="sub">macOS 12+ · Windows 10+ · modern Linux. No account. No $99 Apple fee.</p>
-          <div class="dl-row" id="download">
-            <a class="dl-btn primary" href="oioi-0.4.0-universal.dmg" download>
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2 1.6-3 1.7-3-.9-1.4-2.4-1.5-2.9-1.6-1.2-.1-2.4.7-3 .7-.6 0-1.6-.7-2.6-.7-1.3 0-2.6.8-3.2 2-1.4 2.4-.4 6 1 7.9.6.9 1.4 2 2.4 1.9 1-.04 1.3-.6 2.5-.6s1.5.6 2.5.6 1.7-.9 2.3-1.8c.7-1 1-2 1-2.1-.02-.01-1.9-.74-1.9-2.9ZM14.7 6c.5-.7.9-1.6.8-2.5-.8.03-1.7.5-2.3 1.2-.5.6-1 1.5-.8 2.4.9.07 1.7-.4 2.3-1.1Z"/></svg>
-              macOS
-            </a>
-            <a class="dl-btn" href="https://github.com/vishesh9131/oioi/releases/latest">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 4.6 10.5 3.6v7.4H3V4.6Zm0 14.8L10.5 20.4V13H3v6.4ZM11.5 3.4 21 2v9h-9.5V3.4Zm0 17.2L21 22v-9h-9.5v7.6Z"/></svg>
-              Windows
-            </a>
-            <a class="dl-btn" href="https://github.com/vishesh9131/oioi/releases/latest">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-1.9 0-3 1.7-3 3.6 0 1.3.1 2.2-.6 3.3-.8 1.2-2.5 2.9-2.5 5.4 0 .8.2 1.4.5 1.9-.5.4-1 1-1.2 1.7-.2.6 0 1.1.3 1.5-1 .9-.6 2 .6 2.4 1 .3 2.3.4 3.2 1 .4.3.9.4 1.3.4s.9-.1 1.3-.4c.9-.6 2.2-.7 3.2-1 1.2-.4 1.6-1.5.6-2.4.3-.4.5-.9.3-1.5-.2-.7-.7-1.3-1.2-1.7.3-.5.5-1.1.5-1.9 0-2.5-1.7-4.2-2.5-5.4-.7-1.1-.6-2-.6-3.3C15 3.7 13.9 2 12 2Z"/></svg>
-              Linux
-            </a>
+          <p>Free, on every desktop. Always the latest release, straight from GitHub.</p>
+        </div>
+        <div class="dl-grid">
+          <div class="dl-card" data-os="mac">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2 1.6-3 1.7-3-.9-1.4-2.4-1.5-2.9-1.6-1.2-.1-2.4.7-3 .7-.6 0-1.6-.7-2.6-.7-1.3 0-2.6.8-3.2 2-1.4 2.4-.4 6 1 7.9.6.9 1.4 2 2.4 1.9 1-.04 1.3-.6 2.5-.6s1.5.6 2.5.6 1.7-.9 2.3-1.8c.7-1 1-2 1-2.1-.02-.01-1.9-.74-1.9-2.9ZM14.7 6c.5-.7.9-1.6.8-2.5-.8.03-1.7.5-2.3 1.2-.5.6-1 1.5-.8 2.4.9.07 1.7-.4 2.3-1.1Z"/></svg>
+            <span class="os">macOS</span><span class="fmt">.dmg · Universal</span>
           </div>
-          <p class="dl-note">
-            macOS is a Universal build (Apple Silicon + Intel). First launch needs a one-time approve
-            (right-click → Open on macOS, "Run anyway" on Windows). Notes on the
-            <a href="https://github.com/vishesh9131/oioi">GitHub repo</a>.
-          </p>
+          <div class="dl-card" data-os="win">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 4.6 10.5 3.6v7.4H3V4.6Zm0 14.8L10.5 20.4V13H3v6.4ZM11.5 3.4 21 2v9h-9.5V3.4Zm0 17.2L21 22v-9h-9.5v7.6Z"/></svg>
+            <span class="os">Windows</span><span class="fmt">.exe · 10+</span>
+          </div>
+          <div class="dl-card" data-os="linux">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-1.9 0-3 1.7-3 3.6 0 1.3.1 2.2-.6 3.3-.8 1.2-2.5 2.9-2.5 5.4 0 .8.2 1.4.5 1.9-.5.4-1 1-1.2 1.7-.2.6 0 1.1.3 1.5-1 .9-.6 2 .6 2.4 1 .3 2.3.4 3.2 1 .4.3.9.4 1.3.4s.9-.1 1.3-.4c.9-.6 2.2-.7 3.2-1 1.2-.4 1.6-1.5.6-2.4.3-.4.5-.9.3-1.5-.2-.7-.7-1.3-1.2-1.7.3-.5.5-1.1.5-1.9 0-2.5-1.7-4.2-2.5-5.4-.7-1.1-.6-2-.6-3.3C15 3.7 13.9 2 12 2Z"/></svg>
+            <span class="os">Linux</span><span class="fmt">.AppImage</span>
+          </div>
+        </div>
+        <div class="note">
+          <b>First launch:</b> oioi is free, so it isn't paid OS-vendor-signed — you'll see a one-time prompt.
+          <b>macOS:</b> right-click → Open → Open (or <code>xattr -dr com.apple.quarantine /Applications/oioi.app</code>).
+          <b>Windows:</b> More info → Run anyway. <b>Linux:</b> <code>chmod +x oioi-*.AppImage</code> then run it.
         </div>
       </section>
-    </div>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <span>oioi — made by <a href="https://github.com/vishesh9131" style="color:var(--teal);font-weight:600">Vishesh</a></span>
+        <div class="fl">
+          <a href="https://github.com/vishesh9131/oioi">GitHub</a>
+          <a href="https://www.producthunt.com/products/oioi">Product Hunt</a>
+          <a href="#download">Download</a>
+        </div>
+      </div>
+    </footer>
 
     <script>
-      (function () {
-        // ===================== SCROLL VIDEO =====================
-        const VIDEO_URL =
-          "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260616_212935_bbf608da-62d1-4f25-9be4-c346e4d09cc8.mp4";
-        const canvas = document.getElementById("video-canvas");
-        const videoEl = document.getElementById("video-fallback");
-        const ctx = canvas.getContext("2d");
-        let frames = [];
-        let framesReady = false;
-        let lastFrameIndex = -1;
-        let videoSeeking = false;
+      // Direct-download the matching asset from the latest GitHub release.
+      const REPO = "vishesh9131/oioi";
+      const RELEASES = "https://github.com/" + REPO + "/releases/latest";
+      const EXT = { mac: ".dmg", win: ".exe", linux: ".appimage" };
 
-        function resizeCanvas() {
-          const dpr = Math.min(devicePixelRatio, 2);
-          const rect = canvas.getBoundingClientRect();
-          const w = Math.round(rect.width * dpr);
-          const h = Math.round(rect.height * dpr);
-          if (canvas.width !== w || canvas.height !== h) {
-            canvas.width = w;
-            canvas.height = h;
-          }
-          lastFrameIndex = -1;
-        }
+      let assetsPromise = fetch("https://api.github.com/repos/" + REPO + "/releases/latest")
+        .then((r) => (r.ok ? r.json() : Promise.reject()))
+        .then((j) => j.assets || [])
+        .catch(() => []);
 
-        async function extractFrames() {
-          try {
-            const response = await fetch(VIDEO_URL, { mode: "cors" });
-            const blob = await response.blob();
-            const objectUrl = URL.createObjectURL(blob);
+      async function download(os) {
+        const assets = await assetsPromise;
+        const a = assets.find((x) => x.name.toLowerCase().endsWith(EXT[os]));
+        // direct file download if found, else the releases page as a safety net
+        window.location.href = a ? a.browser_download_url : RELEASES;
+      }
 
-            const video = document.createElement("video");
-            video.muted = true;
-            video.playsInline = true;
-            video.crossOrigin = "anonymous";
-            video.preload = "auto";
-            video.src = objectUrl;
+      document.querySelectorAll(".dl-card").forEach((c) =>
+        c.addEventListener("click", () => download(c.dataset.os))
+      );
 
-            await new Promise((resolve, reject) => {
-              video.onloadedmetadata = () => resolve();
-              video.onerror = () => reject();
-              setTimeout(() => reject(), 15000);
-            });
-
-            const scale = Math.min(1, 1280 / video.videoWidth);
-            const scaledWidth = Math.round(video.videoWidth * scale);
-            const scaledHeight = Math.round(video.videoHeight * scale);
-            const frameCount = Math.max(30, Math.min(120, Math.round(video.duration * 24)));
-
-            for (let i = 0; i < frameCount; i++) {
-              const time = (i / (frameCount - 1)) * (video.duration - 0.05);
-              video.currentTime = time;
-              await new Promise((resolve, reject) => {
-                const onSeeked = () => {
-                  video.removeEventListener("seeked", onSeeked);
-                  resolve();
-                };
-                video.addEventListener("seeked", onSeeked);
-                setTimeout(() => {
-                  video.removeEventListener("seeked", onSeeked);
-                  reject();
-                }, 3000);
-              });
-              const bitmap = await createImageBitmap(video, {
-                resizeWidth: scaledWidth,
-                resizeHeight: scaledHeight,
-              });
-              frames.push(bitmap);
-            }
-
-            if (frames.length > 0) {
-              framesReady = true;
-              canvas.style.visibility = "visible";
-              videoEl.style.display = "none";
-            }
-            URL.revokeObjectURL(objectUrl);
-          } catch (e) {
-            /* fallback to video seeking */
-          }
-        }
-
-        function getScrollBounds() {
-          const vh = window.innerHeight;
-          return { start: vh * 0.5, end: document.documentElement.scrollHeight - vh };
-        }
-
-        function getProgress() {
-          const { start, end } = getScrollBounds();
-          const range = end - start;
-          if (range <= 0) return 0;
-          return Math.max(0, Math.min(1, (window.scrollY - start) / range));
-        }
-
-        function drawFrame(frame) {
-          const cw = canvas.width,
-            ch = canvas.height;
-          const s = Math.max(cw / frame.width, ch / frame.height);
-          const dw = frame.width * s,
-            dh = frame.height * s;
-          ctx.drawImage(frame, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
-        }
-
-        function videoTick() {
-          const progress = getProgress();
-          if (framesReady && frames.length > 0) {
-            const idx = Math.round(progress * (frames.length - 1));
-            if (idx !== lastFrameIndex) {
-              lastFrameIndex = idx;
-              if (frames[idx]) drawFrame(frames[idx]);
-            }
-          } else if (videoEl.duration && isFinite(videoEl.duration) && videoEl.readyState >= 1) {
-            const target = progress * videoEl.duration;
-            if (!videoSeeking && Math.abs(videoEl.currentTime - target) > 0.001) {
-              videoSeeking = true;
-              videoEl.currentTime = target;
-            }
-          }
-          requestAnimationFrame(videoTick);
-        }
-
-        videoEl.addEventListener("seeked", () => {
-          videoSeeking = false;
-        });
-        videoEl.addEventListener("stalled", () => {
-          videoSeeking = false;
-        });
-        videoEl.addEventListener("loadeddata", () => {
-          videoEl.currentTime = 0;
-        });
-        canvas.style.visibility = "hidden";
-
-        resizeCanvas();
-        window.addEventListener("resize", resizeCanvas);
-        requestAnimationFrame(videoTick);
-        extractFrames();
-
-        // ===================== PARTICLES =====================
-        const pCanvas = document.getElementById("particles-canvas");
-        const pCtx = pCanvas.getContext("2d");
-        let particles = [];
-
-        function resizeParticles() {
-          pCanvas.width = window.innerWidth;
-          pCanvas.height = window.innerHeight;
-          createParticles();
-        }
-
-        function createParticles() {
-          particles = [];
-          const count = Math.floor((pCanvas.width * pCanvas.height) / 14000);
-          for (let i = 0; i < count; i++) {
-            particles.push({
-              x: Math.random() * pCanvas.width,
-              y: Math.random() * pCanvas.height,
-              vx: (Math.random() - 0.5) * 0.3,
-              vy: (Math.random() - 0.5) * 0.3,
-              size: Math.random() * 1.4 + 0.4,
-              opacity: Math.random() * 0.5 + 0.15,
-            });
-          }
-        }
-
-        function animateParticles() {
-          pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
-          for (const p of particles) {
-            p.x += p.vx;
-            p.y += p.vy;
-            if (p.x < 0) p.x = pCanvas.width;
-            if (p.x > pCanvas.width) p.x = 0;
-            if (p.y < 0) p.y = pCanvas.height;
-            if (p.y > pCanvas.height) p.y = 0;
-            pCtx.beginPath();
-            pCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-            pCtx.fillStyle = `rgba(255,255,255,${p.opacity})`;
-            pCtx.fill();
-          }
-          requestAnimationFrame(animateParticles);
-        }
-
-        resizeParticles();
-        window.addEventListener("resize", resizeParticles);
-        animateParticles();
-
-        // ===================== HERO FADE =====================
-        function updateHeroOpacity() {
-          const fade = Math.max(0, 1 - window.scrollY / (window.innerHeight * 0.35));
-          document.getElementById("hero").style.opacity = fade;
-        }
-        window.addEventListener("scroll", updateHeroOpacity, { passive: true });
-
-        // ===================== FIXED CARDS =====================
-        const fixedCards = document.getElementById("fixed-cards");
-        const cardsGrid = fixedCards.querySelector(".grid");
-        const demoSection = document.getElementById("demo");
-        const videoContainer = document.getElementById("scroll-video-container");
-
-        function tickCards() {
-          // Real frost: backdrop-filter can't blur the composited video, so blur the
-          // bloom itself as the glass panel reaches center (and dim it for focus).
-          {
-            const dr = demoSection.getBoundingClientRect();
-            const vh0 = window.innerHeight;
-            const center = dr.top + dr.height / 2;
-            const t = Math.max(0, 1 - Math.abs(center - vh0 / 2) / (vh0 * 0.7));
-            videoContainer.style.filter =
-              "blur(" + (t * 20).toFixed(1) + "px) brightness(" + (1 - 0.3 * t).toFixed(3) + ")";
-          }
-
-          const trigger = document.getElementById("cards-trigger");
-          const rect = trigger.getBoundingClientRect();
-          const triggerTop = rect.top + window.scrollY;
-          const triggerHeight = rect.height;
-          const scrollY = window.scrollY;
-          const vh = window.innerHeight;
-
-          const start = triggerTop - vh * 0.5;
-          const end = triggerTop + triggerHeight - vh * 0.3;
-          const range = end - start;
-
-          let progress = range > 0 ? (scrollY - start) / range : 0;
-          progress = Math.max(0, Math.min(1, progress));
-
-          const isActive = scrollY >= start - vh * 0.2 && scrollY <= end + vh * 0.3;
-          const fadeIn = Math.min(1, Math.max(0, (scrollY - (start - vh * 0.2)) / (vh * 0.2)));
-          const fadeOut = Math.min(1, Math.max(0, (end + vh * 0.3 - scrollY) / (vh * 0.3)));
-          const containerOpacity = isActive ? Math.min(fadeIn, fadeOut) : 0;
-
-          fixedCards.style.opacity = containerOpacity;
-          fixedCards.style.pointerEvents = containerOpacity > 0.1 ? "auto" : "none";
-          // fully hide once faded so it can never occlude the last section
-          fixedCards.style.visibility = containerOpacity > 0.02 ? "visible" : "hidden";
-
-          const isMobile = window.innerWidth < 768;
-          const revealPct = progress * 130;
-          if (isMobile) {
-            cardsGrid.style.maskImage = `linear-gradient(to bottom, black ${revealPct}%, transparent ${revealPct + 20}%)`;
-            cardsGrid.style.webkitMaskImage = `linear-gradient(to bottom, black ${revealPct}%, transparent ${revealPct + 20}%)`;
-          } else {
-            cardsGrid.style.maskImage = `linear-gradient(to right, black ${revealPct}%, transparent ${revealPct + 15}%)`;
-            cardsGrid.style.webkitMaskImage = `linear-gradient(to right, black ${revealPct}%, transparent ${revealPct + 15}%)`;
-          }
-
-          requestAnimationFrame(tickCards);
-        }
-        requestAnimationFrame(tickCards);
-
-        // ===================== SECTION 3 INTERSECTION =====================
-        const sectionThreeInner = document.getElementById("section-three-inner");
-        const observer = new IntersectionObserver(
-          ([entry]) => {
-            if (entry.isIntersecting) {
-              sectionThreeInner.classList.add("visible");
-              observer.unobserve(sectionThreeInner);
-            }
-          },
-          { threshold: 0.15 }
-        );
-        observer.observe(sectionThreeInner);
-
-        // ===================== REVEAL-UP (demo panel etc.) =====================
-        const upObserver = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((e) => {
-              if (e.isIntersecting) {
-                e.target.classList.add("visible");
-                upObserver.unobserve(e.target);
-              }
-            });
-          },
-          { threshold: 0.2 }
-        );
-        document.querySelectorAll(".reveal-up").forEach((el) => upObserver.observe(el));
-      })();
+      // detect OS for the hero button label + action
+      const ua = navigator.userAgent;
+      const os = /Win/.test(ua) ? "win" : /Linux|X11/.test(ua) && !/Android/.test(ua) ? "linux" : "mac";
+      const label = { mac: "Download for macOS", win: "Download for Windows", linux: "Download for Linux" }[os];
+      const hero = document.getElementById("heroDl");
+      hero.textContent = label;
+      hero.addEventListener("click", () => download(os));
     </script>
   </body>
 </html>
