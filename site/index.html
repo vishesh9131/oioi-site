@@ -130,7 +130,14 @@
       footer .fl { display: flex; gap: 26px; }
       footer .fl a:hover { color: var(--ink); }
 
+      /* in-context section */
+      .ctx-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+      .ctx-grid figure { margin: 0; }
+      .ctx-grid img { width: 100%; border-radius: 14px; border: 1px solid var(--line); box-shadow: 0 24px 48px -26px rgba(27, 30, 30, 0.34); display: block; }
+      .ctx-grid figcaption { margin-top: 16px; color: var(--gray); font-size: 14.5px; text-align: center; }
+
       @media (max-width: 760px) {
+        .ctx-grid { grid-template-columns: 1fr; gap: 32px; }
         section { padding: 80px 0; }
         .grid, .steps, .dl-grid { grid-template-columns: 1fr; }
         .nav-links a:not(.btn) { display: none; }
@@ -199,6 +206,25 @@
             <h3>Glass or soft — your call.</h3>
             <p>Choose a frosted liquid-glass panel or a clean flat one, tune the blur and corners, and set your own global shortcut.</p>
           </div>
+        </div>
+      </section>
+
+      <!-- IN CONTEXT -->
+      <section class="context wrap">
+        <div class="head">
+          <span class="eyebrow">In your workflow</span>
+          <h2>Always a keystroke away.</h2>
+          <p>oioi sits quietly in the menu bar and floats over whatever you're doing — your editor, your browser, anywhere.</p>
+        </div>
+        <div class="ctx-grid">
+          <figure>
+            <img loading="lazy" src="assets/shots/ctx-bar.jpg" alt="oioi dropping down from the macOS menu bar" />
+            <figcaption>Click the menu-bar sloth to drop it down.</figcaption>
+          </figure>
+          <figure>
+            <img loading="lazy" src="assets/shots/ctx-desk.jpg" alt="oioi floating over a desktop and code editor" />
+            <figcaption>Or hit ⌥V to summon it over any app.</figcaption>
+          </figure>
         </div>
       </section>
 
