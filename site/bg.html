@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>oioi — hero background options</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif; background:#fff; }
+  .tile { position: relative; min-height: 78vh; display: grid; place-items: center; overflow: hidden; border-bottom: 2px solid #ece8e1; background:#fff; }
+  .tile.dark { background:#0c0e0e; }
+  canvas.bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+  .tag { position: absolute; top: 18px; left: 20px; z-index: 6; font: 700 14px ui-monospace, Menlo, monospace; color: #15645b; background: #e7f6f2; border: 1px solid #bfe6dd; padding: 5px 12px; border-radius: 7px; }
+  .inner { position: relative; z-index: 2; text-align: center; padding: 0 22px; }
+  .eye { font: 700 12px ui-monospace, monospace; letter-spacing: 0.14em; text-transform: uppercase; color: #2e9890; }
+  h1 { font-size: clamp(34px,7vw,58px); letter-spacing: -0.04em; font-weight: 680; color: #1b1e1e; line-height: 1.04; margin: 14px 0 0; }
+  .dark h1 { color:#fff; }
+  p { color: #6e6960; margin-top: 14px; font-size: 17px; }
+  .dark p { color:#b9b0a4; }
+  .btn { margin-top: 24px; display: inline-block; background: #15645b; color: #fff; padding: 12px 26px; border-radius: 980px; font-weight: 600; font-size: 15px; }
+  .hd { text-align:center; padding: 40px 20px 10px; color:#6e6960; font-size:15px; }
+</style>
+</head>
+<body>
+<div class="hd">Pick a hero background — note the number top-left. Reply with it (e.g. “BG 3”).</div>
+
+<div class="tile"><span class="tag">BG 1 · noise / grain</span><canvas class="bg" id="c1"></canvas><div class="inner"><div class="eye">Clipboard manager</div><h1>Your clipboard,<br>finally beautiful.</h1><p>Press ⌥V — your whole history, one keystroke away.</p><span class="btn">Download for macOS</span></div></div>
+<div class="tile"><span class="tag">BG 2 · game of life</span><canvas class="bg" id="c2"></canvas><div class="inner"><div class="eye">Clipboard manager</div><h1>Your clipboard,<br>finally beautiful.</h1><p>Press ⌥V — your whole history, one keystroke away.</p><span class="btn">Download for macOS</span></div></div>
+<div class="tile"><span class="tag">BG 3 · liquid</span><canvas class="bg" id="c3"></canvas><div class="inner"><div class="eye">Clipboard manager</div><h1>Your clipboard,<br>finally beautiful.</h1><p>Press ⌥V — your whole history, one keystroke away.</p><span class="btn">Download for macOS</span></div></div>
+<div class="tile"><span class="tag">BG 4 · constellation</span><canvas class="bg" id="c4"></canvas><div class="inner"><div class="eye">Clipboard manager</div><h1>Your clipboard,<br>finally beautiful.</h1><p>Press ⌥V — your whole history, one keystroke away.</p><span class="btn">Download for macOS</span></div></div>
+<div class="tile"><span class="tag">BG 5 · light beams</span><canvas class="bg" id="c5"></canvas><div class="inner"><div class="eye">Clipboard manager</div><h1>Your clipboard,<br>finally beautiful.</h1><p>Press ⌥V — your whole history, one keystroke away.</p><span class="btn">Download for macOS</span></div></div>
+<div class="tile"><span class="tag">BG 6 · wavy lines</span><canvas class="bg" id="c6"></canvas><div class="inner"><div class="eye">Clipboard manager</div><h1>Your clipboard,<br>finally beautiful.</h1><p>Press ⌥V — your whole history, one keystroke away.</p><span class="btn">Download for macOS</span></div></div>
+<div class="tile dark"><span class="tag">BG 7 · plasma (dark)</span><canvas class="bg" id="c7"></canvas><div class="inner"><div class="eye">Clipboard manager</div><h1>Your clipboard,<br>finally beautiful.</h1><p>Press ⌥V — your whole history, one keystroke away.</p><span class="btn">Download for macOS</span></div></div>
+<div class="tile dark"><span class="tag">BG 8 · meteors (dark)</span><canvas class="bg" id="c8"></canvas><div class="inner"><div class="eye">Clipboard manager</div><h1>Your clipboard,<br>finally beautiful.</h1><p>Press ⌥V — your whole history, one keystroke away.</p><span class="btn">Download for macOS</span></div></div>
+
+<script>
+const TEAL=[21,100,91], TEAL2=[46,152,144], MINT=[99,189,180], TAN=[209,151,107];
+function rgba(c,a){return `rgba(${c[0]},${c[1]},${c[2]},${a})`;}
+// generic driver: only animates when the tile is on-screen
+function run(id, draw, scale=1){
+  const c=document.getElementById(id), x=c.getContext('2d',{willReadFrequently:true});
+  function fit(){const r=c.getBoundingClientRect();c.width=Math.max(1,r.width*scale);c.height=Math.max(1,r.height*scale);}
+  fit(); addEventListener('resize',()=>{fit(); st=null;});
+  let t=0, st=null;
+  (function loop(){const r=c.getBoundingClientRect(); if(r.bottom>-50&&r.top<innerHeight+50){st=draw(x,c,t++,st)||st;} requestAnimationFrame(loop);})();
+}
+
+// 1 — noise on white, teal-tinted
+run('c1',(x,c)=>{const w=c.width,h=c.height,img=x.createImageData(w,h),d=img.data;for(let i=0;i<d.length;i+=4){d[i]=TEAL[0];d[i+1]=TEAL[1];d[i+2]=TEAL[2];d[i+3]=Math.random()*26;}x.putImageData(img,0,0);},0.5);
+
+// 2 — Conway's game of life, teal cells on white
+run('c2',(x,c,t,s)=>{const cell=16,cols=Math.ceil(c.width/cell),rows=Math.ceil(c.height/cell);
+  if(!s){s={g:Array.from({length:rows},()=>Array.from({length:cols},()=>Math.random()<0.26?1:0)),age:0};}
+  if(t%6===0){const g=s.g,ng=g.map(r=>r.slice());for(let y=0;y<rows;y++)for(let xx=0;xx<cols;xx++){let n=0;for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){if(!dx&&!dy)continue;n+=g[(y+dy+rows)%rows][(xx+dx+cols)%cols];}ng[y][xx]=g[y][xx]?(n===2||n===3?1:0):(n===3?1:0);}s.g=ng;s.age++;if(s.age>140){s.g=g.map(r=>r.map(()=>Math.random()<0.26?1:0));s.age=0;}}
+  x.clearRect(0,0,c.width,c.height);for(let y=0;y<rows;y++)for(let xx=0;xx<cols;xx++){if(s.g[y][xx]){x.fillStyle=rgba(TEAL,0.16);x.fillRect(xx*cell+1,y*cell+1,cell-2,cell-2);}}return s;});
+
+// 3 — liquid: soft moving blobs, multiply blend
+run('c3',(x,c,t)=>{const w=c.width,h=c.height;x.clearRect(0,0,w,h);x.globalCompositeOperation='multiply';const blobs=[[TEAL2,0.32,0.13,0.18,0.10],[TAN,0.7,0.62,0.14,0.16],[MINT,0.6,0.28,0.16,0.12],[TEAL,0.28,0.72,0.12,0.15]];blobs.forEach((b,i)=>{const[col,px,py,ax,ay]=b;const cx=(px+Math.sin(t*0.006+i)*ax)*w,cy=(py+Math.cos(t*0.005+i*1.4)*ay)*h,r=Math.min(w,h)*0.5;const g=x.createRadialGradient(cx,cy,0,cx,cy,r);g.addColorStop(0,rgba(col,0.55));g.addColorStop(1,rgba(col,0));x.fillStyle=g;x.beginPath();x.arc(cx,cy,r,0,7);x.fill();});x.globalCompositeOperation='source-over';},0.6);
+
+// 4 — constellation
+run('c4',(x,c,t,s)=>{const w=c.width,h=c.height;if(!s){s={p:Array.from({length:Math.round(w*h/16000)},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4}))};}
+  x.clearRect(0,0,w,h);const p=s.p;for(const a of p){a.x=(a.x+a.vx+w)%w;a.y=(a.y+a.vy+h)%h;}
+  for(let i=0;i<p.length;i++){for(let j=i+1;j<p.length;j++){const dx=p[i].x-p[j].x,dy=p[i].y-p[j].y,d=Math.hypot(dx,dy);if(d<120){x.strokeStyle=rgba(TEAL,(1-d/120)*0.18);x.lineWidth=1;x.beginPath();x.moveTo(p[i].x,p[i].y);x.lineTo(p[j].x,p[j].y);x.stroke();}}}
+  x.fillStyle=rgba(TEAL,0.5);for(const a of p){x.beginPath();x.arc(a.x,a.y,1.6,0,7);x.fill();}return s;});
+
+// 5 — light beams sweeping
+run('c5',(x,c,t)=>{const w=c.width,h=c.height;x.clearRect(0,0,w,h);for(let i=0;i<6;i++){const px=((i/6+t*0.0006)%1)*1.3-0.15;const X=px*w;const grad=x.createLinearGradient(X-40,0,X+40,0);grad.addColorStop(0,rgba(TEAL2,0));grad.addColorStop(0.5,rgba(TEAL2,0.10+0.04*Math.sin(t*0.01+i)));grad.addColorStop(1,rgba(TEAL2,0));x.fillStyle=grad;x.save();x.translate(X,0);x.rotate(0.18);x.fillRect(-50,-h,100,h*3);x.restore();}},0.7);
+
+// 6 — wavy lines
+run('c6',(x,c,t)=>{const w=c.width,h=c.height;x.clearRect(0,0,w,h);for(let l=0;l<5;l++){x.beginPath();const yb=h*(0.3+l*0.1);for(let i=0;i<=w;i+=8){const y=yb+Math.sin(i*0.01+t*0.02+l)*26+Math.sin(i*0.022-t*0.015)*14;i?x.lineTo(i,y):x.moveTo(i,y);}x.strokeStyle=rgba(l%2?TAN:TEAL2,0.16);x.lineWidth=1.5;x.stroke();}},0.7);
+
+// 7 — plasma (dark)
+run('c7',(x,c,t)=>{const w=c.width,h=c.height,img=x.createImageData(w,h),d=img.data;for(let y=0;y<h;y++)for(let xx=0;xx<w;xx++){const v=Math.sin(xx*0.04+t*0.03)+Math.sin(y*0.05-t*0.02)+Math.sin((xx+y)*0.03+t*0.02);const n=(v+3)/6;const i=(y*w+xx)*4;d[i]=18+n*40;d[i+1]=70+n*120;d[i+2]=85+n*100;d[i+3]=150;}x.putImageData(img,0,0);},0.22);
+
+// 8 — meteors (dark)
+run('c8',(x,c,t,s)=>{const w=c.width,h=c.height;if(!s){s={m:[]};}if(Math.random()<0.12)s.m.push({x:Math.random()*w*1.2,y:-20,len:60+Math.random()*80,sp:4+Math.random()*5,col:Math.random()<0.3?TAN:MINT});x.fillStyle='rgba(12,14,14,0.28)';x.fillRect(0,0,w,h);for(const m of s.m){m.x-=m.sp;m.y+=m.sp*1.1;const g=x.createLinearGradient(m.x,m.y,m.x+m.len,m.y-m.len);g.addColorStop(0,rgba(m.col,0.9));g.addColorStop(1,rgba(m.col,0));x.strokeStyle=g;x.lineWidth=2;x.beginPath();x.moveTo(m.x,m.y);x.lineTo(m.x+m.len,m.y-m.len);x.stroke();}s.m=s.m.filter(m=>m.y<h+60&&m.x>-60);return s;},0.7);
+</script>
+</body>
+</html>
