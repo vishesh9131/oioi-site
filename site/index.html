@@ -71,21 +71,29 @@
       .micro a { color: var(--teal2); font-weight: 600; }
 
       /* product mock */
-      .stage { margin: 86px auto 0; max-width: 860px; position: relative; }
-      .panel { background: #fff; border: 1px solid var(--line); border-radius: 24px; padding: 22px; box-shadow: 0 2px 6px rgba(27, 30, 30, 0.05), 0 50px 90px -34px rgba(27, 30, 30, 0.28), 0 60px 140px -50px rgba(46, 152, 144, 0.45); text-align: left; }
-      .p-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
-      .p-bar .lights { display: flex; gap: 6px; }
-      .p-bar .lights i { width: 11px; height: 11px; border-radius: 50%; background: var(--line); }
-      .p-search { flex: 1; font-size: 15px; color: #a39a8d; background: var(--soft); border: 1px solid var(--line); border-radius: 10px; padding: 11px 15px; }
-      .p-chips { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-      .chip { font-size: 13px; padding: 6px 15px; border-radius: 980px; background: var(--soft); color: var(--gray); border: 1px solid var(--line); }
-      .chip.on { background: var(--teal); color: #fff; border-color: var(--teal); font-weight: 600; }
-      .p-row { display: flex; align-items: center; gap: 14px; padding: 14px 6px; font-size: 15.5px; }
-      .p-row + .p-row { border-top: 1px solid var(--line); }
-      .p-ic { width: 30px; height: 30px; flex: none; display: grid; place-items: center; border-radius: 8px; background: var(--soft); color: var(--gray); }
-      .p-ic svg { width: 16px; height: 16px; }
-      .p-tx { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #3a3a36; }
-      .p-tx b { font-weight: 550; color: var(--ink); }
+      .hero-ph { display: inline-block; margin-top: 26px; }
+      .hero-ph img { display: block; }
+      .stage { margin: 70px auto 0; max-width: 660px; position: relative; }
+      /* faithful dark recreation of the real oioi panel */
+      .app { background: #1c1c1e; border: 1px solid rgba(255, 255, 255, 0.07); border-radius: 26px; padding: 16px; text-align: left; box-shadow: 0 2px 8px rgba(27, 30, 30, 0.06), 0 60px 100px -42px rgba(27, 30, 30, 0.5), 0 50px 130px -60px rgba(46, 152, 144, 0.4); }
+      .app-top { display: flex; align-items: center; gap: 13px; margin-bottom: 14px; }
+      .app-top .rl { width: 13px; height: 13px; border-radius: 50%; background: #ff5f57; flex: none; }
+      .app-search { flex: 1; display: flex; align-items: center; gap: 9px; font-size: 15px; color: #8e8e93; background: #2c2c2e; border-radius: 11px; padding: 11px 14px; }
+      .app-search svg { width: 16px; height: 16px; flex: none; }
+      .app-chips { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
+      .ac { font-size: 13px; padding: 6px 14px; border-radius: 980px; background: #2c2c2e; color: #d1d1d6; }
+      .ac.on { background: #0a84ff; color: #fff; font-weight: 600; }
+      .sep { width: 1px; height: 16px; background: rgba(255, 255, 255, 0.16); margin: 0 2px; }
+      .app-rows { display: flex; flex-direction: column; }
+      .ar { display: flex; align-items: flex-start; gap: 14px; padding: 15px 6px; }
+      .ar + .ar { border-top: 1px solid rgba(255, 255, 255, 0.06); }
+      .ar-ic { flex: none; color: #8e8e93; margin-top: 1px; }
+      .ar-ic svg { width: 22px; height: 22px; display: block; }
+      .ar-tx { flex: 1; min-width: 0; color: #e5e5ea; font-size: 14.5px; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+      .ar-cp { flex: none; color: #5a5a5e; margin-top: 1px; }
+      .ar-cp svg { width: 18px; height: 18px; display: block; }
+      .app-foot { margin-top: 10px; }
+      .app-pill { display: inline-block; font-weight: 600; font-size: 13px; color: #fff; background: #2c2c2e; padding: 6px 15px; border-radius: 12px; }
 
       /* section heads */
       .head { max-width: 680px; margin: 0 auto 64px; text-align: center; }
@@ -111,11 +119,6 @@
       .step h3 kbd { font: inherit; font-weight: 700; background: #fff; border: 1px solid var(--line); border-radius: 6px; padding: 0 8px; font-size: 0.82em; }
       .step p { color: var(--gray); font-size: 15px; max-width: 300px; }
 
-      /* product hunt */
-      .ph { text-align: center; }
-      .ph .card { display: inline-flex; flex-direction: column; align-items: center; gap: 22px; padding: 0; }
-      .ph .quote { font-size: clamp(22px, 3vw, 30px); letter-spacing: -0.02em; max-width: 620px; font-weight: 500; line-height: 1.3; }
-      .ph .quote span { color: var(--teal2); }
 
       /* download */
       .dl { text-align: center; }
@@ -170,20 +173,44 @@
         </div>
         <p class="micro">Free &amp; open source · <a href="#download">every platform ↓</a></p>
 
+        <a class="hero-ph" href="https://www.producthunt.com/products/oioi?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-oioi-2" target="_blank" rel="noopener noreferrer">
+          <img alt="oioi - a fast, glassy clipboard manager for macOS, Windows & Linux | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1176778&theme=light&t=1782057938051" />
+        </a>
+
         <div class="stage">
-          <div class="panel">
-            <div class="p-bar">
-              <span class="lights"><i></i><i></i><i></i></span>
-              <div class="p-search">Search clipboard…</div>
+          <div class="app">
+            <div class="app-top">
+              <span class="rl"></span>
+              <div class="app-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7" /><path d="m21 21-4-4" /></svg> Search clipboard…</div>
             </div>
-            <div class="p-chips">
-              <span class="chip on">All</span><span class="chip">Text</span><span class="chip">Image</span><span class="chip">Files</span>
-              <span class="chip on">All&nbsp;Time</span><span class="chip">Today</span>
+            <div class="app-chips">
+              <span class="ac on">All</span><span class="ac">Text</span><span class="ac">Image</span><span class="ac">Files</span>
+              <span class="sep"></span>
+              <span class="ac on">All Time</span><span class="ac">Today</span><span class="ac">Yesterday</span>
             </div>
-            <div class="p-row"><span class="p-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg></span><span class="p-tx">npm run dist && netlify deploy <b>--prod</b></span></div>
-            <div class="p-row"><span class="p-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 15-5-5L5 20"/></svg></span><span class="p-tx"><b>screenshot</b> — hero-final.png</span></div>
-            <div class="p-row"><span class="p-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M13 2v7h7"/></svg></span><span class="p-tx"><b>Invoice_oioi.pdf</b></span></div>
-            <div class="p-row"><span class="p-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg></span><span class="p-tx">https://oioi-app.netlify.app</span></div>
+            <div class="app-rows">
+              <div class="ar">
+                <span class="ar-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span>
+                <span class="ar-tx">curl -sS https://vllm.corerec.online/v1/models | head</span>
+                <span class="ar-cp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></span>
+              </div>
+              <div class="ar">
+                <span class="ar-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span>
+                <span class="ar-tx">Suggested next step: try the Interactive Demo to play with the sequence simulator and pattern presets…</span>
+                <span class="ar-cp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></span>
+              </div>
+              <div class="ar">
+                <span class="ar-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 15-5-5L5 20"/></svg></span>
+                <span class="ar-tx">screenshot — design-final.png</span>
+                <span class="ar-cp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></span>
+              </div>
+              <div class="ar">
+                <span class="ar-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span>
+                <span class="ar-tx">npm run dist && netlify deploy --prod</span>
+                <span class="ar-cp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></span>
+              </div>
+            </div>
+            <div class="app-foot"><span class="app-pill">oioi</span></div>
           </div>
         </div>
       </section>
@@ -259,16 +286,6 @@
               <p>Enter drops it back on your clipboard, ready to paste. The panel vanishes.</p>
             </div>
           </div>
-        </div>
-      </section>
-
-      <!-- PRODUCT HUNT -->
-      <section class="ph wrap">
-        <div class="card">
-          <p class="quote">If oioi saved you a few clicks today, an <span>upvote</span> means the world.</p>
-          <a href="https://www.producthunt.com/products/oioi?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-oioi-2" target="_blank" rel="noopener noreferrer">
-            <img alt="oioi - a fast, glassy clipboard manager for macOS, Windows & Linux | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1176778&theme=light&t=1782057938051" />
-          </a>
         </div>
       </section>
 
