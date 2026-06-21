@@ -16,158 +16,132 @@
     <meta name="twitter:card" content="summary_large_image" />
     <style>
       :root {
-        --tan: #d1976b;
-        --teal: #2e9890;
-        --cream: #f7ecdb;
-        --teal2: #34ac9c;
         --ink: #1b1e1e;
-        --mint: #63bdb4;
-        --brown: #764933;
-        --brown2: #482a1f;
-        --deep: #15645b;
-        --clay: #9c5c3e;
-        --line: #e3d6c2;
+        --gray: #6e6960;
+        --faint: #98918662;
+        --line: #ece8e1;
+        --bg: #ffffff;
+        --soft: #faf8f4;
+        --teal: #15645b;
+        --teal2: #2e9890;
+        --tan: #d1976b;
+        --radius: 18px;
       }
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      html { scroll-behavior: smooth; }
+      html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Inter, system-ui, sans-serif;
-        background: var(--cream);
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Inter, system-ui, sans-serif;
+        background: var(--bg);
         color: var(--ink);
         -webkit-font-smoothing: antialiased;
         line-height: 1.5;
+        font-feature-settings: "ss01", "cv01";
       }
       a { color: inherit; text-decoration: none; }
-      .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
-      section { padding: 100px 0; }
+      .wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; }
+      section { padding: 120px 0; }
+      ::selection { background: #cdeae4; }
 
       /* nav */
-      .nav {
-        position: sticky; top: 0; z-index: 50;
-        background: rgba(247, 236, 219, 0.85);
-        backdrop-filter: saturate(180%) blur(12px);
-        -webkit-backdrop-filter: saturate(180%) blur(12px);
-        border-bottom: 1px solid var(--line);
-      }
-      .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; padding: 0 24px; }
-      .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 19px; letter-spacing: -0.02em; }
-      .brand img { width: 28px; height: 28px; border-radius: 7px; }
-      .nav-links { display: flex; align-items: center; gap: 26px; font-size: 14px; }
-      .nav-links a { color: #5a5048; }
+      .nav { position: sticky; top: 0; z-index: 50; background: rgba(255, 255, 255, 0.8); backdrop-filter: saturate(180%) blur(16px); -webkit-backdrop-filter: saturate(180%) blur(16px); border-bottom: 1px solid var(--line); }
+      .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+      .brand { display: flex; align-items: center; gap: 11px; font-weight: 650; font-size: 19px; letter-spacing: -0.02em; }
+      .brand img { width: 27px; height: 27px; border-radius: 7px; }
+      .nav-links { display: flex; align-items: center; gap: 30px; font-size: 14.5px; }
+      .nav-links a { color: var(--gray); transition: color 0.15s; }
       .nav-links a:hover { color: var(--ink); }
 
       /* buttons */
-      .btn {
-        display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-        background: var(--deep); color: var(--cream);
-        font-weight: 600; font-size: 15px; padding: 12px 24px; border-radius: 980px;
-        border: 1px solid var(--deep); cursor: pointer; transition: background 0.15s, transform 0.1s;
-      }
-      .btn:hover { background: var(--teal); border-color: var(--teal); }
-      .btn:active { transform: scale(0.98); }
-      .btn.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
-      .btn.ghost:hover { background: #fff; border-color: var(--ink); }
-      .btn.sm { padding: 7px 16px; font-size: 14px; }
+      .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: var(--teal); color: #fff; font-weight: 550; font-size: 15px; padding: 12px 26px; border-radius: 980px; border: 1px solid transparent; cursor: pointer; transition: background 0.18s, transform 0.12s, box-shadow 0.18s; }
+      .btn:hover { background: var(--teal2); box-shadow: 0 8px 24px rgba(21, 100, 91, 0.22); }
+      .btn:active { transform: scale(0.985); }
+      .btn.ghost { background: #fff; color: var(--ink); border-color: var(--line); box-shadow: none; }
+      .btn.ghost:hover { border-color: var(--ink); background: #fff; box-shadow: none; }
+      .btn.sm { padding: 8px 18px; font-size: 14px; }
       .btn svg { width: 16px; height: 16px; }
 
       /* hero */
-      .hero { text-align: center; padding: 92px 0 70px; }
-      .eyebrow { color: var(--teal); font-weight: 600; font-size: 15px; letter-spacing: 0.01em; margin-bottom: 14px; }
-      h1 { font-size: clamp(40px, 7vw, 76px); line-height: 1.04; letter-spacing: -0.035em; font-weight: 700; }
-      .hero p.lede { font-size: clamp(18px, 2.4vw, 22px); color: #564c43; max-width: 600px; margin: 22px auto 0; }
-      .hero kbd {
-        font: inherit; font-weight: 700; background: #fff; border: 1px solid var(--line);
-        border-bottom-width: 2px; border-radius: 7px; padding: 1px 9px;
-      }
-      .cta { display: flex; gap: 12px; justify-content: center; align-items: center; margin-top: 34px; flex-wrap: wrap; }
-      .cta .alt { font-size: 14px; color: #6b6157; }
-      .cta .alt a { color: var(--teal); font-weight: 600; }
+      .hero { text-align: center; padding: 110px 0 84px; }
+      .eyebrow { display: inline-block; font-size: 12.5px; font-weight: 650; letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal2); margin-bottom: 26px; }
+      h1 { font-size: clamp(44px, 7.2vw, 84px); line-height: 1.02; letter-spacing: -0.045em; font-weight: 680; }
+      .lede { font-size: clamp(18px, 2.3vw, 22px); color: var(--gray); max-width: 580px; margin: 26px auto 0; line-height: 1.5; }
+      .lede kbd { font: inherit; font-weight: 650; color: var(--ink); background: var(--soft); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 7px; padding: 0 8px; }
+      .cta { display: flex; gap: 14px; justify-content: center; align-items: center; margin-top: 38px; flex-wrap: wrap; }
+      .micro { margin-top: 18px; font-size: 13.5px; color: var(--faint); }
+      .micro a { color: var(--teal2); font-weight: 600; }
 
-      /* product panel mock — flat, palette only */
-      .shot { margin: 60px auto 0; max-width: 520px; }
-      .panel {
-        background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 16px;
-        box-shadow: 0 24px 60px rgba(72, 42, 31, 0.14); text-align: left;
-      }
-      .p-bar { display: flex; align-items: center; gap: 9px; margin-bottom: 14px; }
-      .p-bar .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--tan); }
-      .p-search { flex: 1; font-size: 14px; color: #8a8078; background: var(--cream); border-radius: 9px; padding: 8px 13px; }
-      .p-chips { display: flex; gap: 7px; margin-bottom: 12px; flex-wrap: wrap; }
-      .chip { font-size: 12px; padding: 5px 12px; border-radius: 980px; background: var(--cream); color: #6b6157; }
-      .chip.on { background: var(--teal); color: #fff; font-weight: 600; }
-      .p-row { display: flex; align-items: center; gap: 12px; padding: 11px 6px; font-size: 14.5px; border-radius: 10px; }
+      /* product mock */
+      .stage { margin: 86px auto 0; max-width: 860px; position: relative; }
+      .panel { background: #fff; border: 1px solid var(--line); border-radius: 24px; padding: 22px; box-shadow: 0 2px 6px rgba(27, 30, 30, 0.05), 0 50px 90px -34px rgba(27, 30, 30, 0.28), 0 60px 140px -50px rgba(46, 152, 144, 0.45); text-align: left; }
+      .p-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+      .p-bar .lights { display: flex; gap: 6px; }
+      .p-bar .lights i { width: 11px; height: 11px; border-radius: 50%; background: var(--line); }
+      .p-search { flex: 1; font-size: 15px; color: #a39a8d; background: var(--soft); border: 1px solid var(--line); border-radius: 10px; padding: 11px 15px; }
+      .p-chips { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+      .chip { font-size: 13px; padding: 6px 15px; border-radius: 980px; background: var(--soft); color: var(--gray); border: 1px solid var(--line); }
+      .chip.on { background: var(--teal); color: #fff; border-color: var(--teal); font-weight: 600; }
+      .p-row { display: flex; align-items: center; gap: 14px; padding: 14px 6px; font-size: 15.5px; }
       .p-row + .p-row { border-top: 1px solid var(--line); }
-      .p-ic { width: 28px; height: 28px; flex: none; display: grid; place-items: center; border-radius: 8px; background: var(--cream); font-size: 14px; }
-      .p-ic.t { background: var(--mint); color: #0c2e2a; }
-      .p-ic.i { background: var(--tan); color: #fff; }
-      .p-ic.f { background: var(--clay); color: #fff; }
-      .p-tx { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .p-ic { width: 30px; height: 30px; flex: none; display: grid; place-items: center; border-radius: 8px; background: var(--soft); color: var(--gray); }
+      .p-ic svg { width: 16px; height: 16px; }
+      .p-tx { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #3a3a36; }
+      .p-tx b { font-weight: 550; color: var(--ink); }
 
-      /* generic section heads */
-      .head { text-align: center; max-width: 640px; margin: 0 auto 56px; }
-      .head h2 { font-size: clamp(30px, 4.5vw, 46px); letter-spacing: -0.03em; line-height: 1.08; }
-      .head p { color: #564c43; font-size: 18px; margin-top: 14px; }
+      /* section heads */
+      .head { max-width: 680px; margin: 0 auto 64px; text-align: center; }
+      .head .eyebrow { margin-bottom: 16px; }
+      .head h2 { font-size: clamp(30px, 4.4vw, 48px); letter-spacing: -0.035em; line-height: 1.06; font-weight: 670; }
+      .head p { color: var(--gray); font-size: 19px; margin-top: 16px; }
 
-      /* dark band */
-      .band { background: var(--ink); color: var(--cream); }
-      .band .head p { color: #b9b0a4; }
-      .band .step p { color: #b9b0a4; }
-      .band .num { color: var(--mint); }
+      /* features */
+      .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; }
+      .feat { background: #fff; padding: 38px 34px; }
+      .feat .ic { width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 11px; margin-bottom: 22px; color: var(--teal); }
+      .feat .ic svg { width: 20px; height: 20px; }
+      .feat h3 { font-size: 18px; letter-spacing: -0.015em; margin-bottom: 9px; font-weight: 600; }
+      .feat p { color: var(--gray); font-size: 14.5px; line-height: 1.55; }
 
-      /* steps */
-      .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
-      .step .num { font-size: 14px; font-weight: 700; letter-spacing: 0.1em; color: var(--teal); margin-bottom: 14px; }
-      .step h3 { font-size: 21px; letter-spacing: -0.01em; margin-bottom: 8px; }
-      .step h3 kbd { font: inherit; font-weight: 700; background: #2a2e2e; border: 1px solid #3a3f3f; border-radius: 6px; padding: 1px 8px; font-size: 0.85em; }
-      .step p { color: #564c43; font-size: 15px; }
-
-      /* features grid */
-      .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-      .card { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 28px; }
-      .card .ic { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; margin-bottom: 16px; }
-      .card h3 { font-size: 18px; letter-spacing: -0.01em; margin-bottom: 8px; }
-      .card p { color: #564c43; font-size: 14.5px; }
+      /* how — soft band */
+      .band { background: var(--soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+      .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px; }
+      .step { position: relative; padding-top: 30px; border-top: 2px solid var(--ink); }
+      .step .num { position: absolute; top: -2px; left: 0; width: 46px; height: 3px; background: var(--teal2); }
+      .step .k { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; color: var(--teal2); letter-spacing: 0.1em; margin-bottom: 18px; }
+      .step h3 { font-size: 22px; letter-spacing: -0.02em; margin-bottom: 10px; font-weight: 600; }
+      .step h3 kbd { font: inherit; font-weight: 700; background: #fff; border: 1px solid var(--line); border-radius: 6px; padding: 0 8px; font-size: 0.82em; }
+      .step p { color: var(--gray); font-size: 15px; max-width: 300px; }
 
       /* product hunt */
-      .ph-sec { text-align: center; }
-      .ph-card {
-        background: var(--cream); border: 1px solid var(--line); border-radius: 22px;
-        max-width: 560px; margin: 0 auto; padding: 40px 32px;
-      }
-      .ph-up {
-        display: inline-flex; flex-direction: column; align-items: center; gap: 2px;
-        background: var(--tan); color: #fff; border-radius: 14px; padding: 10px 20px; font-weight: 700; line-height: 1;
-      }
-      .ph-up .tri { font-size: 16px; }
-      .ph-up .n { font-size: 22px; }
-      .ph-card .btn { margin-top: 26px; }
+      .ph { text-align: center; }
+      .ph .card { display: inline-flex; flex-direction: column; align-items: center; gap: 22px; padding: 0; }
+      .ph .quote { font-size: clamp(22px, 3vw, 30px); letter-spacing: -0.02em; max-width: 620px; font-weight: 500; line-height: 1.3; }
+      .ph .quote span { color: var(--teal2); }
 
       /* download */
       .dl { text-align: center; }
-      .dl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 720px; margin: 0 auto; }
-      .dl-card {
-        background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 30px 22px;
-        display: flex; flex-direction: column; align-items: center; gap: 14px; cursor: pointer;
-        transition: border-color 0.15s, transform 0.1s;
-      }
-      .dl-card:hover { border-color: var(--teal); transform: translateY(-3px); }
-      .dl-card svg { width: 34px; height: 34px; color: var(--ink); }
-      .dl-card .os { font-weight: 600; font-size: 17px; }
-      .dl-card .fmt { font-size: 13px; color: #8a8078; }
-      .note { max-width: 600px; margin: 34px auto 0; font-size: 13.5px; color: #6b6157; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 16px 20px; text-align: left; line-height: 1.6; }
-      .note b { color: var(--ink); }
-      .note code { background: var(--cream); border-radius: 5px; padding: 2px 6px; font-size: 0.9em; }
+      .dl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 760px; margin: 0 auto; }
+      .dl-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 34px 24px; display: flex; flex-direction: column; align-items: center; gap: 16px; cursor: pointer; transition: border-color 0.15s, transform 0.12s, box-shadow 0.15s; }
+      .dl-card:hover { border-color: #d9d2c8; transform: translateY(-3px); box-shadow: 0 16px 34px -18px rgba(27, 30, 30, 0.25); }
+      .dl-card .pic { width: 40px; height: 40px; color: var(--ink); }
+      .dl-card .pic svg { width: 100%; height: 100%; }
+      .dl-card .os { font-weight: 600; font-size: 17px; letter-spacing: -0.01em; }
+      .dl-card .fmt { font-size: 13px; color: var(--faint); margin-top: -8px; }
+      .dl-card .go { font-size: 13.5px; color: var(--teal2); font-weight: 600; }
+      .note { max-width: 640px; margin: 40px auto 0; font-size: 13.5px; color: var(--gray); text-align: left; line-height: 1.7; border-top: 1px solid var(--line); padding-top: 24px; }
+      .note b { color: var(--ink); font-weight: 600; }
+      .note code { background: var(--soft); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; font-size: 0.9em; }
 
       /* footer */
-      footer { border-top: 1px solid var(--line); padding: 40px 0; }
-      footer .wrap { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; font-size: 14px; color: #6b6157; }
-      footer a:hover { color: var(--ink); }
-      footer .fl { display: flex; gap: 22px; }
+      footer { border-top: 1px solid var(--line); padding: 44px 0; }
+      footer .wrap { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; font-size: 14px; color: var(--gray); }
+      footer .fl { display: flex; gap: 26px; }
+      footer .fl a:hover { color: var(--ink); }
 
       @media (max-width: 760px) {
-        section { padding: 70px 0; }
-        .steps, .grid, .dl-grid { grid-template-columns: 1fr; }
+        section { padding: 80px 0; }
+        .grid, .steps, .dl-grid { grid-template-columns: 1fr; }
         .nav-links a:not(.btn) { display: none; }
+        .stage { margin-top: 56px; }
       }
     </style>
   </head>
@@ -178,7 +152,7 @@
         <nav class="nav-links">
           <a href="#features">Features</a>
           <a href="#how">How it works</a>
-          <a href="#download">Download</a>
+          <a href="https://github.com/vishesh9131/oioi">GitHub</a>
           <a class="btn sm" href="#download">Download</a>
         </nav>
       </div>
@@ -187,66 +161,71 @@
     <main>
       <!-- HERO -->
       <section class="hero wrap">
-        <div class="eyebrow">Clipboard manager · macOS · Windows · Linux</div>
+        <span class="eyebrow">Clipboard manager · macOS · Windows · Linux</span>
         <h1>Your clipboard,<br />finally beautiful.</h1>
         <p class="lede">Press <kbd>⌥V</kbd> anywhere and your whole history floats up — text, images and files, searchable, one click to paste back.</p>
         <div class="cta">
           <button class="btn" id="heroDl">Download</button>
-          <span class="alt">Free &amp; open source · <a href="#download">all platforms ↓</a></span>
+          <a class="btn ghost" href="https://github.com/vishesh9131/oioi">View on GitHub</a>
         </div>
+        <p class="micro">Free &amp; open source · <a href="#download">every platform ↓</a></p>
 
-        <div class="shot">
+        <div class="stage">
           <div class="panel">
-            <div class="p-bar"><span class="dot"></span><div class="p-search">⌕&nbsp; Search clipboard…</div></div>
+            <div class="p-bar">
+              <span class="lights"><i></i><i></i><i></i></span>
+              <div class="p-search">Search clipboard…</div>
+            </div>
             <div class="p-chips">
               <span class="chip on">All</span><span class="chip">Text</span><span class="chip">Image</span><span class="chip">Files</span>
               <span class="chip on">All&nbsp;Time</span><span class="chip">Today</span>
             </div>
-            <div class="p-row"><span class="p-ic t">¶</span><span class="p-tx">npm run dist &amp;&amp; netlify deploy --prod</span></div>
-            <div class="p-row"><span class="p-ic i">▦</span><span class="p-tx">screenshot — hero-final.png</span></div>
-            <div class="p-row"><span class="p-ic f">⤓</span><span class="p-tx">Invoice_oioi.pdf</span></div>
-            <div class="p-row"><span class="p-ic t">¶</span><span class="p-tx">https://oioi-app.netlify.app</span></div>
+            <div class="p-row"><span class="p-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg></span><span class="p-tx">npm run dist && netlify deploy <b>--prod</b></span></div>
+            <div class="p-row"><span class="p-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 15-5-5L5 20"/></svg></span><span class="p-tx"><b>screenshot</b> — hero-final.png</span></div>
+            <div class="p-row"><span class="p-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M13 2v7h7"/></svg></span><span class="p-tx"><b>Invoice_oioi.pdf</b></span></div>
+            <div class="p-row"><span class="p-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg></span><span class="p-tx">https://oioi-app.netlify.app</span></div>
           </div>
         </div>
       </section>
 
-      <!-- WHAT -->
+      <!-- FEATURES -->
       <section id="features">
         <div class="head">
-          <h2>Everything you copy, kept.</h2>
-          <p>oioi remembers your clipboard so you don't have to. Quiet in the menu bar, instant when you need it.</p>
+          <span class="eyebrow">Features</span>
+          <h2>Small app. Big memory.</h2>
+          <p>oioi keeps everything you copy and gives it back the instant you ask — without ever getting in your way.</p>
         </div>
         <div class="wrap">
           <div class="grid">
-            <div class="card">
-              <div class="ic" style="background: var(--mint)">📋</div>
+            <div class="feat">
+              <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg></div>
               <h3>Text, images &amp; files</h3>
-              <p>Everything you copy is captured, thumbnailed and searchable. Filter by type, today or all-time.</p>
+              <p>Everything you copy is captured, thumbnailed and searchable. Filter by type — today or all-time.</p>
             </div>
-            <div class="card">
-              <div class="ic" style="background: var(--teal)">⚡️</div>
-              <h3>Instant</h3>
-              <p>Pre-warmed and snappy. Hit ⌥V and your history is already there — no waiting, no lag.</p>
+            <div class="feat">
+              <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg></div>
+              <h3>Instant by design</h3>
+              <p>Pre-warmed and rendered low-res first. Hit ⌥V and your history is already in front of you.</p>
             </div>
-            <div class="card">
-              <div class="ic" style="background: var(--tan)">🔒</div>
-              <h3>100% private</h3>
-              <p>Lives entirely on your machine. No cloud, no account, no telemetry. We can't see what you copy.</p>
+            <div class="feat">
+              <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="11" width="15" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+              <h3>Private by default</h3>
+              <p>History lives only on your machine. No cloud, no account, no telemetry — nothing leaves your device.</p>
             </div>
-            <div class="card">
-              <div class="ic" style="background: var(--clay)">🎛️</div>
+            <div class="feat">
+              <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M16 16h6"/></svg></div>
               <h3>Glass or Soft</h3>
-              <p>Pick a frosted liquid-glass panel or a clean flat one. Tune the look, set your own shortcut.</p>
+              <p>Choose a frosted liquid-glass panel or a clean flat one. Tune the look and set your own shortcut.</p>
             </div>
-            <div class="card">
-              <div class="ic" style="background: var(--deep)">🖥️</div>
+            <div class="feat">
+              <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
               <h3>Every desktop</h3>
-              <p>Native builds for macOS (Apple Silicon + Intel), Windows and Linux. One app, everywhere.</p>
+              <p>Native builds for macOS — Apple Silicon and Intel — plus Windows and Linux. One app, everywhere.</p>
             </div>
-            <div class="card">
-              <div class="ic" style="background: var(--brown)">❤️</div>
+            <div class="feat">
+              <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18-6-6 6-6M15 6l6 6-6 6"/></svg></div>
               <h3>Free &amp; open source</h3>
-              <p>No subscription, no upsell. MIT-licensed — every line is on GitHub to read and fork.</p>
+              <p>No subscription, no upsell, no tracking. MIT-licensed — every line is on GitHub to read and fork.</p>
             </div>
           </div>
         </div>
@@ -254,24 +233,28 @@
 
       <!-- HOW -->
       <section id="how" class="band">
-        <div class="head">
-          <h2>Three keys, then it's gone.</h2>
-          <p>No windows to manage. Summon it, grab what you need, and it disappears.</p>
-        </div>
         <div class="wrap">
+          <div class="head">
+            <span class="eyebrow">How it works</span>
+            <h2>Three keys, then it's gone.</h2>
+            <p>No windows to manage. Summon it, take what you need, and it disappears.</p>
+          </div>
           <div class="steps">
             <div class="step">
-              <div class="num">01</div>
+              <span class="num"></span>
+              <div class="k">01</div>
               <h3><kbd>⌥</kbd><kbd>V</kbd> &nbsp;Summon</h3>
               <p>Hit the shortcut from any app. The panel floats up over whatever you're doing.</p>
             </div>
             <div class="step">
-              <div class="num">02</div>
+              <span class="num"></span>
+              <div class="k">02</div>
               <h3>Search &amp; filter</h3>
               <p>Type to find anything you've copied, or filter by text, images or files.</p>
             </div>
             <div class="step">
-              <div class="num">03</div>
+              <span class="num"></span>
+              <div class="k">03</div>
               <h3><kbd>↵</kbd> &nbsp;Paste</h3>
               <p>Enter drops it back on your clipboard, ready to paste. The panel vanishes.</p>
             </div>
@@ -280,54 +263,50 @@
       </section>
 
       <!-- PRODUCT HUNT -->
-      <section class="ph-sec wrap">
-        <div class="head">
-          <h2>Loved on Product Hunt.</h2>
-        </div>
-        <div class="ph-card">
-          <a href="https://www.producthunt.com/products/oioi" target="_blank" rel="noopener">
-            <!-- Live badge appears once you set your post_id; falls back to the upvote button. -->
-            <img
-              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=POST_ID&theme=light"
-              onerror="this.remove()"
-              width="250" height="54" alt="oioi on Product Hunt" style="max-width:100%" />
+      <section class="ph wrap">
+        <div class="card">
+          <p class="quote">If oioi saved you a few clicks today, an <span>upvote</span> means the world.</p>
+          <a href="https://www.producthunt.com/products/oioi?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-oioi-2" target="_blank" rel="noopener noreferrer">
+            <img alt="oioi - a fast, glassy clipboard manager for macOS, Windows & Linux | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1176778&theme=light&t=1782057938051" />
           </a>
-          <p style="color:#564c43; margin-top:10px">If oioi saved you a few clicks today, an upvote means the world.</p>
-          <a class="btn" href="https://www.producthunt.com/products/oioi" target="_blank" rel="noopener">▲ &nbsp;Upvote on Product Hunt</a>
         </div>
       </section>
 
       <!-- DOWNLOAD -->
       <section id="download" class="dl wrap">
         <div class="head">
+          <span class="eyebrow">Download</span>
           <h2>Get oioi.</h2>
-          <p>Free, on every desktop. Always the latest release, straight from GitHub.</p>
+          <p>Free, on every desktop. Always the latest release, fetched straight from GitHub.</p>
         </div>
         <div class="dl-grid">
           <div class="dl-card" data-os="mac">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2 1.6-3 1.7-3-.9-1.4-2.4-1.5-2.9-1.6-1.2-.1-2.4.7-3 .7-.6 0-1.6-.7-2.6-.7-1.3 0-2.6.8-3.2 2-1.4 2.4-.4 6 1 7.9.6.9 1.4 2 2.4 1.9 1-.04 1.3-.6 2.5-.6s1.5.6 2.5.6 1.7-.9 2.3-1.8c.7-1 1-2 1-2.1-.02-.01-1.9-.74-1.9-2.9ZM14.7 6c.5-.7.9-1.6.8-2.5-.8.03-1.7.5-2.3 1.2-.5.6-1 1.5-.8 2.4.9.07 1.7-.4 2.3-1.1Z"/></svg>
-            <span class="os">macOS</span><span class="fmt">.dmg · Universal</span>
+            <div class="pic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2 1.6-3 1.7-3-.9-1.4-2.4-1.5-2.9-1.6-1.2-.1-2.4.7-3 .7-.6 0-1.6-.7-2.6-.7-1.3 0-2.6.8-3.2 2-1.4 2.4-.4 6 1 7.9.6.9 1.4 2 2.4 1.9 1-.04 1.3-.6 2.5-.6s1.5.6 2.5.6 1.7-.9 2.3-1.8c.7-1 1-2 1-2.1-.02-.01-1.9-.74-1.9-2.9ZM14.7 6c.5-.7.9-1.6.8-2.5-.8.03-1.7.5-2.3 1.2-.5.6-1 1.5-.8 2.4.9.07 1.7-.4 2.3-1.1Z"/></svg></div>
+            <div><div class="os">macOS</div><div class="fmt">Universal · .dmg</div></div>
+            <span class="go">Download →</span>
           </div>
           <div class="dl-card" data-os="win">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 4.6 10.5 3.6v7.4H3V4.6Zm0 14.8L10.5 20.4V13H3v6.4ZM11.5 3.4 21 2v9h-9.5V3.4Zm0 17.2L21 22v-9h-9.5v7.6Z"/></svg>
-            <span class="os">Windows</span><span class="fmt">.exe · 10+</span>
+            <div class="pic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 4.6 10.5 3.6v7.4H3V4.6Zm0 14.8L10.5 20.4V13H3v6.4ZM11.5 3.4 21 2v9h-9.5V3.4Zm0 17.2L21 22v-9h-9.5v7.6Z"/></svg></div>
+            <div><div class="os">Windows</div><div class="fmt">10+ · .exe</div></div>
+            <span class="go">Download →</span>
           </div>
           <div class="dl-card" data-os="linux">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-1.9 0-3 1.7-3 3.6 0 1.3.1 2.2-.6 3.3-.8 1.2-2.5 2.9-2.5 5.4 0 .8.2 1.4.5 1.9-.5.4-1 1-1.2 1.7-.2.6 0 1.1.3 1.5-1 .9-.6 2 .6 2.4 1 .3 2.3.4 3.2 1 .4.3.9.4 1.3.4s.9-.1 1.3-.4c.9-.6 2.2-.7 3.2-1 1.2-.4 1.6-1.5.6-2.4.3-.4.5-.9.3-1.5-.2-.7-.7-1.3-1.2-1.7.3-.5.5-1.1.5-1.9 0-2.5-1.7-4.2-2.5-5.4-.7-1.1-.6-2-.6-3.3C15 3.7 13.9 2 12 2Z"/></svg>
-            <span class="os">Linux</span><span class="fmt">.AppImage</span>
+            <div class="pic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-1.9 0-3 1.7-3 3.6 0 1.3.1 2.2-.6 3.3-.8 1.2-2.5 2.9-2.5 5.4 0 .8.2 1.4.5 1.9-.5.4-1 1-1.2 1.7-.2.6 0 1.1.3 1.5-1 .9-.6 2 .6 2.4 1 .3 2.3.4 3.2 1 .4.3.9.4 1.3.4s.9-.1 1.3-.4c.9-.6 2.2-.7 3.2-1 1.2-.4 1.6-1.5.6-2.4.3-.4.5-.9.3-1.5-.2-.7-.7-1.3-1.2-1.7.3-.5.5-1.1.5-1.9 0-2.5-1.7-4.2-2.5-5.4-.7-1.1-.6-2-.6-3.3C15 3.7 13.9 2 12 2Z"/></svg></div>
+            <div><div class="os">Linux</div><div class="fmt">.AppImage · .deb</div></div>
+            <span class="go">Download →</span>
           </div>
         </div>
         <div class="note">
-          <b>First launch:</b> oioi is free, so it isn't paid OS-vendor-signed — you'll see a one-time prompt.
-          <b>macOS:</b> right-click → Open → Open (or <code>xattr -dr com.apple.quarantine /Applications/oioi.app</code>).
-          <b>Windows:</b> More info → Run anyway. <b>Linux:</b> <code>chmod +x oioi-*.AppImage</code> then run it.
+          <b>First launch.</b> oioi is free, so it isn't paid OS-vendor-signed — you'll see a one-time prompt.
+          On <b>macOS</b>, right-click → Open → Open (or run <code>xattr -dr com.apple.quarantine /Applications/oioi.app</code>).
+          On <b>Windows</b>, choose More info → Run anyway. On <b>Linux</b>, <code>chmod +x oioi-*.AppImage</code> and run it.
         </div>
       </section>
     </main>
 
     <footer>
       <div class="wrap">
-        <span>oioi — made by <a href="https://github.com/vishesh9131" style="color:var(--teal);font-weight:600">Vishesh</a></span>
+        <span>oioi — made by <a href="https://github.com/vishesh9131" style="color:var(--teal2);font-weight:600">Vishesh</a></span>
         <div class="fl">
           <a href="https://github.com/vishesh9131/oioi">GitHub</a>
           <a href="https://www.producthunt.com/products/oioi">Product Hunt</a>
@@ -337,33 +316,25 @@
     </footer>
 
     <script>
-      // Direct-download the matching asset from the latest GitHub release.
       const REPO = "vishesh9131/oioi";
       const RELEASES = "https://github.com/" + REPO + "/releases/latest";
       const EXT = { mac: ".dmg", win: ".exe", linux: ".appimage" };
-
-      let assetsPromise = fetch("https://api.github.com/repos/" + REPO + "/releases/latest")
+      const assetsPromise = fetch("https://api.github.com/repos/" + REPO + "/releases/latest")
         .then((r) => (r.ok ? r.json() : Promise.reject()))
         .then((j) => j.assets || [])
         .catch(() => []);
-
       async function download(os) {
         const assets = await assetsPromise;
-        const a = assets.find((x) => x.name.toLowerCase().endsWith(EXT[os]));
-        // direct file download if found, else the releases page as a safety net
+        // prefer the installer for Windows (Setup) over the portable .exe
+        const list = os === "win" ? [...assets].sort((a, b) => (/setup/i.test(b.name) ? 1 : 0) - (/setup/i.test(a.name) ? 1 : 0)) : assets;
+        const a = list.find((x) => x.name.toLowerCase().endsWith(EXT[os]));
         window.location.href = a ? a.browser_download_url : RELEASES;
       }
-
-      document.querySelectorAll(".dl-card").forEach((c) =>
-        c.addEventListener("click", () => download(c.dataset.os))
-      );
-
-      // detect OS for the hero button label + action
+      document.querySelectorAll(".dl-card").forEach((c) => c.addEventListener("click", () => download(c.dataset.os)));
       const ua = navigator.userAgent;
       const os = /Win/.test(ua) ? "win" : /Linux|X11/.test(ua) && !/Android/.test(ua) ? "linux" : "mac";
-      const label = { mac: "Download for macOS", win: "Download for Windows", linux: "Download for Linux" }[os];
       const hero = document.getElementById("heroDl");
-      hero.textContent = label;
+      hero.textContent = { mac: "Download for macOS", win: "Download for Windows", linux: "Download for Linux" }[os];
       hero.addEventListener("click", () => download(os));
     </script>
   </body>
